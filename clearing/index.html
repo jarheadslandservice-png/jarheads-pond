@@ -359,9 +359,9 @@ table.it tr.tot td{font-weight:900;border-top:2px solid #333}
     <div id="stumpCtrs"></div>
    </div>
    <div class="card" id="pineCard">
-    <h2>Pines <small>felled first, stumps dug later</small></h2>
+    <h2>Pines <small>small ones pulled, big ones felled + stumps dug</small></h2>
     <div id="pineCtrs"></div>
-    <p class="hint">Pines 8&quot; and up get the stump dug out. Under-8&quot; stumps are left for the root-rake pass. Count pines here, not in Trees above.</p>
+    <p class="hint">Under-8&quot; pines come out with the tree puller, tree and stump pulled up together, so there is no separate stump work. Pines 8&quot; and up are felled first, then the stump is dug out. Count pines here, not in Trees above.</p>
     <div class="hint" style="margin:6px 0;font-weight:700;color:#33351f">Stump digging method</div>
     <div class="seg" id="pmodeSeg" style="width:100%;margin-bottom:8px"><button data-pmode="auto" style="flex:1">Auto</button><button data-pmode="excavator" style="flex:1">Force excavator</button><button data-pmode="ctl" style="flex:1">Force 331G</button></div>
     <div class="note" id="pineNote"></div>
@@ -613,7 +613,7 @@ var TREE_METH={puller:{name:'Tree puller',short:'puller',desc:'Grabs the trunk l
  grapple:{name:'Grapple',short:'grapple',desc:'Push or pull the tree over with the grapple and shake out the root ball. Some stumps and roots are left to grub.'},
  rootrake:{name:'Root rake',short:'root rake',desc:'Push the tree over and dig out the roots with the root rake. Some root clean-up is left after.'}};
 var TMETH_KEYS=['puller','grapple','rootrake'];
-var PBINS=[['p8','Under 8"','felled, stump left for the root rake'],['p12','8–12"','felled, stump dug out'],['p18','12–18"','felled, stump dug out'],['p24','18–24"','felled, stump dug out'],['p99','Over 24"','felled, stump dug out']];
+var PBINS=[['p8','Under 8"','tree and stump pulled up together'],['p12','8–12"','felled, stump dug out'],['p18','12–18"','felled, stump dug out'],['p24','18–24"','felled, stump dug out'],['p99','Over 24"','felled, stump dug out']];
 var PSTUMP_KEYS=['p12','p18','p24','p99']; /* pines 8" and up need the stump dug out */
 /* Starting production assumptions for ONE John Deere 331G CTL with grapple / root rake. Mike tunes these. */
 var DEFAULT_RATES={
@@ -623,7 +623,7 @@ var DEFAULT_RATES={
  rakeMin:{t6:1.5,t12:6,t18:14,t24:28,t99:50},             /* root rake min/tree: push over, dig out roots, carry to pile */
  grubPct:{puller:0,grapple:30,rootrake:20},               /* % of removed trees that still need separate stump/root grubbing (uses stump minutes) */
  stumpMin:{t6:2,t12:6,t18:15,t24:30,t99:50},              /* minutes per existing stump to grub with root rake / grapple */
- pineFellMin:{p8:2,p12:4,p18:7,p24:12,p99:20},             /* cut the pine down, buck / drag to pile with the 331G */
+ pineFellMin:{p8:2,p12:4,p18:7,p24:12,p99:20},             /* p8 = PULL the under-8" pine with its stump (puller); 8"+ = cut down, buck / drag to pile */
  pineCtlMin:25,pineExMin:15,                               /* minutes per pine stump: 331G vs rented 18k excavator */
  pineStumpMult:{p12:1,p18:1,p24:1,p99:1},                 /* optional size multiplier on stump minutes */
  pineThreshold:6,                                          /* more pine stumps (8"+) than this = rent the excavator */
@@ -664,10 +664,10 @@ function estimate(P,traced){
  var f=1,fl=[];[['wet','Wet / soft ground'],['slope','Slope'],['tight','Tight access'],['struct','Fences / structures nearby']].forEach(function(q){if(V[q[0]]){var m=Math.max(1,nv(R[q[0]],1));f*=m;fl.push(q[1]+' \u00d7'+m);}});
  r.siteF=f;r.siteFl=fl;
  r.clearHrs=(r.areaHrs+r.treeHrs+r.grubHrs+r.stumpHrs)*f;
- /* pines: felled first, stumps 8"+ dug later with the 331G or a rented 18k excavator */
- var PN=V.pines||{},su=0;r.pines=0;r.pineStumps=0;r.pineFellHrs=0;r.pineRows=[];
+ /* pines: under 8" pulled out with the stump (no stump work); 8"+ felled first, stumps dug later with the 331G or a rented 18k excavator */
+ var PN=V.pines||{},su=0;r.pines=0;r.pineStumps=0;r.pineFellHrs=0;r.pinePulled=0;r.pinePullHrs=0;r.pinesFelled=0;r.pineRows=[];
  PBINS.forEach(function(b){var k=b[0],c=pv(PN[k],0),fm=pv(R.pineFellMin&&R.pineFellMin[k],DEFAULT_RATES.pineFellMin[k]),dig=k!=='p8';
-   r.pines+=c;r.pineFellHrs+=c*fm/60;var mu=dig?pv(R.pineStumpMult&&R.pineStumpMult[k],1):0;if(dig){r.pineStumps+=c;su+=c*mu;}r.pineRows.push({k:k,label:b[1],cnt:c,fell:fm,dig:dig,mult:mu});});
+   r.pines+=c;if(dig){r.pinesFelled+=c;r.pineFellHrs+=c*fm/60;}else{r.pinePulled+=c;r.pinePullHrs+=c*fm/60;}var mu=dig?pv(R.pineStumpMult&&R.pineStumpMult[k],1):0;if(dig){r.pineStumps+=c;su+=c*mu;}r.pineRows.push({k:k,label:b[1],cnt:c,fell:fm,dig:dig,mult:mu});});
  r.pineThr=pv(R.pineThreshold,6);r.pineAutoEx=r.pineStumps>r.pineThr;r.pineMode=V.pineMode==='excavator'||V.pineMode==='ctl'?V.pineMode:'auto';
  r.pineEx=r.pineStumps>0&&(r.pineMode==='excavator'||(r.pineMode==='auto'&&r.pineAutoEx));
  r.pineStumpMin=r.pineEx?pv(R.pineExMin,15):pv(R.pineCtlMin,25);r.pineStumpHrs=su*r.pineStumpMin/60;
@@ -676,7 +676,7 @@ function estimate(P,traced){
  r.exDigDays=0;r.exRentDays=0;r.exRent=0;
  if(r.pineEx){var es=nv(X.exRound,1);r.exDigDays=r.pineStumpHrs/hd;r.exRentDays=blank(X.exDays)?Math.max(es>0?es:0.5,roundUp(r.exDigDays,es>0?es:0.5)):pv(X.exDays,0);
    var er=nv(X.exRate,NaN),ed=nv(X.exDeliv,NaN);if(isFinite(er))r.exRent+=er*r.exRentDays;else r.tbd.push('Sunbelt 18k excavator $/day');if(isFinite(ed))r.exRent+=ed;else r.tbd.push('excavator delivery / pickup $');}
- r.pineHrs=(r.pineFellHrs+r.pineStumpHrs)*f;
+ r.pineHrs=(r.pinePullHrs+r.pineFellHrs+r.pineStumpHrs)*f;
  /* debris */
  var vol=r.acres*pv(D.cyAc[dens],DEFAULT_DEBRIS.cyAc[dens]);
  BINS.forEach(function(b){var k=b[0];vol+=pv(V.trees[k],0)*pv(D.treeCy[k],DEFAULT_DEBRIS.treeCy[k]);if(V.stumpsOn)vol+=pv(V.stumps[k],0)*pv(D.stumpCy[k],DEFAULT_DEBRIS.stumpCy[k]);});
@@ -1000,7 +1000,7 @@ function buildStatic(){
   $('#stumpCtrs').innerHTML='<div class="hint" style="margin:0">Stumps already in the ground (cut trees, old clearing). Pushed-over trees come out with the root ball, so don&rsquo;t count them twice.</div>'+BINS.map(function(b){return ctr('veg.stumps',b);}).join('');
   $('#pineCtrs').innerHTML=PBINS.map(function(b){return ctr('veg.pines',b);}).join('');
   var pt='<table class="mtab"><thead><tr><th>Pine assumption</th><th>Value</th><th>Source</th></tr></thead><tbody>';
-  PBINS.forEach(function(b){pt+='<tr><td>Fell &amp; handle pine '+b[1]+' &mdash; min / tree</td><td>'+numIn('rates.pineFellMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  PBINS.forEach(function(b){pt+='<tr><td>'+(b[0]==='p8'?'Pull pine '+b[1]+' with the stump (tree puller)':'Fell &amp; handle pine '+b[1])+' &mdash; min / tree</td><td>'+numIn('rates.pineFellMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
   pt+='<tr><td>Dig pine stump with the <b>331G</b> &mdash; min / stump</td><td>'+numIn('rates.pineCtlMin','1')+'</td><td class="src">'+SRC_DEF+'</td></tr>';
   pt+='<tr><td>Dig pine stump with the <b>18k excavator</b> &mdash; min / stump</td><td>'+numIn('rates.pineExMin','1')+'</td><td class="src"><span class="tag ind">your estimate</span></td></tr>';
   PSTUMP_KEYS.forEach(function(k){var b=PBINS.filter(function(x){return x[0]===k;})[0];pt+='<tr><td>Stump size multiplier '+b[1]+' (&times;)</td><td>'+numIn('rates.pineStumpMult.'+k,'0.05')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
@@ -1058,8 +1058,8 @@ function renderPines(){var X=P.extras;
   $('#pineNote').className='note'+(R.pineEx?' bad':R.pineStumps?' good':'');
   $('#pineNote').innerHTML=R.pines?('<b>'+(R.pineEx?'Excavator rental':'331G')+':</b> '+esc(R.pineReason)+'. Stumps take '+fmt(R.pineStumpMin)+' min each'+(R.pineEx?' with the excavator.':' with the 331G.')):'Add pines by size. With more than <b>'+fmt(num(P.rates.pineThreshold,6))+'</b> stumps 8&quot; and up, the app plans a Sunbelt 18,000 lb excavator rental.';
   $('#exBox').style.display=R.pineEx?'':'none';$('#exDaysIn').placeholder=fmt(R.exRentDays||0,1)+' (calc)';
-  var k='';if(R.pines){k='<div class="kpi"><div class="k">Fell '+fmt(R.pines)+' pines</div><div class="v">'+fmt(R.pineFellHrs,1)+' h</div><div class="u">cut, buck, drag to pile</div></div>'
-   +'<div class="kpi'+(R.pineEx?' flag':'')+'"><div class="k">Dig '+fmt(R.pineStumps)+' stumps</div><div class="v">'+fmt(R.pineStumpHrs,1)+' h</div><div class="u">'+(R.pineEx?'excavator':'331G')+' @ '+fmt(R.pineStumpMin)+' min</div></div>';
+  var k='';if(R.pines){k=(R.pinePulled?'<div class="kpi"><div class="k">Pull '+fmt(R.pinePulled)+' pines &lt;8&quot;</div><div class="v">'+fmt(R.pinePullHrs,1)+' h</div><div class="u">tree + stump together</div></div>':'')+(R.pinesFelled?'<div class="kpi"><div class="k">Fell '+fmt(R.pinesFelled)+' pines 8&quot;+</div><div class="v">'+fmt(R.pineFellHrs,1)+' h</div><div class="u">cut, buck, drag to pile</div></div>':'')
+   +(R.pineStumps?'<div class="kpi'+(R.pineEx?' flag':'')+'"><div class="k">Dig '+fmt(R.pineStumps)+' stumps</div><div class="v">'+fmt(R.pineStumpHrs,1)+' h</div><div class="u">'+(R.pineEx?'excavator':'331G')+' @ '+fmt(R.pineStumpMin)+' min</div></div>':'');
    if(R.pineEx)k+='<div class="kpi"><div class="k">Excavator rental</div><div class="v">'+days(R.exRentDays)+' day'+(R.exRentDays==1?'':'s')+'</div><div class="u">'+days(R.exDigDays)+' days of digging · '+(String(X.exRate)===''||String(X.exDeliv)===''?'$ TBD':money(R.exRent)+' + '+fmt(R.mk*100)+'%')+'</div></div>';
    k+='<div class="kpi okk"><div class="k">Pine work</div><div class="v">'+days(R.d.pine)+' d · '+money(R.pineAdder)+'</div><div class="u">operator time'+(R.pineEx?' + rental':'')+(R.siteF>1?' × site factor':'')+'</div></div>';}
   $('#pineKpis').innerHTML=k;}
@@ -1117,7 +1117,7 @@ $('#addItem').onclick=function(){P.extras.other.push({desc:'',cost:''});save();r
 var METH_NAME={burn:'Pile & burn on site',haul:'Haul off site',windrow:'Windrows on site'};
 function autoTimeline(){var n=R.workDays;return 'About '+n+' working day'+(n==1?'':'s')+' on site'+(P.debris.method==='burn'?', weather and burn conditions permitting':', weather permitting');}
 function dayRows(){var D=P.debris,rows=[['Clearing: brush, trees'+(R.stumps?', stumps':''),R.d.clear]];
-  if(R.pines)rows.push(['Pines: fell '+fmt(R.pines)+(R.pineStumps?', dig '+fmt(R.pineStumps)+' stumps ('+(R.pineEx?'excavator':'331G')+')':''),R.d.pine]);
+  if(R.pines)rows.push(['Pines: '+[R.pinePulled?'pull '+fmt(R.pinePulled)+' under 8"':'',R.pinesFelled?'fell '+fmt(R.pinesFelled):''].filter(Boolean).join(', ')+(R.pineStumps?', dig '+fmt(R.pineStumps)+' stumps ('+(R.pineEx?'excavator':'331G')+')':''),R.d.pine]);
   if(D.method==='burn'){rows.push(['Burning: feed, push in, restack ('+fmt(R.piles)+' piles)',R.d.burn]);if(D.ashOn)rows.push(['Ash &amp; cleanup',R.d.clean]);}
   if(D.method==='haul')rows.push(['Hauling: '+fmt(R.loads)+' loads'+(String(D.tripMin)===''?' (drive time TBD)':''),R.d.haul]);
   if(D.finalOn)rows.push(['Final root-rake pass',R.d.final]);
@@ -1159,7 +1159,8 @@ function scopeLines(){var V=P.veg,D=P.debris,X=P.extras,A=P.area,L=[];
     else if(R.treeMethod==='rootrake')L.push('Push over and remove <b>'+fmt(R.trees)+' trees</b> ('+tt+') with the root rake, digging out the root balls and grubbing any remaining roots.');
     else L.push('Remove <b>'+fmt(R.trees)+' trees</b> ('+tt+') with the grapple, root balls included, grubbing out any remaining stumps and roots.');}
   if(R.pines){var big=R.pineRows.filter(function(t){return t.dig&&t.cnt>0;}),sm=R.pineRows[0].cnt;
-    L.push('Fell and remove <b>'+fmt(R.pines)+' pine tree'+(R.pines==1?'':'s')+'</b> ('+treeText(V.pines,PBINS)+' trunk diameter)'+(R.pineStumps?'; pine stumps 8&quot; and larger ('+fmt(R.pineStumps)+') excavated and removed':'')+(sm?(R.pineStumps?', and':';')+' smaller pine stumps cleaned up in the root-rake pass':'')+'.');}
+    if(R.pinePulled)L.push('Pull out <b>'+fmt(R.pinePulled)+' pine tree'+(R.pinePulled==1?'':'s')+' under 8&quot;</b> with the tree puller, tree and stump pulled up together (no separate stump work).');
+    if(R.pinesFelled)L.push('Fell and remove <b>'+fmt(R.pinesFelled)+' pine tree'+(R.pinesFelled==1?'':'s')+'</b> ('+treeText(V.pines,PBINS.slice(1))+' trunk diameter); pine stumps ('+fmt(R.pineStumps)+') excavated and removed.');}
   if(R.stumps)L.push('Grub <b>'+fmt(R.stumps)+' existing stumps</b> ('+treeText(V.stumps)+').');
   if(V.palmetto)L.push('Grub saw palmetto and root mats.');
   if(R.excl>0)L.push('Leave and protect the keep-tree area'+(R.useTrace&&TR.keepN>1?'s':'')+' (about '+fmt(R.excl,2)+' acres) as marked on site.');
@@ -1199,7 +1200,7 @@ function renderSheets(){var E=P.est,cu=P.customer,D=P.debris,date=new Date(),ds=
   var it='<div class="sheet internal-sheet"'+(sumView==='int'?'':' style="display:none"')+'><div class="int-banner">INTERNAL · NOT FOR CUSTOMER</div>'+sheetHead()+'<div class="sh-title" style="color:var(--olive-d)">Internal Job Sheet: '+esc(P.name||'Land clearing')+'</div>'
    +'<div class="sh-meta"><div><b>Customer:</b> '+esc(cu.name||'—')+'</div><div><b>Site:</b> '+esc(cu.address||'—')+'</div><div><b>Area:</b> '+fmt(R.gross,2)+' ac gross − '+fmt(R.excl,2)+' keep = <b>'+fmt(R.acres,2)+' ac</b> ('+(R.useTrace?'traced':'entered')+')</div><div><b>Vegetation:</b> '+DENS[R.dens].name+(P.veg.palmetto?' + palmetto':'')+'</div></div>'
    +'<div class="sh-two"><div><h4 style="margin:0 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Production</h4><table class="it">'
-   +tr('Brush / area @ '+fmt(R.acDay,2)+' ac/day',fmt(R.areaHrs,1)+' h')+tr('Trees ('+TREE_METH[R.treeMethod].name.toLowerCase()+'): '+(R.trees?fmt(R.trees):'none'),fmt(R.treeHrs,1)+' h')+R.treeRows.filter(function(t){return t.cnt>0;}).map(function(t){return tr('&nbsp;&nbsp;'+t.label+': '+fmt(t.cnt)+' × '+fmt(t.mins,1)+' min '+TREE_METH[t.m].short+(t.gp>0?' + '+fmt(t.gp*100)+'% grub':''),fmt(t.cnt*(t.mins+t.grub)/60,1)+' h');}).join('')+tr('Stump / root grub after trees',fmt(R.grubHrs,1)+' h')+(R.pines?tr('Pines: fell '+fmt(R.pines)+' ('+esc(treeText(P.veg.pines,PBINS))+')',fmt(R.pineFellHrs,1)+' h')+tr('Pine stumps 8&quot;+: '+fmt(R.pineStumps)+' × '+fmt(R.pineStumpMin)+' min, '+(R.pineEx?'excavator':'331G')+'<br><small>'+esc(R.pineReason)+'</small>',fmt(R.pineStumpHrs,1)+' h')+(R.pineEx?tr('Excavator rental days (dig '+days(R.exDigDays)+' d)',days(R.exRentDays)):''):'')+tr('Stumps: '+(R.stumps?esc(treeText(P.veg.stumps)):'none'),fmt(R.stumpHrs,1)+' h')
+   +tr('Brush / area @ '+fmt(R.acDay,2)+' ac/day',fmt(R.areaHrs,1)+' h')+tr('Trees ('+TREE_METH[R.treeMethod].name.toLowerCase()+'): '+(R.trees?fmt(R.trees):'none'),fmt(R.treeHrs,1)+' h')+R.treeRows.filter(function(t){return t.cnt>0;}).map(function(t){return tr('&nbsp;&nbsp;'+t.label+': '+fmt(t.cnt)+' × '+fmt(t.mins,1)+' min '+TREE_METH[t.m].short+(t.gp>0?' + '+fmt(t.gp*100)+'% grub':''),fmt(t.cnt*(t.mins+t.grub)/60,1)+' h');}).join('')+tr('Stump / root grub after trees',fmt(R.grubHrs,1)+' h')+(R.pines?(R.pinePulled?tr('Pines under 8&quot;: pull '+fmt(R.pinePulled)+' × '+fmt(R.pineRows[0].fell,1)+' min, tree + stump together',fmt(R.pinePullHrs,1)+' h'):'')+(R.pinesFelled?tr('Pines 8&quot;+: fell '+fmt(R.pinesFelled)+' ('+esc(treeText(P.veg.pines,PBINS.slice(1)))+')',fmt(R.pineFellHrs,1)+' h')+tr('Pine stumps 8&quot;+: '+fmt(R.pineStumps)+' × '+fmt(R.pineStumpMin)+' min, '+(R.pineEx?'excavator':'331G')+'<br><small>'+esc(R.pineReason)+'</small>',fmt(R.pineStumpHrs,1)+' h'):'')+(R.pineEx?tr('Excavator rental days (dig '+days(R.exDigDays)+' d)',days(R.exRentDays)):''):'')+tr('Stumps: '+(R.stumps?esc(treeText(P.veg.stumps)):'none'),fmt(R.stumpHrs,1)+' h')
    +tr('Site factor'+(R.siteFl.length?' ('+esc(R.siteFl.join(', '))+')':''),'× '+fmt(R.siteF,2))+tr('<b>Clearing</b>','<b>'+fmt(R.clearHrs,1)+' h</b>')
    +tr('Debris as piled',fmt(R.debrisCY)+' cu yd')
    +(D.method==='burn'?tr('Burn piles @ '+fmt(num(D.pileCy,150))+' cu yd',fmt(R.piles))+tr('Burn days',days(R.burnDays))+tr('Ash &amp; cleanup',fmt(R.cleanHrs,1)+' h'):'')
