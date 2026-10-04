@@ -147,6 +147,46 @@ table.cmp{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
 table.it{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:8px}
 table.it td,table.it th{border-bottom:1px solid #e3dbc4;padding:4px 6px;text-align:right}table.it td:first-child,table.it th:first-child{text-align:left}
 table.it tr.tot td{font-weight:900;border-top:2px solid #333}
+/* build guide */
+.gset{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:4px 10px}
+.gset label{margin-bottom:8px}
+.gsec{font-size:18px;text-transform:uppercase;color:var(--olive-d);margin:18px 2px 10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:3px solid var(--gold);padding-bottom:4px}
+.gsec small{font-family:inherit;font-size:12.5px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:600}
+.ghead .sheet{max-width:none;margin:0 0 12px;padding:14px 16px}
+.glay{display:flex;flex-direction:column;gap:14px}
+.gstep{padding:12px}
+.gtitle{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.gtitle h3{font-size:16px;text-transform:uppercase;color:var(--olive-d)}
+.gl{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--scarlet);color:#fff;font-family:"Arial Black",Arial,sans-serif;font-size:15px;flex:0 0 auto;box-shadow:inset 0 -3px 0 var(--gold)}
+.gbody{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+.gfig{min-width:0}.gsvg{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#f3eedb}
+.gtxt{font-size:14.5px;min-width:0}.gtxt ul{margin:0;padding-left:18px}.gtxt li{margin-bottom:6px}.gtxt p{margin:0 0 8px}
+.gstake{display:flex;align-items:center;gap:10px;margin-top:8px}.gstake .gsvg{width:220px;flex:0 0 auto}
+.gsb{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.gh3{font-size:13.5px;text-transform:uppercase;color:var(--olive-d);margin:12px 0 6px;letter-spacing:.04em}
+.gh3 small{font-weight:600;color:var(--muted);text-transform:none;font-family:inherit}
+table.gtab{border-collapse:collapse;width:100%;font-size:13.5px}
+.gtab th,.gtab td{border:1px solid #e3dbc4;padding:5px 7px;text-align:right;white-space:nowrap}
+.gtab th:first-child,.gtab td:first-child{text-align:left}
+.gtab thead th{background:var(--olive);color:#fff;font-size:12.5px}
+.gtab tbody tr:nth-child(even){background:#faf7ee}
+.gst th,.gst td{text-align:center}.gst td:nth-child(2){background:#f4efe0}
+.gst th.g-wl{background:#1f6f86}.gst th.g-toe{background:#0c3a4c}.gst th.g-sh1,.gst th.g-sh2{background:#2e7d32}.gst th.g-tob{background:#7a5c2e}.gst th.g-os{background:var(--scarlet)}
+.gtab tr.gshelf td{background:#edf5ec}
+.gmat td{white-space:normal;vertical-align:middle}.gmat td.q{font-weight:800;white-space:nowrap}.gmat td.b{color:var(--muted);font-size:12.5px;text-align:left}
+.gmat td.gn{width:150px;padding:2px 4px}.gmat td.gn input{min-height:36px;font-size:14px;padding:4px 6px;margin:0}
+.gmat tr.gsecrow td{background:var(--tan);font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--olive-d);text-align:left}
+.est{display:inline-block;background:#fbeeee;color:var(--scarlet-d);border:1px solid #e3a9a4;border-radius:5px;font-size:10.5px;font-weight:800;padding:0 4px;vertical-align:1px}
+ol.gphases{margin:0;padding-left:26px}
+ol.gphases>li{margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #eee5cc}
+ol.gphases>li::marker{font-weight:900;color:var(--scarlet)}
+ol.gphases .ph{font-size:15.5px;color:var(--olive-d);text-transform:uppercase;letter-spacing:.03em}
+ol.gphases ul{margin:4px 0 0;padding-left:18px;font-size:14.5px}ol.gphases ul li{margin-bottom:3px}
+ul.gchk{columns:2;margin:0;padding-left:0;list-style:none;font-size:14px}ul.gchk li{margin-bottom:4px;break-inside:avoid}ul.gchk li::before{content:"\2610  ";font-size:16px}
+.gfoot{font-size:12px;color:var(--muted);text-align:center;margin:14px 0}
+#gWarn .note{margin:0 0 10px}
+@media (max-width:900px){.gbody{grid-template-columns:1fr}}
+@media (max-width:520px){.gset{grid-template-columns:1fr 1fr;gap:2px 8px}.gset label{font-size:13px}.gtab{font-size:12.5px}.gtab th,.gtab td{padding:4px 5px}ul.gchk{columns:1}.ghead .sheet{padding:10px}.gsec{font-size:16px}.gmat td.gn{width:110px}}
 @media (max-width:900px){.grid2{grid-template-columns:1fr}.addgrid{grid-template-columns:1fr}#step-photo .col:last-child{order:-1}#step-photo .col:last-child .card{position:relative}}
 @media (max-width:520px){
  body{font-size:15px}.b1{font-size:17px}.b2{font-size:10px;letter-spacing:.03em}.brand svg{width:38px;height:38px}
@@ -171,6 +211,20 @@ table.it tr.tot td{font-weight:900;border-top:2px solid #333}
  .sh-img{max-height:2.45in;background:none}.sh-two{margin-bottom:2px}.sh-two img{max-height:1.35in;object-fit:contain}.sh-tw{gap:4px 14px}.sh-cap{margin-bottom:4px}
  .sh-sec h4{margin:5px 0 3px}.sh-price{margin:6px 0;padding:5px 10px}.sh-sign{margin-top:12px}.sh-foot{margin-top:6px}
  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ body.pr-guide #step-summary{display:none!important} body.pr-guide #step-guide{display:block!important} body.pr-guide .gnoprint{display:none!important}
+ body.pr-guide .ghead .sheet{padding:0;margin:0 0 6px}
+ body.pr-guide .card{box-shadow:none;border:1px solid #cfc4a4;padding:8px;border-radius:6px}
+ body.pr-guide .gstep{break-inside:avoid;page-break-inside:avoid}
+ body.pr-guide .gbody{grid-template-columns:1fr 1fr;gap:10px}
+ body.pr-guide .gtxt{font-size:11px}body.pr-guide .gtxt li{margin-bottom:3px}
+ body.pr-guide .gsec{font-size:14px;margin:10px 0 6px}
+ body.pr-guide .gbreak{break-before:page;page-break-before:always}
+ body.pr-guide .gtab{font-size:10px}body.pr-guide .gtab th,body.pr-guide .gtab td{padding:2px 4px}
+ body.pr-guide .gtab thead{display:table-header-group}body.pr-guide .gtab tr{break-inside:avoid}
+ body.pr-guide .tablewrap{overflow:visible}
+ body.pr-guide .gmat td.gn input{border:0;border-bottom:1px solid #999;border-radius:0;min-height:18px;font-size:10px;background:none}
+ body.pr-guide ol.gphases ul{font-size:11px}body.pr-guide ol.gphases>li{break-inside:avoid;margin-bottom:5px;padding-bottom:4px}body.pr-guide ol.gphases .ph{font-size:12px}
+ body.pr-guide #jls-copyright{padding:4px!important}
 }
 </style>
 </head>
@@ -189,6 +243,7 @@ table.it tr.tot td{font-weight:900;border-top:2px solid #333}
   <button data-step="photo"><b>3</b><span>Site Photo</span></button>
   <button data-step="addons"><b>4</b><span>Add-ons</span></button>
   <button data-step="summary"><b>5</b><span>Summary</span></button>
+  <button data-step="guide"><b>6</b><span>Build Guide</span></button>
 </nav>
 <div class="live" id="live"></div>
 
@@ -417,6 +472,60 @@ table.it tr.tot td{font-weight:900;border-top:2px solid #333}
  </div>
  <div id="sheets"></div>
 </section>
+
+<!-- STEP 6 BUILD GUIDE (internal crew packet) -->
+<section class="step" id="step-guide">
+ <div class="ghead" id="gHead"></div>
+ <div class="card gnoprint">
+  <h2>Build guide settings <small>internal &middot; crew field packet</small></h2>
+  <div class="gset">
+   <label>Liner type<select data-bind="guide.liner"><option value="rpe">RPE (reinforced poly)</option><option value="epdm">EPDM rubber</option><option value="pvc">PVC</option><option value="clay">None &ndash; clay / earthen</option></select></label>
+   <label>Stake stations every (ft)<input type="number" inputmode="decimal" min="2" step="1" data-bind="guide.sta"></label>
+   <label>Offset stakes past top of bank (ft)<input type="number" inputmode="decimal" min="1" step="1" data-bind="guide.os"></label>
+   <label>Anchor trench back from bank (ft)<input type="number" inputmode="decimal" min="0" step="0.5" data-bind="guide.trenchBack"></label>
+   <label>Anchor trench width (ft)<input type="number" inputmode="decimal" min="0.25" step="0.25" data-bind="guide.trenchW"></label>
+   <label>Anchor trench depth (ft)<input type="number" inputmode="decimal" min="0.25" step="0.25" data-bind="guide.trenchD"></label>
+   <label>Laser rod reading at BM (ft)<input type="number" inputmode="decimal" step="0.01" data-bind="guide.rodBM"></label>
+   <label>BM height above water line (ft)<input type="number" inputmode="decimal" step="0.1" placeholder="= freeboard" data-bind="guide.bmAbove"></label>
+   <label>Distance to pump house / power (ft)<input type="number" inputmode="decimal" min="0" step="5" data-bind="guide.pumpDist"></label>
+   <label>Water fill line run (ft)<input type="number" inputmode="decimal" min="0" step="5" data-bind="guide.fillDist"></label>
+   <label>Waterfall pipe run (ft)<input type="number" inputmode="decimal" min="0" step="5" data-bind="guide.wfPipe"></label>
+   <label>Watts per light (LED)<input type="number" inputmode="decimal" min="1" step="1" data-bind="guide.lightW"></label>
+   <label>Topsoil strip depth (in)<input type="number" inputmode="decimal" min="0" step="1" data-bind="guide.topsoil"></label>
+   <label>Seed rate (lb / 1,000 sq ft)<input type="number" inputmode="decimal" min="0" step="0.5" data-bind="guide.seedRate"></label>
+  </div>
+  <label class="sw" id="gUnderWrap"><input type="checkbox" data-bind="guide.underlay"> Underlayment (geotextile) under the liner</label>
+  <div class="btns"><button class="btn primary" id="printGuide">Print Build Guide</button><span class="hint" style="align-self:center;margin:0">Field packet for you and the crew. Not the customer sheet.</span></div>
+ </div>
+ <div id="gWarn"></div>
+
+ <h2 class="gsec">Layout <small>stake it out before the machine moves</small></h2>
+ <div class="glay">
+  <div class="card gstep" id="gA"><div class="gdyn"></div>
+   <div class="gnoprint gsb"><b>Setbacks measured on site</b> <span class="hint">(check local code for required distances)</span>
+    <div class="gset">
+     <label>Well (ft)<input type="text" data-bind="guide.setbacks.well" placeholder="___"></label>
+     <label>Septic tank / drainfield (ft)<input type="text" data-bind="guide.setbacks.septic" placeholder="___"></label>
+     <label>Property line (ft)<input type="text" data-bind="guide.setbacks.prop" placeholder="___"></label>
+     <label>House / buildings (ft)<input type="text" data-bind="guide.setbacks.house" placeholder="___"></label>
+     <label>Overhead / buried power (ft)<input type="text" data-bind="guide.setbacks.power" placeholder="___"></label>
+    </div></div>
+  </div>
+  <div class="card gstep" id="gB"><div class="gdyn"></div></div>
+  <div class="card gstep" id="gC"><div class="gdyn"></div></div>
+  <div class="card gstep" id="gD"><div class="gdyn"></div></div>
+  <div class="card gstep" id="gE"><div class="gdyn"></div></div>
+  <div class="card gstep" id="gF"><div class="gdyn"></div></div>
+  <div class="card gstep" id="gG"><div class="gdyn"></div></div>
+  <div class="card gstep" id="gH"><div class="gdyn"></div></div>
+ </div>
+ <div class="card gbreak" id="gTable"></div>
+ <h2 class="gsec">Construction steps <small>in order, for this design</small></h2>
+ <div class="card" id="gSteps"></div>
+ <h2 class="gsec">Materials &amp; equipment <small>quantities only &middot; est. = rule of thumb</small></h2>
+ <div class="card gbreak" id="gMat"></div>
+ <div class="gfoot">Internal field packet. Quantities are estimates from the design inputs; verify on site, with suppliers, and with local code. Electrical work by a licensed electrician where required.</div>
+</section>
 </main>
 
 <div class="navbar">
@@ -541,7 +650,7 @@ if(typeof module!=='undefined')module.exports={polyArea:polyArea,polyPerim:polyP
 'use strict';
 var $=function(s){return document.querySelector(s);},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
 var LS_KEY='jpd.projects.v1',LS_CUR='jpd.current.v1',LS_PHOTO='jpd.photo.';
-var STEPS=['shape','slope','photo','addons','summary'],STEP_LBL={shape:'1 · Shape & size',slope:'2 · Bank slope',photo:'3 · Site photo',addons:'4 · Add-ons',summary:'5 · Summary'};
+var STEPS=['shape','slope','photo','addons','summary','guide'],STEP_LBL={shape:'1 · Shape & size',slope:'2 · Bank slope',photo:'3 · Site photo',addons:'4 · Add-ons',summary:'5 · Summary',guide:'6 · Build guide'};
 var CO={name:'Jarheads Land Service',phone:'352-538-7145',email:'jarheadslandservice@gmail.com',town:'Williston, FL'};
 var projects={},P=null,curStep='shape',F=null,FK='',M=null,memPhotos={},secAxis='long',sumView='cust';
 var photo={img:null,w:0,h:0},mode='move',drag=null,perimCache={k:'',s:null},mockRaf=0;
@@ -562,7 +671,8 @@ function defaultProject(){return {v:1,id:uid(),name:'New Pond Project',created:D
  photo:{has:false,sample:false,px:null,py:null,rot:0,size:100,tilt:45,edge:'rock',water:'natural',night:false,dims:false,scaleP:[],scaleFt:'',persp:{on:false,pts:[],w:'',d:''},wf:null,diff:null},
  addons:{light:{on:false,count:6,type:'underwater',notes:'',price:''},wf:{on:false,height:2,width:24,price:''},aer:{on:true,diffusers:2,model:'Airmax PS20 class',price:''},ftn:{on:false,size:'',pattern:'',price:''},flt:{type:'none',uv:false,price:''},other:[]},
  internal:{dayRate:1300,days:'',markup:15,linerRate:'',haulRate:'',otherCost:''},
- summary:{lump:'',timeline:'',drawings:'yes',notes:''}};}
+ summary:{lump:'',timeline:'',drawings:'yes',notes:''},
+ guide:{liner:'rpe',underlay:true,sta:10,os:10,trenchBack:2,trenchW:1,trenchD:2,rodBM:5,bmAbove:'',pumpDist:100,fillDist:100,wfPipe:25,lightW:10,topsoil:6,seedRate:8,setbacks:{well:'',septic:'',prop:'',house:'',power:''},mat:{}}};}
 function isObj(o){return o&&typeof o==='object'&&!Array.isArray(o);}
 function fill(def,o){Object.keys(def).forEach(function(k){if(o[k]===undefined)o[k]=def[k];else if(isObj(def[k])&&isObj(o[k]))fill(def[k],o[k]);});return o;}
 function getPath(o,p){return p.split('.').reduce(function(a,k){return a==null?a:a[k];},o);}
@@ -610,17 +720,17 @@ function setStep(s,noScroll){if(STEPS.indexOf(s)<0)s='shape';curStep=s;
   $$('.step').forEach(function(el){el.classList.toggle('on',el.id==='step-'+s);});
   $$('#steps button').forEach(function(b){b.classList.toggle('on',b.dataset.step===s);if(b.dataset.step===s&&b.scrollIntoView)try{b.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}});
   var i=STEPS.indexOf(s);$('#prev').style.visibility=i>0?'visible':'hidden';
-  $('#next').innerHTML=i<STEPS.length-1?'Next &rsaquo;':'Print';
+  $('#next').innerHTML=i<STEPS.length-1?'Next &rsaquo;':'Print guide';
   $('#stepLbl').innerHTML=STEP_LBL[s]+'<span class="saved">Auto-saves on this device</span>';
   try{history.replaceState(null,'','#'+s);}catch(e){}
   if(!noScroll)window.scrollTo(0,0);refresh();}
 $$('#steps button').forEach(function(b){b.onclick=function(){setStep(b.dataset.step);};});
 $('#prev').onclick=function(){var i=STEPS.indexOf(curStep);if(i>0)setStep(STEPS[i-1]);};
-$('#next').onclick=function(){var i=STEPS.indexOf(curStep);if(i<STEPS.length-1)setStep(STEPS[i+1]);else doPrint('cust');};
+$('#next').onclick=function(){var i=STEPS.indexOf(curStep);if(i<STEPS.length-1)setStep(STEPS[i+1]);else printGuide();};
 
 /* ---------- master refresh ---------- */
 function refresh(fast){compute(fast);updateVis();renderLive();
-  if(curStep==='shape')renderShape();else if(curStep==='slope')renderSlope();else if(curStep==='photo')renderPhoto();else if(curStep==='addons')renderAddons();else if(curStep==='summary')renderSummary();}
+  if(curStep==='shape')renderShape();else if(curStep==='slope')renderSlope();else if(curStep==='photo')renderPhoto();else if(curStep==='addons')renderAddons();else if(curStep==='summary')renderSummary();else if(curStep==='guide')renderGuide();}
 function updateVis(){var s=P.shape;
   $$('#shapeBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.shape===s.type);});
   $('#wWrap').style.display=s.type==='round'?'none':'';$('#lblL').textContent=s.type==='round'?'Diameter (ft)':'Length (ft)';
@@ -737,7 +847,7 @@ var PC={
 function pcKey(s){return s<=2.5?2:s<=3.5?3:s<=4.5?4:5;}
 function pcHTML(k){var d=PC[k];return '<div class="pc"><div class="pro"><h3>Pros</h3><ul>'+d.pro.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div><div class="con"><h3>Cons</h3><ul>'+d.con.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div></div>';}
 function kpi(k,v,u,cls){return '<div class="kpi '+(cls||'')+'"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="u">'+(u||'')+'</div></div>';}
-var martinRef=null;
+var refPond=null;
 function renderSlope(){var s=slopeVal(),o=opts(s),D=o.D;
   $('#depthCheck').innerHTML=M.ok?'<div class="note good"><b>&#10003; Reaches '+ft(D)+'.</b> At '+slopeLbl(s)+' the banks need '+ft(M.needRun)+' of run from shore. This footprint allows up to '+ft(M.maxRun)+'. Flat bottom about '+(M.flatA>0?ft(M.flatL)+' × '+ft(M.flatW):'a point')+'.</div>'
     :'<div class="note bad"><b>&#9888; Banks meet before '+ft(D)+'.</b> At '+slopeLbl(s)+' you need '+ft(M.needRun)+' of run from shore to reach full depth, but the footprint only allows '+ft(M.maxRun)+'. Deepest achievable is about <b>'+ft(M.actMax)+'</b> with no flat bottom. Go bigger, steeper, or shallower.</div>';
@@ -758,13 +868,13 @@ function renderSlope(){var s=slopeVal(),o=opts(s),D=o.D;
   var k=pcKey(s);$('#pcFor').textContent=P.slope.choice==='custom'?'custom '+slopeLbl(s)+', closest to '+k+':1':PC[k].t;$('#prosCons').innerHTML=pcHTML(k);
   $('#pcAll').innerHTML=[2,3,4,5].filter(function(x){return x!==k;}).map(function(x){return '<details><summary>'+PC[x].t+'</summary>'+pcHTML(x)+'</details>';}).join('')+'<p class="hint">General guidance only. Soil type, liner, use (fish, swimming, livestock, stormwater) and local rules can change the right choice.</p>';
   drawSection($('#secCv2'),secAxis);
-  if(!martinRef){var mf=buildField(roundRectPoly(100,67,15,16),40000);martinRef=metrics(mf,{s:3,D:8,sh:{on:false},fb:0,anchor:2,overlap:1,swell:1.25,trailer:16});}
+  if(!refPond){var mf=buildField(roundRectPoly(100,67,15,16),40000);refPond=metrics(mf,{s:3,D:8,sh:{on:false},fb:0,anchor:2,overlap:1,swell:1.25,trailer:16});}
   $('#method').innerHTML='<p><b>Volume:</b> the water-line outline is split into a fine grid (~40,000 cells). Each cell gets its distance to shore, and the depth there follows the bank slope (depth = distance ÷ slope, capped at max depth, with the shelf if used). Adding up the cells is the same as stacking offset contour slices: the frustum / prismoidal method, but it works for any shape, including freeform. Gallons = cu ft × 7.48.</p>'
    +(M.prismGal?'<p><b>Cross-check (prismoidal formula):</b> V = d/6 × (A<sub>top</sub> + 4·A<sub>mid</sub> + A<sub>bottom</sub>) = '+fmt(Math.round(M.prismGal/100)*100)+' gal vs. grid '+fmt(Math.round(M.gal/100)*100)+' gal.</p>':'')
    +'<p><b>Depth check:</b> full depth needs slope × depth (+ shelf width) of horizontal run from the nearest shore. If the footprint is too narrow, the banks meet first and the app flags it.</p>'
    +'<p><b>Excavation</b> = water volume + the freeboard band between the water line and top of bank. <b>Loads</b> = bank cu yd × swell factor ÷ trailer size, rounded up.</p>'
    +'<p><b>Liner:</b> installed surface uses true slope length (√(1+1/s²)). Panel size = section length along the slope through the deepest point, plus the freeboard bank and anchor-trench and overlap allowance on each side.</p>'
-   +'<p><b>Reference check:</b> a 100 × 67 ft rounded rectangle (15 ft corners), 8 ft deep at 3:1 works out to <b>'+fmt(Math.round(martinRef.gal/100)*100)+' gal</b> (prismoidal '+fmt(Math.round(martinRef.prismGal/100)*100)+'). That matches a real ~205,000 gal design we built.</p>';}
+   +'<p><b>Reference check:</b> a 100 × 67 ft rounded rectangle (15 ft corners), 8 ft deep at 3:1 works out to <b>'+fmt(Math.round(refPond.gal/100)*100)+' gal</b> (prismoidal '+fmt(Math.round(refPond.prismGal/100)*100)+'). That matches a real ~205,000 gal design we built.</p>';}
 
 /* ---------- step 3: photo mockup ---------- */
 var mockCv=$('#mockCv');
@@ -982,7 +1092,7 @@ function renderSummary(){var sh=curShape(),s=slopeVal(),S=P.summary,cu=P.custome
 $$('#sumSeg button').forEach(function(b){b.onclick=function(){sumView=b.dataset.sum;refresh();};});
 function doPrint(which){sumView=which;if(curStep!=='summary')setStep('summary');else refresh();document.body.classList.remove('pr-cust','pr-int');document.body.classList.add(which==='int'?'pr-int':'pr-cust');
   setTimeout(function(){window.print();},250);}
-window.addEventListener('afterprint',function(){document.body.classList.remove('pr-cust','pr-int');});
+window.addEventListener('afterprint',function(){document.body.classList.remove('pr-cust','pr-int');if(document.body.classList.contains('pr-guide')){document.body.classList.remove('pr-guide');guidePrintW=0;refresh();}});
 $('#printCust').onclick=function(){doPrint('cust');};$('#printInt').onclick=function(){doPrint('int');};
 
 /* ---------- projects ---------- */
@@ -1004,11 +1114,477 @@ $('#pExport').onclick=function(){saveNow();var photos={};Object.keys(projects).f
 $('#pImport').onchange=function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result),n=0;Object.keys(d.projects||{}).forEach(function(id){projects[id]=fill(defaultProject(),d.projects[id]);n++;});
     Object.keys(d.photos||{}).forEach(function(id){savePhotoData(id,d.photos[id]);});saveNow();openProjects();toast('Restored '+n+' project(s)');}catch(err){toast('That file is not a valid backup');}};rd.readAsText(f);e.target.value='';};
 
+
+/* ---------- step 6: build guide (internal field packet) ---------- */
+var guidePrintW=0;
+var LINER={rpe:{n:'RPE (reinforced polyethylene)',th:'20–30 mil typical',note:'Light and strong. Comes in large one-piece factory panels; common for big farm and fish ponds.'},
+ epdm:{n:'EPDM rubber',th:'45 mil typical',note:'Very flexible and fish-safe; folds well around rock and waterfalls. Heavy. Large ponds need field seams (seam tape).'},
+ pvc:{n:'PVC',th:'30 mil typical',note:'Flexible and low cost. Keep it covered and out of the sun. Seams are solvent- or heat-welded.'},
+ clay:{n:'None: compacted clay / earthen',th:'n/a',note:'Only holds water if the site soil has enough clay, or the pond sits in the water table. Dig a test pit first. Sandy soil needs a liner or bentonite.'}};
+function f1(n){return isFinite(n)?(Math.round(n*10)/10).toFixed(1):'—';}
+function f2(n){return isFinite(n)?(Math.round(n*100)/100).toFixed(2):'—';}
+function staFmt(v){var neg=v<0;v=Math.abs(v);var r=Math.round(v*10)/10,h=Math.floor(r/100+1e-9),rest=r-h*100,s=(rest<10?'0':'')+(rest%1?rest.toFixed(1):String(Math.round(rest)));return (neg?'-':'')+h+'+'+s;}
+function gOpts(){var g=P.guide,s=slopeVal(),o=opts(s),sh=o.sh;
+  var r={s:s,D:o.D,fb:o.fb,sh:sh,useSh:!!(sh.on&&sh.d>0&&sh.d<o.D&&sh.w>0),sta:clamp(num(g.sta,10),2,100),os:Math.max(1,num(g.os,10)),
+    tb:Math.max(0,num(g.trenchBack,2)),tw:Math.max(0.25,num(g.trenchW,1)),td:Math.max(0.25,num(g.trenchD,2)),liner:LINER[g.liner]?g.liner:'rpe'};
+  r.lined=r.liner!=='clay';r.run=reqRun(s,o.D,sh);r.cTOB=s*o.fb;r.cTr=r.cTOB+r.tb+r.tw/2;r.cOS=r.cTOB+r.os;
+  r.rodBM=num(g.rodBM,5);r.bmAbove=(g.bmAbove===''||g.bmAbove==null)?o.fb:num(g.bmAbove,o.fb);r.rodWL=r.rodBM+r.bmAbove;
+  r.rodTOB=r.rodWL-o.fb;r.rodBot=r.rodWL+(M.ok?o.D:M.actMax);r.rodShelf=r.useSh?r.rodWL+sh.d:NaN;r.rodTrench=r.rodTOB+r.td;
+  r.spoilOff=Math.max(o.D,12);return r;}
+function sdist(x,y){var d=distEdges(x,y,F.E);return pointInPoly(x,y,F.poly)?-d:d;}
+function gLevels(G){var L=[{k:'wl',n:'Water line',c:0}];
+  if(M.ok)L.push({k:'toe',n:'Toe (flat bottom)',c:-G.run});
+  if(G.useSh)L.push({k:'sh1',n:'Shelf outer edge',c:-G.s*G.sh.d},{k:'sh2',n:'Shelf inner edge',c:-(G.s*G.sh.d+G.sh.w)});
+  if(G.cTOB>0.05)L.push({k:'tob',n:'Top of bank',c:G.cTOB});
+  if(G.lined)L.push({k:'tr',n:'Anchor trench (center)',c:G.cTr});
+  L.push({k:'os',n:'Offset stake',c:G.cOS});return L;}
+/* signed-distance grid for drawing contours (one grid, every offset line) */
+var GC={k:'',d:null};
+function sdGrid(ext){var key=FK+'|'+ext.toFixed(1);if(GC.k===key)return GC.d;var bb=F.bb,x0=bb.minX-ext,y0=bb.minY-ext,w=bb.w+2*ext,h=bb.h+2*ext,cs=Math.max(w,h)/190,nx=Math.ceil(w/cs)+1,ny=Math.ceil(h/cs)+1,g=new Float32Array(nx*ny);
+  for(var j=0;j<ny;j++)for(var i=0;i<nx;i++)g[j*nx+i]=sdist(x0+i*cs,y0+j*cs);
+  GC={k:key,d:{x0:x0,y0:y0,cs:cs,nx:nx,ny:ny,g:g}};return GC.d;}
+function contour(S,c){var nx=S.nx,g=S.g,segs=[];
+  function v(i,j){return g[j*nx+i]-c;}
+  function ep(a,b,i1,j1,i2,j2){var t=a/(a-b);return [S.x0+(i1+(i2-i1)*t)*S.cs,S.y0+(j1+(j2-j1)*t)*S.cs];}
+  for(var j=0;j<S.ny-1;j++)for(var i=0;i<nx-1;i++){var a=v(i,j),b=v(i+1,j),cc=v(i+1,j+1),d=v(i,j+1),p=[];
+    if((a<0)!==(b<0))p.push(['h'+i+'_'+j,ep(a,b,i,j,i+1,j)]);
+    if((b<0)!==(cc<0))p.push(['v'+(i+1)+'_'+j,ep(b,cc,i+1,j,i+1,j+1)]);
+    if((d<0)!==(cc<0))p.push(['h'+i+'_'+(j+1),ep(d,cc,i,j+1,i+1,j+1)]);
+    if((a<0)!==(d<0))p.push(['v'+i+'_'+j,ep(a,d,i,j,i,j+1)]);
+    if(p.length===2)segs.push(p);else if(p.length===4){var m=(a+b+cc+d)/4;if((m<0)===(a<0)){segs.push([p[0],p[1]]);segs.push([p[2],p[3]]);}else{segs.push([p[0],p[3]]);segs.push([p[1],p[2]]);}}}
+  var adj={};segs.forEach(function(s,k){(adj[s[0][0]]=adj[s[0][0]]||[]).push(k);(adj[s[1][0]]=adj[s[1][0]]||[]).push(k);});
+  var used=new Uint8Array(segs.length),lines=[];
+  function walk(key,arr,front){for(;;){var nb=adj[key]||[],q=-1;for(var z=0;z<nb.length;z++)if(!used[nb[z]]){q=nb[z];break;}if(q<0)return;used[q]=1;var s=segs[q],nx2=s[0][0]===key?s[1]:s[0];if(front)arr.unshift(nx2[1]);else arr.push(nx2[1]);key=nx2[0];}}
+  for(var k=0;k<segs.length;k++){if(used[k])continue;used[k]=1;var line=[segs[k][0][1],segs[k][1][1]];walk(segs[k][1][0],line,false);walk(segs[k][0][0],line,true);lines.push(line);}
+  return lines;}
+function linesLen(ls){var L=0;ls.forEach(function(l){for(var i=1;i<l.length;i++)L+=Math.hypot(l[i][0]-l[i-1][0],l[i][1]-l[i-1][1]);});return L;}
+/* stations, offsets and every layout number */
+var GD={k:'',d:null};
+function guideData(){var G=gOpts(),key=FK+'|'+JSON.stringify([G.s,G.D,G.fb,G.sh,G.sta,G.os,G.tb,G.tw,G.lined,M.ok]);if(GD.k===key)return GD.d;
+  var bb=F.bb,lv=gLevels(G),cmax=G.cOS+1,lead=Math.ceil(G.cOS+5),xA=bb.minX-lead,xB=bb.maxX+lead;
+  function cross(xf,yf,a0,a1,stp){var out=lv.map(function(){return [];}),prev=null,pt=0;
+    for(var t=a0;t<=a1+1e-9;t+=stp){var d=sdist(xf(t),yf(t));if(prev!==null)for(var i=0;i<lv.length;i++){var u=prev-lv[i].c,w=d-lv[i].c;if((u<0)!==(w<0))out[i].push(pt+(t-pt)*u/(u-w));}prev=d;pt=t;}
+    return out;}
+  var y0=bb.minY-cmax-2,y1=bb.maxY+cmax+2,step=clamp((y1-y0)/900,0.03,0.4),rows=[];
+  for(var st=Math.floor(lead/G.sta+1)*G.sta,n=1;st<lead+bb.w-0.01&&n<400;st+=G.sta,n++){(function(st,n){var x=xA+st,c=cross(function(){return x;},function(t){return t;},y0,y1,step);
+    rows.push({n:n,sta:st,x:x,L:c.map(function(f){return f.filter(function(y){return y<0;}).map(function(y){return -y;}).sort(function(a,b){return a-b;});}),R:c.map(function(f){return f.filter(function(y){return y>0;}).sort(function(a,b){return a-b;});})});})(st,n);}
+  var bl=cross(function(t){return t;},function(){return 0;},xA,xB,clamp((xB-xA)/1500,0.03,0.4)).map(function(f){return f.map(function(x){return x-xA;});});
+  var ext=G.cOS+3,S=sdGrid(Math.max(ext,G.spoilOff+3)),C={};lv.forEach(function(l){C[l.k]=l.k==='wl'?[F.poly.concat([F.poly[0]])]:contour(S,l.c);});
+  if(G.lined){C.tr1=contour(S,G.cTOB+G.tb);C.tr2=contour(S,G.cTOB+G.tb+G.tw);}
+  var len={};Object.keys(C).forEach(function(k){len[k]=k==='wl'?M.perim:linesLen(C[k]);});
+  var ringA=function(c){var A=0,g=S.g,ca=S.cs*S.cs;for(var i=0;i<g.length;i++)if(g[i]<=c)A+=ca;return A;};
+  var d={G:G,lv:lv,lead:lead,xA:xA,xB:xB,blLen:xB-xA,rows:rows,bl:bl,C:C,len:len,areaOS:ringA(G.cOS),areaTOB:ringA(G.cTOB),areaStrip:ringA(G.cTOB+(G.lined?G.tb+G.tw:0)+3)};
+  GD={k:key,d:d};return d;}
+function lvIdx(d,k){for(var i=0;i<d.lv.length;i++)if(d.lv[i].k===k)return i;return -1;}
+
+/* ---------- SVG helpers ---------- */
+function svgWrap(w,h,inner){return '<svg class="gsvg" viewBox="0 0 '+Math.round(w)+' '+Math.round(h)+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" role="img">'+inner+'</svg>';}
+function sT(x,y,t,o){o=o||{};return '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="'+(o.fs||12)+'" font-weight="'+(o.b?800:600)+'" fill="'+(o.c||'#17180f')+'" text-anchor="'+(o.a||'middle')+'" dominant-baseline="middle"'+(o.halo===false?'':' stroke="'+(o.hc||'#fffdf7')+'" stroke-width="'+(o.hw||3.2)+'" paint-order="stroke" stroke-linejoin="round"')+(o.rot?' transform="rotate('+o.rot+' '+x.toFixed(1)+' '+y.toFixed(1)+')"':'')+'>'+esc(t)+'</text>';}
+function sL(x1,y1,x2,y2,c,w,dash){return '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="'+c+'" stroke-width="'+(w||1)+'"'+(dash?' stroke-dasharray="'+dash+'"':'')+'/>';}
+function sArrow(x1,y1,x2,y2,c,w){var a=Math.atan2(y2-y1,x2-x1),h=6,s=sL(x1,y1,x2,y2,c,w||1.3);[[x1,y1,a+Math.PI],[x2,y2,a]].forEach(function(q){s+='<path d="M'+q[0].toFixed(1)+' '+q[1].toFixed(1)+'L'+(q[0]-h*Math.cos(q[2]-0.42)).toFixed(1)+' '+(q[1]-h*Math.sin(q[2]-0.42)).toFixed(1)+'L'+(q[0]-h*Math.cos(q[2]+0.42)).toFixed(1)+' '+(q[1]-h*Math.sin(q[2]+0.42)).toFixed(1)+'Z" fill="'+c+'"/>';});return s;}
+function sPath(lines,T,closed){return lines.map(function(l){return 'M'+l.map(function(p){var q=T(p[0],p[1]);return q[0].toFixed(1)+' '+q[1].toFixed(1);}).join('L')+(closed?'Z':'');}).join('');}
+function stakeIcon(x,y,c,sz){sz=sz||5;return '<rect x="'+(x-sz/2).toFixed(1)+'" y="'+(y-sz/2).toFixed(1)+'" width="'+sz+'" height="'+sz+'" fill="'+(c||'#d6a428')+'" stroke="#17180f" stroke-width="1"/>';}
+function dot(x,y,c,r){return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(r||3.6)+'" fill="'+(c||'#a51c24')+'" stroke="#17180f" stroke-width="1"/>';}
+function tri345(L,W){var m=[10,8,6,5,4,3,2,1];for(var i=0;i<m.length;i++)if(4*m[i]<=L*0.8&&3*m[i]<=W*0.8)return m[i];return 1;}
+/* ---------- plan diagram, one per layout step (focus highlights that step) ---------- */
+function planSVG(focus,W){
+  var d=guideData(),G=d.G,bb=F.bb,C=d.C,shp=curShape(),fs=W<520?11:12.5,site=focus==='site';
+  var spoilW=Math.min(Math.max(8,bb.h*0.22),40);
+  var top=site?bb.minY-G.cOS-2:bb.minY-Math.max(G.cOS,G.spoilOff+spoilW)-3;
+  var bot=bb.maxY+G.cOS+(site?1:13);
+  var x0=d.xA-4,x1=d.xB+4;if(site){x0-=8;x1+=12;}
+  var pad=10,padT=site?36:0,padB=site?62:0,k=(W-2*pad)/(x1-x0),H=Math.round((bot-top)*k+2*pad+padT+padB);
+  var T=function(x,y){return [pad+(x-x0)*k,pad+padT+(y-top)*k];};
+  var on=function(f){return focus===f;},s='';
+  s+='<rect width="'+W+'" height="'+H+'" fill="#f3eedb"/>';
+  var gs=[5,10,20,25,50,100].find(function(g){return g*k>=26;})||200,p;
+  for(var gx=Math.ceil(x0/gs)*gs;gx<x1;gx+=gs){p=T(gx,0);s+=sL(p[0],0,p[0],H,'rgba(120,110,80,.12)',1);}
+  for(var gy=Math.ceil(top/gs)*gs;gy<bot;gy+=gs){p=T(0,gy);s+=sL(0,p[1],W,p[1],'rgba(120,110,80,.12)',1);}
+  /* spoil zone (north side) */
+  if(!site){
+    var sp0=T(bb.minX,bb.minY-G.spoilOff-spoilW),sp1=T(bb.maxX,bb.minY-G.spoilOff);
+    s+='<defs><pattern id="hatch-'+focus+'" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#e3cfa2"/><line x1="0" y1="0" x2="0" y2="8" stroke="#a9874f" stroke-width="2"/></pattern></defs>';
+    s+='<g opacity="'+(on('trench')?1:0.3)+'"><rect x="'+sp0[0].toFixed(1)+'" y="'+sp0[1].toFixed(1)+'" width="'+(sp1[0]-sp0[0]).toFixed(1)+'" height="'+(sp1[1]-sp0[1]).toFixed(1)+'" fill="url(#hatch-'+focus+')" stroke="#7a5c2e" stroke-dasharray="5 3"/>'+sT((sp0[0]+sp1[0])/2,(sp0[1]+sp1[1])/2,'SPOIL / BERM AREA',{fs:fs,b:true,c:'#5a3e17'})+'</g>';
+    if(on('trench')){
+      var tsx=T(d.xB-2,bb.minY-G.spoilOff-spoilW*0.5);
+      s+='<ellipse cx="'+(tsx[0]-14).toFixed(1)+'" cy="'+tsx[1].toFixed(1)+'" rx="18" ry="10" fill="#6b4f2a" stroke="#3b2a12"/>'+sT(tsx[0]-14,tsx[1]+18,'topsoil pile',{fs:fs-1,c:'#3b2a12'});
+      var tp=F.poly.reduce(function(a,q){return q[1]<a[1]?q:a;},F.poly[0]),a1=T(tp[0],tp[1]),a2=T(tp[0],bb.minY-G.spoilOff);
+      s+=sArrow(a1[0],a1[1],a2[0],a2[1],'#5a3e17',1.3)+sT(a1[0]+6,(a1[1]+a2[1])/2,'≥ '+f1(G.spoilOff)+"' from water",{fs:fs-1,a:'start',c:'#5a3e17',b:true});
+    }
+  }
+  /* offset stake line */
+  if(!site)s+='<path d="'+sPath(C.os,T)+'" fill="none" stroke="#a51c24" stroke-width="'+(on('os')?2:1.2)+'" stroke-dasharray="2 4" opacity="'+(on('os')?1:0.4)+'"/>';
+  else s+='<path d="'+sPath(C.os,T)+'" fill="rgba(165,28,36,.06)" stroke="#a51c24" stroke-width="2" stroke-dasharray="7 4"/>';
+  /* anchor trench band */
+  if(G.lined&&C.tr&&!site)s+='<path d="'+sPath(C.tr,T)+'" fill="none" stroke="#8a5a2b" stroke-width="'+Math.max(2,G.tw*k).toFixed(1)+'" opacity="'+(on('trench')?0.85:0.25)+'"/>';
+  /* top of bank */
+  s+='<path d="'+(C.tob?sPath(C.tob,T):sPath(C.wl,T))+'" fill="#d9c69a" stroke="#7a5c2e" stroke-width="'+(on('os')||on('trench')?1.8:1.2)+'" stroke-dasharray="6 4" opacity="'+(site?0.6:1)+'"/>';
+  /* water, toe, shelf */
+  s+='<path d="'+sPath(C.wl,T,true)+'" fill="'+(site?'#b7dde6':'#c6e6ee')+'" stroke="#123c4a" stroke-width="'+(on('wl')?3:1.8)+'"/>';
+  if(C.toe)s+='<path d="'+sPath(C.toe,T,true)+'" fill="'+(on('toe')?'#2f7894':'#7fb7c9')+'" stroke="#0c3a4c" stroke-width="'+(on('toe')?2.2:1)+'"'+(on('toe')?'':' stroke-dasharray="4 3"')+'/>';
+  if(C.sh1){[C.sh1,C.sh2].forEach(function(cl){s+='<path d="'+sPath(cl,T,true)+'" fill="none" stroke="#2e7d32" stroke-width="'+(on('shelf')?2.4:1)+'" stroke-dasharray="3 3" opacity="'+(on('shelf')?1:0.4)+'"/>';});}
+  /* baseline */
+  if(!site){
+    var A=T(d.xA,0),B=T(d.xB,0);
+    s+='<g opacity="'+(on('trench')?0.4:1)+'">'+sL(A[0],A[1],B[0],B[1],'#a51c24',on('base')?2.4:1.4,on('base')?'':'8 4');
+    var every=Math.max(1,Math.ceil(34/(G.sta*k)));
+    d.rows.forEach(function(r,i){var q=T(r.x,0);s+=sL(q[0],q[1]-4,q[0],q[1]+4,'#a51c24',1.2);if(on('base')&&(i%every===0))s+=sT(q[0],q[1]+12,staFmt(r.sta),{fs:fs-2,c:'#7f141a'});});
+    s+=dot(A[0],A[1],'#d6a428',5)+dot(B[0],B[1],'#d6a428',5)+sT(A[0]+2,A[1]-12,'A',{fs:fs+1,b:true,c:'#7f141a'})+sT(B[0]-2,B[1]-12,'B',{fs:fs+1,b:true,c:'#7f141a'})+'</g>';
+    if(on('base')){
+      var bm=T(d.xA+2,bb.maxY+G.cOS+6),lz=T(d.xB-3,bb.maxY+G.cOS+6);
+      s+='<path d="M'+bm[0].toFixed(1)+' '+(bm[1]-7).toFixed(1)+'l7 12h-14z" fill="#d6a428" stroke="#17180f"/>'+sT(bm[0]+11,bm[1],'BM — rod '+f2(G.rodBM),{fs:fs,a:'start',b:true});
+      s+='<path d="M'+lz[0].toFixed(1)+' '+(lz[1]-6).toFixed(1)+'l-7 13M'+lz[0].toFixed(1)+' '+(lz[1]-6).toFixed(1)+'l7 13M'+lz[0].toFixed(1)+' '+(lz[1]-6).toFixed(1)+'v13" stroke="#17180f" stroke-width="1.6" fill="none"/><circle cx="'+lz[0].toFixed(1)+'" cy="'+(lz[1]-9).toFixed(1)+'" r="4.5" fill="#a51c24" stroke="#17180f"/>'+sT(lz[0]-10,lz[1]-1,'Rotating laser',{fs:fs,a:'end',b:true});
+      var lb=T(bb.minX,0);s+=sArrow(A[0],A[1]+20,lb[0],lb[1]+20,'#33351f',1.1)+sT((A[0]+lb[0])/2,A[1]+31,f1(d.lead)+"'",{fs:fs-1,b:true});
+      s+=sT((A[0]+B[0])/2,A[1]-12,'BASELINE '+f1(d.blLen)+"' · Sta 0+00 at A",{fs:fs,b:true,c:'#7f141a'});
+    }
+  }
+  if(on('wl'))s+=wlLayer(d,T,k,fs);
+  if(on('os'))s+=osLayer(d,T,k,fs);
+  if(on('toe'))s+=toeLayer(d,T,k,fs);
+  if(on('shelf')&&G.useSh)s+=shelfLayer(d,T,k,fs);
+  if(on('trench')&&G.lined){var tq=T(bb.minX+bb.w*0.5,bb.maxY+G.cTr);s+=sT(tq[0],tq[1]+Math.max(10,G.tw*k)+5,'anchor trench '+f1(G.tw)+"' w × "+f1(G.td)+"' d, "+f1(G.tb)+"' back from bank",{fs:fs,b:true,c:'#5a3e17'});}
+  if(site)s+=siteLayer(d,T,k,fs,x0,H,pad,W,x1);
+  var sbar=[10,20,25,50,100].find(function(g){return g*k>=55;})||200;
+  var sby=site?pad+4:H-12;
+  s+='<rect x="'+pad+'" y="'+sby+'" width="'+(sbar*k).toFixed(1)+'" height="5" fill="#17180f"/><rect x="'+pad+'" y="'+sby+'" width="'+(sbar*k/2).toFixed(1)+'" height="5" fill="#d6a428"/>'+sT(pad+sbar*k+5,sby+2,sbar+' ft',{fs:fs-2,a:'start'});
+  return svgWrap(W,H,s);}
+function wlLayer(d,T,k,fs){var G=d.G,bb=F.bb,shp=curShape(),s='';
+  if(shp.type==='round'){
+    var R=shp.L/2,n=Math.max(8,Math.ceil(2*Math.PI*R/G.sta)),c=T(0,0),e=T(R,0),lr=R+Math.max(2.5,11/k);
+    s+=dot(c[0],c[1],'#d6a428',5)+sT(c[0],c[1]+14,'center pin',{fs:fs,b:true});
+    s+=sArrow(c[0],c[1],e[0]-2,e[1],'#a51c24',1.6)+sT((c[0]+e[0])/2,c[1]-9,'R '+f1(R)+"'",{fs:fs+1,b:true,c:'#7f141a'});
+    for(var i=0;i<n;i++){var a=2*Math.PI*i/n,q=T(R*Math.cos(a),R*Math.sin(a));s+=dot(q[0],q[1],'#a51c24',3.4);if(n<=24||i%2===0){var lq=T(lr*Math.cos(a),lr*Math.sin(a));s+=sT(lq[0],lq[1],String(i+1),{fs:fs-2,b:true});}}
+  }else{
+    var iw=lvIdx(d,'wl'),every=Math.max(1,Math.ceil(16/(G.sta*k)));
+    d.rows.forEach(function(r,j){[['L',-1],['R',1]].forEach(function(sd){var arr=r[sd[0]][iw];arr.forEach(function(o,m){var q=T(r.x,sd[1]*o);s+=dot(q[0],q[1],'#a51c24',3.4);if(m===arr.length-1&&j%every===0)s+=sT(q[0],q[1]+sd[1]*11,r.n+sd[0],{fs:fs-2,b:true});});});});
+    if(shp.type==='rect'){
+      var hx=shp.L/2,hy=shp.W/2,rr=Math.max(0,Math.min(shp.cornerR,hx,hy)),c1=T(-hx,-hy),c2=T(hx,-hy),c3=T(hx,hy),c4=T(-hx,hy);
+      s+=sL(c1[0],c1[1],c3[0],c3[1],'#5d5f4e',1,'5 4')+sL(c2[0],c2[1],c4[0],c4[1],'#5d5f4e',1,'5 4');
+      [c1,c2,c3,c4].forEach(function(q,ii){s+=stakeIcon(q[0],q[1],'#d6a428',7)+sT(q[0]+(ii===1||ii===2?12:-12),q[1]+(ii<2?-10:10),'PI'+(ii+1),{fs:fs-1,b:true});});
+      var t3=tri345(shp.L,shp.W),p0=T(-hx,hy),pa=T(-hx+4*t3,hy),pb=T(-hx,hy-3*t3);
+      s+='<path d="M'+pa[0].toFixed(1)+' '+pa[1].toFixed(1)+'L'+p0[0].toFixed(1)+' '+p0[1].toFixed(1)+'L'+pb[0].toFixed(1)+' '+pb[1].toFixed(1)+'Z" fill="rgba(214,164,40,.3)" stroke="#a51c24" stroke-width="1.6"/>';
+      s+=sT((pa[0]+pb[0])/2+6,(pa[1]+pb[1])/2-4,(5*t3)+"'",{fs:fs-1,b:true,c:'#7f141a',a:'start'})+sT((p0[0]+pa[0])/2,p0[1]-8,(4*t3)+"'",{fs:fs-1,b:true,c:'#7f141a'})+sT(p0[0]+8,(p0[1]+pb[1])/2,(3*t3)+"'",{fs:fs-1,b:true,c:'#7f141a',a:'start'});
+      if(rr>0.5){var rc=T(hx-rr,-hy+rr);s+=dot(rc[0],rc[1],'#d6a428',3.5)+sL(rc[0],rc[1],rc[0]+rr*k*0.7071,rc[1]-rr*k*0.7071,'#a51c24',1.4)+sT(rc[0]-4,rc[1]+12,'radius pt r '+f1(rr)+"'",{fs:fs-2,b:true,a:'end'});}
+      s+=sT((c1[0]+c3[0])/2+20,(c1[1]+c3[1])/2-14,'diag '+f1(Math.hypot(shp.L,shp.W))+"'",{fs:fs-1,b:true,c:'#33351f'});
+    }
+    if(shp.type==='oval'){var a2=shp.L/2,b2=shp.W/2,cf=Math.sqrt(Math.max(0,a2*a2-b2*b2)),fa=T(-cf,0),fb2=T(cf,0);s+=stakeIcon(fa[0],fa[1],'#2e7d32',7)+stakeIcon(fb2[0],fb2[1],'#2e7d32',7)+sT(fa[0],fa[1]-11,'focus',{fs:fs-2,b:true,c:'#1b5e20'})+sT(fb2[0],fb2[1]-11,'focus',{fs:fs-2,b:true,c:'#1b5e20'});}
+  }
+  var yb=T(0,bb.maxY)[1]+Math.max(18,G.cOS*k*0.5);s+=sArrow(T(bb.minX,0)[0],yb,T(bb.maxX,0)[0],yb,'#33351f',1.2)+sT(T(0,0)[0],yb+11,f1(bb.w)+"'"+(shp.type==='round'?' dia.':''),{fs:fs,b:true});
+  if(shp.type!=='round'){var xr=T(bb.maxX,0)[0]+Math.max(14,G.cOS*k*0.45);s+=sArrow(xr,T(0,bb.minY)[1],xr,T(0,bb.maxY)[1],'#33351f',1.2)+sT(xr+11,T(0,0)[1]+26,f1(bb.h)+"'",{fs:fs,b:true,rot:-90});}
+  return s;}
+function osLayer(d,T,k,fs){var G=d.G,bb=F.bb,shp=curShape(),s='',io=lvIdx(d,'os'),it=lvIdx(d,'tob');
+  if(shp.type==='round'){var R2=shp.L/2+G.cOS,n2=Math.max(8,Math.ceil(2*Math.PI*shp.L/2/G.sta));for(var i=0;i<n2;i++){var a=2*Math.PI*i/n2,q=T(R2*Math.cos(a),R2*Math.sin(a));s+=stakeIcon(q[0],q[1],'#d6a428',6);}
+    var qa=T(0,-(shp.L/2+G.cTOB)),qb=T(0,-(shp.L/2+G.cOS));s+=sArrow(qa[0],qa[1],qb[0],qb[1],'#a51c24',1.4)+sT(qa[0]+6,(qa[1]+qb[1])/2,'O/S '+f1(G.os)+"'",{fs:fs,a:'start',b:true,c:'#7f141a'});}
+  else{d.rows.forEach(function(r){[['L',-1],['R',1]].forEach(function(sd){var v=r[sd[0]][io];if(v.length){var q=T(r.x,sd[1]*v[v.length-1]);s+=stakeIcon(q[0],q[1],'#d6a428',6);}});});
+    var r0=d.rows[Math.floor(d.rows.length/2)];
+    if(r0&&it>=0&&r0.L[it].length&&r0.L[io].length){var qa2=T(r0.x,-r0.L[it][r0.L[it].length-1]),qb2=T(r0.x,-r0.L[io][r0.L[io].length-1]);s+=sArrow(qa2[0],qa2[1],qb2[0],qb2[1],'#a51c24',1.4)+sT(qa2[0]+6,(qa2[1]+qb2[1])/2,'O/S '+f1(G.os)+"' past top of bank",{fs:fs,a:'start',b:true,c:'#7f141a'});}}
+  var lt=T(bb.maxX,bb.maxY);s+=sT(lt[0],lt[1]+Math.max(14,G.cTOB*k/2+8),'dashed brown = top of bank (dig limit)',{fs:fs-1,a:'end',c:'#5a3e17'});
+  return s;}
+function toeLayer(d,T,k,fs){var G=d.G,bb=F.bb,shp=curShape(),s='',ie=lvIdx(d,'toe');
+  if(ie<0){var cz=T(F.deepX,F.deepY);return sT(cz[0],cz[1],'No flat bottom: banks meet at ~'+f1(M.actMax)+"'",{fs:fs,b:true,c:'#fff',hc:'#a51c24'});}
+  if(shp.type==='round'){var Rt=shp.L/2-G.run,ct=T(0,0),et=T(Rt*0.7071,Rt*0.7071);s+=sArrow(ct[0],ct[1],et[0],et[1],'#fff',1.6)+sT(ct[0],ct[1]-12,'toe R '+f1(Rt)+"'",{fs:fs,b:true,c:'#fff',hc:'#0c3a4c'});}
+  else d.rows.forEach(function(r){[['L',-1],['R',1]].forEach(function(sd){r[sd[0]][ie].forEach(function(o){var q=T(r.x,sd[1]*o);s+=dot(q[0],q[1],'#fff',3);});});});
+  var cxy=T(F.deepX,F.deepY);s+=sT(cxy[0],cxy[1]+(shp.type==='round'?14:0),'FLAT BOTTOM '+(M.flatA>0?f1(M.flatL)+"' × "+f1(M.flatW)+"'":''),{fs:fs,b:true,c:'#fff',hc:'#0c3a4c'});
+  var w0=T(bb.minX,0),te=T(bb.minX+G.run,0);s+=sArrow(w0[0],w0[1]+14,te[0],te[1]+14,'#0c3a4c',1.4)+sT((w0[0]+te[0])/2,w0[1]+25,'run '+f1(G.run)+"'",{fs:fs-1,b:true,c:'#0c3a4c'});
+  return s;}
+function shelfLayer(d,T,k,fs){var G=d.G,bb=F.bb,shp=curShape(),s='',c0=T(bb.minX,0),c1=T(bb.minX+G.s*G.sh.d,0),c2=T(bb.minX+G.s*G.sh.d+G.sh.w,0);
+  s+=sArrow(c0[0],c0[1]-14,c1[0],c1[1]-14,'#1b5e20',1.3)+sT((c0[0]+c1[0])/2,c0[1]-25,f1(G.s*G.sh.d)+"'",{fs:fs-1,b:true,c:'#1b5e20'});
+  s+=sArrow(c1[0],c1[1]+14,c2[0],c2[1]+14,'#1b5e20',1.3)+sT((c1[0]+c2[0])/2,c1[1]+25,'shelf '+f1(G.sh.w)+"'",{fs:fs-1,b:true,c:'#1b5e20'});
+  var i1=lvIdx(d,'sh1'),i2=lvIdx(d,'sh2');
+  if(shp.type!=='round')d.rows.forEach(function(r){[['L',-1],['R',1]].forEach(function(sd){[i1,i2].forEach(function(ix){r[sd[0]][ix].forEach(function(o){var q=T(r.x,sd[1]*o);s+=dot(q[0],q[1],'#7bc47f',2.8);});});});});
+  return s;}
+function siteLayer(d,T,k,fs,x0,H,pad,W,x1){var G=d.G,bb=F.bb,s='',sb=P.guide.setbacks||{},red='#7f141a';
+  var val=function(k2){var v=String(sb[k2]||'').trim();return v?v+(isFinite(+v)?' ft':''):'___ ft';};
+  var yOSb=T(0,bb.maxY+G.cOS)[1],yOSt=T(0,bb.minY-G.cOS)[1];
+  var pl=T(x0+2,0)[0],osx=T(bb.minX-G.cOS,0)[0],ya=T(0,bb.maxY*0.45)[1];
+  s+=sL(pl,pad+30,pl,H-pad,'#5d5f4e',2,'10 5')+sT(pl+9,(pad+30+ya-14)/2,'PROPERTY LINE',{fs:fs-2,b:true,c:'#33351f',rot:-90});
+  s+=sArrow(pl+2,ya,osx,ya,'#a51c24',1.3)+sT((pl+osx)/2+3,ya-9,val('prop'),{fs:fs-1,b:true,c:red});
+  var xr=T(bb.maxX+G.cOS,0)[0],xw=(xr+T(x1,0)[0])/2,yw=T(0,0)[1];
+  s+=sArrow(xr,yw,xw-8,yw,'#a51c24',1.3)+'<circle cx="'+xw.toFixed(1)+'" cy="'+yw.toFixed(1)+'" r="7" fill="#1f6f86" stroke="#17180f"/>'+sT(xw,yw-15,'WELL',{fs:fs-1,b:true})+sT(xw,yw+17,val('well'),{fs:fs-1,b:true,c:red});
+  var xs=T(bb.minX+bb.w*0.12,0)[0],ys=yOSb+34;
+  s+=sArrow(xs,yOSb,xs,ys-8,'#a51c24',1.3)+sT(xs+5,yOSb+13,val('septic'),{fs:fs-1,b:true,a:'start',c:red});
+  s+='<rect x="'+(xs-14).toFixed(1)+'" y="'+(ys-6).toFixed(1)+'" width="28" height="12" rx="3" fill="#8d8a80" stroke="#17180f"/>'+sT(xs+18,ys,W<520?'SEPTIC':'SEPTIC / DRAINFIELD',{fs:fs-2,b:true,a:'start'});
+  var hw=Math.min(90,W*0.2),xh=T(bb.maxX-bb.w*0.12,0)[0]-hw/2+10,yh=yOSb+24;
+  s+=sArrow(xh,yOSb,xh,yh-1,'#a51c24',1.3)+sT(xh-5,yOSb+12,val('house'),{fs:fs-1,b:true,a:'end',c:red});
+  s+='<rect x="'+(xh-hw/2).toFixed(1)+'" y="'+yh.toFixed(1)+'" width="'+hw.toFixed(1)+'" height="'+(hw*0.32).toFixed(1)+'" fill="#7c2d22" stroke="#17180f"/>'+sT(xh,yh+hw*0.16,'HOUSE',{fs:fs-1,b:true,c:'#fff',halo:false});
+  s+=sT(W-pad,pad+8,'Power lines: '+val('power'),{fs:fs-1,a:'end',b:true,c:red});
+  s+=sT(T(0,0)[0],yOSt-9,'dig limit + work zone (offset-stake line)',{fs:fs-1,b:true,c:red});
+  var ce=T(F.deepX,F.deepY);s+=sT(ce[0],ce[1],'POND',{fs:fs+2,b:true,c:'#123c4a'});
+  s+=sT(W-pad,H-8,'Required setbacks: check local code',{fs:fs-2,a:'end',b:true,c:'#33351f'});
+  return s;}
+/* ---------- cross-section with grade marks & rod readings ---------- */
+function sectionGuideSVG(W){
+  var G=gOpts(),bb=F.bb,fs=W<520?11:12.5,ext=G.cOS+3,t0=bb.minX-ext,t1=bb.maxX+ext,n=700,pts=[],wet=[],cy=F.deepY,wlx=[];
+  for(var i=0;i<=n;i++){var t=t0+(t1-t0)*i/n,inside=pointInPoly(t,cy,F.poly),dd=distEdges(t,cy,F.E),e;
+    if(inside)e=-depthAt(dd,G.s,G.D,G.sh);else{e=Math.min(G.fb,dd/G.s);if(G.lined&&dd>=G.cTOB+G.tb&&dd<=G.cTOB+G.tb+G.tw)e=G.fb-G.td;}
+    pts.push([t,e,inside]);if(i&&pts[i-1][2]!==inside)wlx.push(t);}
+  var wA=wlx.length?wlx[0]:bb.minX,wB=wlx.length?wlx[wlx.length-1]:bb.maxX;
+  var botE=-(M.ok?G.D:M.actMax),eTop=G.bmAbove+G.rodBM,eMin=Math.min(botE,G.fb-G.td),H=Math.round(clamp(W*0.55,260,420)),pl=10,pr=10,pt=24,pb=44;
+  var hs=(W-pl-pr)/(t1-t0),vs=(H-pt-pb)/(eTop-eMin+0.8),ex=vs/hs;if(ex<1){vs=hs;ex=1;}
+  var X=function(t){return pl+(t-t0)*hs;},Y=function(e){return pt+(eTop+0.3-e)*vs;},s='<rect width="'+W+'" height="'+H+'" fill="#eef4f6"/>';
+  s+='<path d="M'+X(t0).toFixed(1)+' '+H+pts.map(function(p){return 'L'+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1);}).join('')+'L'+X(t1).toFixed(1)+' '+H+'Z" fill="#c7a46a"/>';
+  var seg=[];pts.forEach(function(p){if(p[2])seg.push(p);else if(seg.length){wet.push(seg);seg=[];}});if(seg.length)wet.push(seg);
+  wet.forEach(function(sg){s+='<path d="M'+X(sg[0][0]).toFixed(1)+' '+Y(0).toFixed(1)+sg.map(function(p){return 'L'+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1);}).join('')+'L'+X(sg[sg.length-1][0]).toFixed(1)+' '+Y(0).toFixed(1)+'Z" fill="#4f9fbc" opacity=".85"/>';});
+  s+='<path d="'+pts.map(function(p,i){return (i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1);}).join('')+'" fill="none" stroke="#111" stroke-width="2.2"/>';
+  var marks=[];if(G.fb>0)marks.push([G.fb,'Top of bank / grade','rod '+f2(G.rodTOB),'#5a3e17']);marks.push([0,'Water line','rod '+f2(G.rodWL),'#1565c0']);
+  if(G.useSh)marks.push([-G.sh.d,'Shelf −'+f1(G.sh.d)+"'",'rod '+f2(G.rodShelf),'#1b5e20']);
+  marks.push([botE,(M.ok?'Bottom −':'Deepest −')+f1(-botE)+"'",'rod '+f2(G.rodBot),'#0c3a4c']);
+  var mx=X(F.deepX),by2=Y(botE);
+  marks.forEach(function(m){var y=Y(m[0]);s+=sL(pl,y,W-pr,y,m[3],1,'5 4')+sT(mx-8,y-7,m[1]+' · '+m[2],{fs:fs-1,a:'end',b:true,c:m[3]});});
+  var ly=Y(eTop);s+=sL(pl,ly,W-pr,ly,'#d32f2f',1.6,'10 4')+sT(W-pr-2,ly-9,'LASER PLANE',{fs:fs-1,a:'end',b:true,c:'#b71c1c'});
+  var bx=X(t0+1.2),by=Y(G.bmAbove);
+  s+='<path d="M'+bx.toFixed(1)+' '+(by-1).toFixed(1)+'l6 -10h-12z" fill="#d6a428" stroke="#17180f"/>'+sL(bx+10,by,bx+10,ly,'#d6a428',4)+sT(bx+15,(by+ly)/2,'BM rod '+f2(G.rodBM),{fs:fs-1,a:'start',b:true});
+  s+='<rect x="'+(mx-3).toFixed(1)+'" y="'+ly.toFixed(1)+'" width="6" height="'+(by2-ly).toFixed(1)+'" fill="#fff" stroke="#a51c24" stroke-width="1"/>';
+  for(var r=0;r<=Math.floor(eTop-botE);r++){var yy=ly+r*vs;s+=sL(mx-3,yy,mx+3,yy,'#a51c24',1);}
+  s+='<rect x="'+(mx-7).toFixed(1)+'" y="'+(ly-4).toFixed(1)+'" width="14" height="8" fill="#17180f"/>'+sT(mx+10,(Y(0)+by2)/2,'rod '+f2(G.rodBot)+' = on grade',{fs:fs-1,a:'start',b:true,c:'#fff',hc:'#0c3a4c'});
+  if(M.ok){var w0=X(wA),te=X(wA+G.run);s+=sArrow(w0,by2+12,te,by2+12,'#17180f',1.2)+sT((w0+te)/2,by2+23,'run '+f1(G.run)+"'",{fs:fs-1,b:true});}
+  var fbx=X(wA)-3;if(G.fb>0)s+=sArrow(fbx,Y(G.fb),fbx,Y(0),'#5a3e17',1.1)+sT(fbx-4,(Y(G.fb)+Y(0))/2+1,'fb '+f1(G.fb)+"'",{fs:fs-2,a:'end',b:true,c:'#5a3e17'});
+  var dz=Math.min(G.D,G.useSh?G.sh.d:G.D);s+=sT(X(wA+G.s*dz*0.5)+10,Y(-dz*0.5)-2,slopeLbl(G.s)+' bank',{fs:fs,a:'start',b:true,c:'#7f141a'});
+  [wA-G.cOS,wB+G.cOS].forEach(function(t,ii){var x=X(t),y=Y(G.fb);s+='<rect x="'+(x-1.5).toFixed(1)+'" y="'+(y-18).toFixed(1)+'" width="3" height="18" fill="#a07a3c" stroke="#5a3e17" stroke-width=".6"/><rect x="'+(x-1.5).toFixed(1)+'" y="'+(y-18).toFixed(1)+'" width="3" height="4" fill="#ff6b00"/>'+sT(x+(ii?-4:4),y-24,'O/S',{fs:fs-2,b:true,a:ii?'end':'start'});});
+  if(G.lined){var tx=X(wA-G.cTOB-G.tb-G.tw/2);s+=sT(tx,Y(G.fb-G.td)+11,'trench',{fs:fs-2,b:true,c:'#3b2a12'});}
+  s+=sT(pl,H-10,(ex>1.05?'Vertical ×'+fmt(ex,ex<10?1:0)+' for clarity':'True scale')+(Math.abs(cy)>0.5?' · section '+f1(Math.abs(cy))+"' "+(cy<0?'L':'R')+' of baseline, through deepest point':' · section along the baseline'),{fs:fs-2,a:'start',c:'#2a1d0a'});
+  return svgWrap(W,H,s);}
+function stakeFaceSVG(row,d){var G=d.G,iw=lvIdx(d,'wl'),it=lvIdx(d,'toe'),ib=lvIdx(d,'tob'),last=function(a){return a&&a.length?a[a.length-1]:NaN;};
+  var tobL=ib>=0?last(row.L[ib]):last(row.L[iw]),wlL=last(row.L[iw]),toeL=it>=0?last(row.L[it]):NaN;
+  var lines=[staFmt(row.sta)+' L','O/S '+f1(G.os)+"'",'TB→WL '+f1(tobL-wlL),'WL→T '+(isFinite(toeL)?f1(wlL-toeL):'—'),'C '+f1(G.bmAbove+(M.ok?G.D:M.actMax))];
+  var W=260,H=170,s='<rect width="'+W+'" height="'+H+'" fill="#f3eedb"/><path d="M30 8h76v126l-38 30l-38 -30z" fill="#e8cf9a" stroke="#7a5c2e" stroke-width="1.5"/><rect x="30" y="8" width="76" height="14" fill="#ff6b00"/>';
+  lines.forEach(function(t,i){s+='<text x="68" y="'+(40+i*21)+'" font-size="'+(i===0?12:10.5)+'" font-weight="800" fill="#17180f" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif">'+esc(t)+'</text>';});
+  [['station + side',40],['offset to top of bank',61],['top of bank to water line',82],['water line to toe',103],['cut to bottom (shoot it)',124]].forEach(function(q){s+=sT(112,q[1],q[0],{fs:10.5,a:'start'});});
+  return svgWrap(W,H,s);}
+/* ---------- tables ---------- */
+function offsetTableHTML(d){var G=d.G,shp=curShape(),h='',cols=d.lv.filter(function(l){return l.k!=='tr';});
+  if(shp.type==='round'){var R=shp.L/2,n=Math.max(8,Math.ceil(2*Math.PI*R/G.sta));
+    h+='<h3 class="gh3">Radius table (from the center pin)</h3><div class="tablewrap"><table class="gtab"><thead><tr><th>Line</th><th>Radius (ft)</th><th>Stakes</th><th>Target rod</th></tr></thead><tbody>';
+    var rr=[['Water line',R,n,f2(G.rodWL)]];
+    if(M.ok)rr.push(['Toe / flat bottom',R-G.run,Math.max(6,Math.ceil(2*Math.PI*(R-G.run)/G.sta)),f2(G.rodBot)]);
+    if(G.useSh){rr.push(['Shelf outer edge',R-G.s*G.sh.d,n,f2(G.rodShelf)]);rr.push(['Shelf inner edge',R-G.s*G.sh.d-G.sh.w,n,f2(G.rodShelf)]);}
+    if(G.cTOB>0.05)rr.push(['Top of bank',R+G.cTOB,n,f2(G.rodTOB)]);
+    if(G.lined)rr.push(['Anchor trench (center)',R+G.cTr,'paint',f2(G.rodTrench)+' (bottom)']);
+    rr.push(['Offset stakes',R+G.cOS,n,'shoot ground']);
+    rr.forEach(function(r){h+='<tr><td>'+r[0]+'</td><td><b>'+f1(r[1])+'</b></td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>';});
+    h+='</tbody></table></div><p class="hint">Center pin on the baseline at Sta '+staFmt(d.lead+R)+'. Set '+n+' stakes on each line, every '+fmt(360/n,1)+'° (about '+f1(2*Math.PI*R/n)+" ft apart on the water line). Tie tape on the string at each radius.</p>";}
+  if(shp.type==='rect'){var hx=shp.L/2,hy=shp.W/2,r0=Math.max(0,Math.min(shp.cornerR,hx-0.01,hy-0.01)),t3=tri345(shp.L,shp.W),toeL=shp.L-2*G.run,toeW=shp.W-2*G.run;
+    h+='<h3 class="gh3">Rectangle corners (water line)</h3><div class="tablewrap"><table class="gtab"><thead><tr><th>Point</th><th>Station</th><th>Offset</th><th>Note</th></tr></thead><tbody>';
+    h+='<tr><td>PI1 / PI4</td><td>'+staFmt(d.lead)+'</td><td>'+f1(hy)+' L / '+f1(hy)+' R</td><td>sharp-corner point where the sides meet</td></tr>';
+    h+='<tr><td>PI2 / PI3</td><td>'+staFmt(d.lead+shp.L)+'</td><td>'+f1(hy)+' L / '+f1(hy)+' R</td><td>both diagonals = <b>'+f1(Math.hypot(shp.L,shp.W))+' ft</b></td></tr>';
+    if(r0>0.5){h+='<tr><td>Radius points</td><td>'+staFmt(d.lead+r0)+' &amp; '+staFmt(d.lead+shp.L-r0)+'</td><td>'+f1(hy-r0)+' L / R</td><td>swing r = '+f1(r0)+' ft between tangent points</td></tr>';
+      h+='<tr><td>Tangent points</td><td>'+staFmt(d.lead+r0)+' &amp; '+staFmt(d.lead+shp.L-r0)+'</td><td>'+f1(hy)+' L / R</td><td>plus at the ends: Sta '+staFmt(d.lead)+' &amp; '+staFmt(d.lead+shp.L)+', '+f1(hy-r0)+' L / R</td></tr>';}
+    h+='</tbody></table></div><p class="hint">Square the corners with 3-4-5: '+(3*t3)+' – '+(4*t3)+' – '+(5*t3)+' ft. Top of bank = '+f1(shp.L+2*G.cTOB)+' × '+f1(shp.W+2*G.cTOB)+' ft (corner r '+f1(r0+G.cTOB)+'). '+(M.ok&&toeL>0&&toeW>0?'Toe / flat bottom = '+f1(toeL)+' × '+f1(toeW)+' ft (corner r '+f1(Math.max(0,r0-G.run))+').':'No flat bottom at this slope.')+'</p>';}
+  if(shp.type==='oval'){var a=shp.L/2,b=shp.W/2,c=Math.sqrt(Math.max(0,a*a-b*b));
+    h+='<p class="hint"><b>String trick for the oval water line:</b> drive two focus stakes on the baseline at Sta '+staFmt(d.lead+a-c)+' and '+staFmt(d.lead+a+c)+' ('+f1(c)+' ft each side of center). Tie a closed loop of string '+f1(2*a+2*c)+' ft long around both stakes and the paint can. Keep it tight and walk the paint around. Use the table below for the toe, bank and offset lines.</p>';}
+  if(shp.type!=='round'){
+    h+='<h3 class="gh3">Station offset table <small>every '+f1(G.sta)+' ft</small></h3><div class="tablewrap"><table class="gtab gst"><thead><tr><th rowspan="2">#</th><th rowspan="2">Sta</th>'+cols.map(function(l){return '<th colspan="2" class="g-'+l.k+'">'+l.n+'</th>';}).join('')+'</tr><tr>'+cols.map(function(){return '<th>L</th><th>R</th>';}).join('')+'</tr></thead><tbody>';
+    d.rows.forEach(function(r){h+='<tr><td>'+r.n+'</td><td><b>'+staFmt(r.sta)+'</b></td>'+cols.map(function(l){var i=lvIdx(d,l.k),f=function(a){return a.length?a.map(f1).join(' / '):'—';};return '<td>'+f(r.L[i])+'</td><td>'+f(r.R[i])+'</td>';}).join('')+'</tr>';});
+    h+='</tbody></table></div><p class="hint">L = left, R = right, looking from Hub A toward Hub B. Feet, measured square off the baseline. Where a line crosses a station twice on one side, both distances are shown. Paint smooth curves between stakes.</p>';}
+  h+='<h3 class="gh3">Where each line crosses the baseline</h3><div class="tablewrap"><table class="gtab"><thead><tr><th>Line</th><th>Hub A end</th><th>Hub B end</th><th>Length around</th></tr></thead><tbody>';
+  d.lv.forEach(function(l,i){var c=d.bl[i];h+='<tr><td>'+l.n+'</td><td>'+(c.length?'Sta '+staFmt(c[0]):'—')+'</td><td>'+(c.length>1?'Sta '+staFmt(c[c.length-1]):'—')+'</td><td>'+fmt(d.len[l.k]||0)+' ft</td></tr>';});
+  h+='<tr><td>Hubs A / B</td><td>Sta 0+00</td><td>Sta '+staFmt(d.blLen)+'</td><td>baseline '+f1(d.blLen)+' ft</td></tr></tbody></table></div>';
+  return h;}
+function rodTableHTML(G){var h='<div class="tablewrap"><table class="gtab"><thead><tr><th>Grade point</th><th>vs. water line</th><th>Target rod</th><th>Cut below BM</th></tr></thead><tbody>';
+  var row=function(n,v,rod){h+='<tr><td>'+n+'</td><td>'+v+'</td><td><b>'+f2(rod)+'</b></td><td>'+f1(rod-G.rodBM)+' ft</td></tr>';};
+  row('Benchmark (BM)',(G.bmAbove>=0?'+':'')+f1(G.bmAbove)+' ft',G.rodBM);if(G.fb>0)row('Top of bank / grade','+'+f1(G.fb)+' ft',G.rodTOB);row('Water line','0.0',G.rodWL);
+  if(G.useSh)row('Shelf','−'+f1(G.sh.d)+' ft',G.rodShelf);row(M.ok?'Bottom (flat)':'Deepest point','−'+f1(M.ok?G.D:M.actMax)+' ft',G.rodBot);
+  if(G.lined)row('Anchor trench bottom',(G.fb-G.td>=0?'+':'−')+f1(Math.abs(G.fb-G.td))+' ft',G.rodTrench);
+  h+='</tbody></table></div>';
+  var b='<h3 class="gh3">Bank check: distance in from the water line vs. rod</h3><div class="tablewrap"><table class="gtab"><thead><tr><th>In from water line</th><th>Depth</th><th>Target rod</th></tr></thead><tbody>',done=false;
+  for(var z=0;z<=Math.ceil(G.D-1e-9);z++){var zz=Math.min(z,G.D);
+    if(G.useSh&&!done&&zz>=G.sh.d-1e-9){b+='<tr class="gshelf"><td>'+f1(G.s*G.sh.d)+' – '+f1(G.s*G.sh.d+G.sh.w)+' (shelf)</td><td>'+f1(G.sh.d)+'</td><td><b>'+f2(G.rodShelf)+'</b></td></tr>';done=true;if(Math.abs(zz-G.sh.d)<1e-9)continue;}
+    var x=(G.useSh&&zz>G.sh.d)?G.s*G.sh.d+G.sh.w+G.s*(zz-G.sh.d):G.s*zz;
+    b+='<tr><td>'+f1(x)+'</td><td>'+f1(zz)+'</td><td><b>'+f2(G.rodWL+zz)+'</b></td></tr>';}
+  b+='</tbody></table></div><p class="hint">Feet, measured square to the bank from the water-line paint. '+slopeLbl(G.s)+' = 1 ft down for every '+f1(G.s)+' ft in.'+(M.ok?'':' This footprint can’t reach full depth; rows past ~'+f1(M.actMax)+' ft deep don’t apply.')+'</p>';
+  return h+b;}
+/* ---------- construction steps (change with the design) ---------- */
+function transformerSize(w){var need=w*1.25,sz=[60,100,150,200,300,600,900,1200];for(var i=0;i<sz.length;i++)if(sz[i]>=need)return sz[i];return Math.ceil(need/100)*100;}
+function stepsList(d){var G=d.G,ad=P.addons,g=P.guide,L=[],nD=clamp(Math.round(num(ad.aer.diffusers,2)),1,12),wfw=num(ad.wf.width,0),pd=num(g.pumpDist,100),strip=num(g.topsoil,6),ln=LINER[G.liner];
+  L.push(['Permits, locates &amp; site check',['Check county permits and your water management district. Excavated ponds can need a permit or an exemption letter. Check HOA and deed rules too.',
+    '<b>Call Sunshine 811</b> (dial 811 or go to sunshine811.com) at least <b>2 full business days</b> before digging. Weekends and holidays don’t count. Digging under water needs 10 full business days. Keep the ticket number on site.',
+    'Hand-dig within 24 in of any utility marks (Florida tolerance zone).',
+    'Measure and record setbacks from the well, septic tank and drainfield, property lines, house and power lines. Required distances: <b>check local code</b>.',
+    'Pick the spoil area, topsoil pile, machine access and haul route. Note where storm water runs so it won’t wash fill into the pond.']]);
+  L.push(['Layout &amp; staking',['Set the baseline hubs, benchmark and laser (Layout B).','Stake the water line, toe'+(G.useSh?', shelf':'')+', top of bank and offset stakes from the tables (Layout C–G). Paint the lines.','If there’s any doubt about placement, walk the layout with the customer before digging.']]);
+  L.push(['Clear &amp; grub',['Clear trees, brush, stumps and roots inside the offset-stake line: about <b>'+fmt(Math.round(d.areaOS/100)*100)+' sq ft</b> ('+fmt(d.areaOS/43560,2)+' ac).','Grub out root balls in the dig area. Roots left in the banks rot and leave voids'+(G.lined?' under the liner':'')+'.','Protect the offset stakes and the benchmark. Re-set any that get knocked out.']]);
+  if(strip>0)L.push(['Strip topsoil &amp; stockpile',['Strip about '+fmt(strip)+' in of topsoil from the dig'+(G.lined?' and anchor-trench':'')+' area: ≈ <b>'+fmt(d.areaStrip*strip/12/27)+' cu yd</b> (est.).','Stockpile it apart from the subsoil spoil. You’ll re-spread it on the banks and spoil area for seeding.']]);
+  L.push(['Rough excavation in lifts',['Dig in <b>1–2 ft lifts</b>. Work from the center out toward the banks, and leave the banks a little heavy (high) for final shaping.',
+    'Check grade with the laser every lift. Bottom target rod is <b>'+f2(G.rodBot)+'</b> (BM rod '+f2(G.rodBM)+'). Set the 331G blade receiver to on-grade at the bottom elevation, then spot-check with the rod about every 25 ft.',
+    'Total dig ≈ <b>'+fmt(M.exCY)+' cu yd</b> in place (≈ '+fmt(M.looseCY)+' cu yd loose). That’s <b>'+M.loads+' loads</b> at '+fmt(num(P.slope.trailer,16))+' cu yd if hauled.',
+    'Spoil: keep piles at least <b>'+f1(G.spoilOff)+' ft</b> from the water’s edge (the pond depth, but never under 12 ft). Or spread it no more than 3 ft high, graded away from the pond (NRCS Pond 378 guideline).',
+    'If you hit the water table, pump it down or dig the deep end last. In Florida, schedule deep digs for the dry season when you can.']]);
+  var bk=['Cut the banks to <b>'+slopeLbl(G.s)+'</b>: 1 ft down for every '+f1(G.s)+' ft in. Use the rod and the bank check table at each station.','The toe of slope is <b>'+f1(G.run)+' ft</b> in from the water line'+(M.ok?'.':'. <b style="color:var(--bad)">This footprint can’t reach full depth; the banks meet at about '+f1(M.actMax)+' ft.</b>'),'Round off the sharp edges at the top of bank, toe'+(G.useSh?' and shelf':'')+' so '+(G.lined?'the liner lies flat.':'the banks don’t slump.')];
+  if(G.s<3)bk.push('<b style="color:var(--bad)">Steep bank ('+slopeLbl(G.s)+'):</b> harder to compact and to climb out of'+(G.lined?', and the liner and soil can slide':'')+'. Consider 3:1 or flatter, or add a shelf.');
+  L.push(['Shape banks to slope with the laser',bk]);
+  if(G.useSh)L.push(['Cut the shelf',['Cut a flat shelf <b>'+f1(G.sh.w)+' ft wide</b> at <b>'+f1(G.sh.d)+' ft</b> below the water line (rod '+f2(G.rodShelf)+'), all the way around.','The shelf’s outer edge is '+f1(G.s*G.sh.d)+' ft in from the water line, and its inner edge is '+f1(G.s*G.sh.d+G.sh.w)+' ft in. Below the shelf the bank continues at '+slopeLbl(G.s)+' to the bottom.']]);
+  if(G.lined){
+    L.push(['Compact banks &amp; bottom',['Compact the bottom and banks with the vibratory compactor. Fill soft spots or over-dig in thin (6–8 in) lifts and compact each one.','Damp sand compacts better than dry. Don’t leave loose spoil on the banks.']]);
+    L.push(['Remove rocks &amp; roots',['Pick out rocks, roots, sticks and anything sharp from the bottom and banks.','Fill holes and voids with sand and smooth them over.']]);
+    L.push(['Fine grade',['Final pass to the rod readings, within about ±0.1 ft. Smooth out ridges and track marks.','Check that the water line is level all the way around: the same rod reading at every water-line stake.']]);
+    L.push(['Dig the anchor trench',['Dig the anchor trench <b>'+f1(G.tb)+' ft</b> back from the top of bank, <b>'+f1(G.tw)+' ft wide × '+f1(G.td)+' ft deep</b>, all the way around: ≈ <b>'+fmt(d.len.tr||0)+' ft</b>, '+fmt((d.len.tr||0)*G.tw*G.td/27,1)+' cu yd.','Keep the trench dirt beside it for backfill. Round over the pond-side edge.']]);
+    if(g.underlay)L.push(['Underlayment',['Roll geotextile underlayment over the bottom and banks, up the bank and into the anchor trench. Overlap the pieces (6–12 in typical).','Area ≈ <b>'+fmt(M.panelArea)+' sq ft</b> (same as the liner panel).']]);
+    var allow=num(P.slope.anchor,0)+num(P.slope.overlap,0),need=G.tb+G.td+G.tw;
+    L.push(['Liner install &amp; seams',['<b>'+ln.n+'</b> ('+ln.th+'), usually installed by the liner sub. Panel ≈ <b>'+fmt(M.panelL)+' × '+fmt(M.panelW)+' ft</b> (≈ '+fmt(M.panelArea)+' sq ft); installed surface ≈ '+fmt(M.linerSurf)+' sq ft.','Unroll it on a calm day. Don’t drive equipment on the liner. Work wrinkles out toward the banks.','Make seams per the manufacturer (factory panels, seam tape or welds). Use pipe boots for any penetrations, or better, bring pipes over the top of the liner.',
+      allow<need?'<b style="color:var(--bad)">Check panel size:</b> Step 2 allows '+f1(allow)+' ft per side (anchor + overlap), but this trench takes about '+f1(need)+' ft per side (back + down + across).':'The panel allowance per side covers the anchor trench.']]);
+  }else{
+    L.push(['Check soil &amp; build the clay bottom',['Dig a test pit to confirm the soil holds water. Sandy soil won’t hold water without a liner, bentonite or a high water table.','If you’re bringing in clay: scarify the bottom, then place the clay in 6–8 in loose lifts. Compact each lift (padfoot/sheepsfoot or the vibratory compactor) and keep it moist so it doesn’t crack. Usually 12 in or more total; follow the soil report or NRCS guidance.','Clay blanket ≈ <b>'+fmt(M.linerSurf/27)+' cu yd</b> per foot of thickness (est.).']]);
+    L.push(['Compact &amp; fine grade',['Compact the banks with the vibratory compactor and track-walk them up and down.','Final pass to the rod readings, within about ±0.1 ft. Check that the water line is level all the way around.']]);
+  }
+  var pl=[];
+  if(ad.aer.on)pl.push('<b>Aeration air lines:</b> trench from the compressor to the pond ('+fmt(pd)+' ft), 12–18 in deep. Lay '+nD+' run'+(nD>1?'s':'')+' of 1/2 in Sch 40 PVC, one per diffuser (two per diffuser pair), <b>sloped toward the pond</b> so moisture drains. Switch to weighted airline at the bank'+(G.lined?' and run it over the liner edge in the anchor trench. Never go through the liner.':'.'));
+  pl.push('<b>Water fill line:</b> 3/4 in Sch 40 from the water source ('+fmt(num(g.fillDist,100))+' ft) with a shut-off valve. Let it discharge onto rock or a splash pad so it doesn’t scour '+(G.lined?'the liner.':'the bank.'));
+  if(ad.light.on)pl.push('<b>Lighting:</b> pull wire or sleeves from the transformer spot to each light before backfilling.');
+  if(ad.wf.on)pl.push('<b>Waterfall:</b> run the return line from the pump to the falls ('+fmt(num(g.wfPipe,25))+' ft).');
+  if(ad.ftn.on)pl.push('<b>Fountain:</b> sleeve the power cord route from the shore to the control panel.');
+  L.push(['Plumbing runs (before backfill)',pl]);
+  if(G.lined)L.push(['Anchor trench backfill &amp; compact',['Lay the liner'+(g.underlay?' and underlayment':'')+' into the trench, then backfill in lifts and compact. Keep the compactor plate off exposed liner.','Leave some slack in the liner until the pond is partly full, then finish the backfill.']]);
+  var ao=[];
+  if(ad.aer.on)ao.push('<b>Aeration:</b> set the compressor cabinet ('+esc(ad.aer.model||'compressor')+') on a level pad, in shade, with good airflow. Set '+nD+' diffuser'+(nD>1?'s':'')+' in the deepest area on bases so they stay out of the muck, and connect the weighted lines. Power: a GFCI-protected circuit, wired by a licensed electrician where required.');
+  if(ad.light.on){var nL=clamp(Math.round(num(ad.light.count,6)),1,60);ao.push('<b>Lighting:</b> '+nL+' '+({underwater:'underwater',landscape:'landscape',both:'underwater + landscape'}[ad.light.type])+' LED lights. Use a '+transformerSize(nL*num(g.lightW,10))+' W low-voltage transformer (est.) plugged into an outdoor GFCI outlet, with a timer or photocell, and direct-burial low-voltage wire. Any 120 V work by a licensed electrician where required.');}
+  if(ad.wf.on)ao.push('<b>Waterfall:</b> build the base and set the spillway/weir. Put liner under the falls, lapped over the main liner (upper piece on top). Set the boulders and foam the gaps. Pump ≈ '+fmt(wfw*100)+'–'+fmt(wfw*150)+' GPH (est.) for a '+fmt(wfw)+' in spillway with '+f1(num(ad.wf.height,2))+' ft of lift plus pipe friction.');
+  if(ad.ftn.on)ao.push('<b>Fountain:</b> float it out over deep water'+(ad.ftn.size?' ('+esc(ad.ftn.size)+')':'')+' and moor it with 2–3 lines. Run the cord to a GFCI control panel with a timer. Electrical by a licensed electrician where required.');
+  if(ad.flt.type==='skimbio')ao.push('<b>Filtration:</b> set the skimmer level at the water line on the downwind end, and the biofalls at the head of the waterfall. Plumb the skimmer pump to the biofalls.');
+  else if(ad.flt.type==='pressure')ao.push('<b>Filtration:</b> set the pump and pressurized filter in a hidden spot you can still service. Plumb the intake and return, and leave room to backwash.');
+  if(ad.flt.uv)ao.push('<b>UV clarifier:</b> plumb it inline after the filter, sized to the pump flow.');
+  if(ao.length)L.push(['Add-on installs',ao]);
+  L.push(['Fill',['Fill slowly.'+(G.lined?' Smooth out liner wrinkles as the water comes up.':'')+' Check the water against the stakes; it should be level all the way around.','City water: dechlorinate before adding fish. Hold off on stocking until the water settles.']]);
+  var seedA=Math.max(0,d.areaOS-M.surf);
+  L.push(['Stabilize &amp; seed banks',['Re-spread the topsoil, then seed and mulch the banks and the disturbed area: ≈ <b>'+fmt(Math.round(seedA/100)*100)+' sq ft</b> out to the offset-stake line, plus any spread spoil.','Seed at '+f1(num(g.seedRate,8))+' lb / 1,000 sq ft (check the seed label). Straw at about 2 bales / 1,000 sq ft.'+(G.s<=3?' Use erosion-control blanket on the banks above water.':''),'Water until the grass is established. Fix washouts right away.']]);
+  L.push(['Final cleanup &amp; walk-through',['Pull the layout stakes, grade the spoil smooth, and clean up the haul route and road.','Take finished photos. Walk the customer through the aeration'+(ad.light.on?', lights':'')+(ad.wf.on?', waterfall pump':'')+' and basic upkeep.']]);
+  return L;}
+/* ---------- materials (quantities only, never prices) ---------- */
+function matList(d){var G=d.G,ad=P.addons,g=P.guide,R=[],shp=curShape();
+  var sec=function(t){R.push({sec:t});},add=function(k,item,qty,unit,basis,e){R.push({k:k,item:item,qty:qty,unit:unit,basis:basis||'',est:!!e});};
+  var stakes=Math.ceil(['wl','toe','sh1','sh2','tob','os'].reduce(function(a,k){var L=d.len[k]||0;return a+(L>0?Math.ceil(L/G.sta)+2:0);},0)*1.15);
+  var spoilW=Math.min(Math.max(8,F.bb.h*0.22),40);
+  var paintFt=['wl','toe','sh1','sh2','tob'].reduce(function(a,k){return a+(d.len[k]||0);},0)+(G.lined?(d.len.tr1||0)+(d.len.tr2||0):0)+2*(F.bb.w+spoilW);
+  var io=lvIdx(d,'os'),maxOff=0;d.rows.forEach(function(r){[r.L[io],r.R[io]].forEach(function(a){if(a&&a.length)maxOff=Math.max(maxOff,a[a.length-1]);});});
+  var stringFt=shp.type==='round'?shp.L/2+G.cOS+10:d.blLen+2*maxOff+20;
+  sec('Layout');
+  add('stakes','Wood lath stakes (36–48 in)',stakes,'ea','every '+f1(G.sta)+' ft on the water line, toe'+(G.useSh?', shelf':'')+', top of bank and offset lines, + 15% spare',true);
+  add('hubs','2×2 hubs ('+(shp.type==='round'?'hubs, BM, center pin':shp.type==='rect'?'hubs, BM, corner PIs':'hubs, BM, control')+')',shp.type==='rect'?9:6,'ea','incl. spares',true);
+  add('paint','Inverted marking paint (17 oz)',Math.ceil(paintFt/400)+1,'cans',fmt(paintFt)+' ft of line ÷ ~400 ft per can, + 1 spare',true);
+  add('string','Mason / string line',Math.max(1,Math.ceil(stringFt/500)),'500-ft rolls',shp.type==='round'?'radius string ≥ '+f1(shp.L/2+G.cOS+5)+' ft':'baseline '+f1(d.blLen)+' ft + offset pulls',true);
+  add('flag','Flagging tape (2 colors)',2,'rolls','water line vs. top of bank',true);
+  sec('Earthwork');
+  add('ex','Excavation (in place)',Math.round(M.exCY),'cu yd','water volume + freeboard band (Step 2)');
+  add('loose','Loose spoil',Math.round(M.looseCY),'cu yd','× swell '+num(P.slope.swell,1.25));
+  add('loads','Trailer loads if hauled',M.loads,'loads',fmt(num(P.slope.trailer,16))+' cu yd per load');
+  if(num(g.topsoil,6)>0)add('topsoil','Topsoil strip & stockpile',Math.round(d.areaStrip*num(g.topsoil,6)/12/27),'cu yd',fmt(Math.round(d.areaStrip))+' sq ft × '+fmt(num(g.topsoil,6))+' in',true);
+  add('spoilA','Spoil spread area (≤ 3 ft high)',Math.round(M.looseCY*27/3/100)*100,'sq ft','if spread on site instead of hauled',true);
+  if(G.lined)add('trench','Anchor trench',Math.round(d.len.tr||0),'lin ft',f1(G.tw)+' × '+f1(G.td)+' ft = '+fmt((d.len.tr||0)*G.tw*G.td/27,1)+' cu yd dig/backfill');
+  else add('clay','Clay blanket (if bringing in clay)',Math.round(M.linerSurf/27),'cu yd per ft thick','installed surface '+fmt(M.linerSurf)+' sq ft × 1 ft (12 in+ typical)',true);
+  if(G.lined){var ln=LINER[G.liner];sec('Liner');
+    add('liner',ln.n+' liner, '+ln.th,fmt(M.panelL)+' × '+fmt(M.panelW),'ft panel','≈ '+fmt(M.panelArea)+' sq ft to order; installed surface '+fmt(M.linerSurf)+' sq ft');
+    if(g.underlay)add('under','Geotextile underlayment',Math.round(M.panelArea*1.1/10)*10,'sq ft','liner panel + ~10% for laps',true);
+    add('sand','Sand for voids / cushion','as needed','','fill holes under the liner');
+    add('seam','Seam tape / pipe boots / adhesive','per liner sub','','depends on the panel layout');}
+  if(ad.aer.on){var nD=clamp(Math.round(num(ad.aer.diffusers,2)),1,12),pd=Math.max(0,num(g.pumpDist,100)),pvc=nD*pd,diffs=(P.photo.diff&&P.photo.diff.length===nD)?P.photo.diff:null,wt=0;
+    for(var i=0;i<nD;i++){var p=diffs?diffs[i]:[F.deepX,F.deepY];wt+=distEdges(p[0],p[1],F.E)*Math.sqrt(1+1/(G.s*G.s))*1.2+15;}
+    sec('Aeration');
+    add('comp','Compressor cabinet ('+(ad.aer.model||'compressor')+')',1,'ea','on a level pad, shade + airflow');
+    add('diff','Diffusers + weighted bases',nD,'ea','in the deepest area');
+    add('pvc12','1/2 in Sch 40 PVC (air lines)',Math.ceil(pvc*1.05/10),'10-ft sticks',nD+' run'+(nD>1?'s':'')+' (2 per diffuser pair) × '+fmt(pd)+' ft = '+fmt(pvc)+' ft, + 5%');
+    add('atrench','Air line trench',Math.round(pd),'lin ft','12–18 in deep, sloped toward the pond');
+    add('wline','Weighted airline tubing',Math.ceil(wt/10)*10,'ft','shore to each diffuser along the bank + slack',true);
+    add('afit','PVC fittings (90s, couplings, barb adapters)',Math.max(4,nD*4),'ea','≈ 4 per run',true);
+    add('glue','PVC primer + cement',1,'set','pint each',true);}
+  sec('Water fill');
+  add('fill','3/4 in Sch 40 PVC fill line',Math.ceil(num(g.fillDist,100)*1.05/10),'10-ft sticks',fmt(num(g.fillDist,100))+' ft, + 5%');
+  add('valve','3/4 in ball valve + fittings',1,'set','shut-off at the source');
+  if(ad.light.on){var nL=clamp(Math.round(num(ad.light.count,6)),1,60),wW=nL*num(g.lightW,10),wire=Math.max(0,num(g.pumpDist,100))+(d.len.tob||M.perim)*(nL>2?1:0.5);
+    sec('Lighting');
+    add('lights','LED '+({underwater:'underwater',landscape:'landscape',both:'underwater + landscape'}[ad.light.type])+' fixtures',nL,'ea',fmt(num(g.lightW,10))+' W each');
+    add('xfmr','Low-voltage transformer',transformerSize(wW),'W','load '+fmt(wW)+' W × 1.25 headroom',true);
+    add('lvwire','12/2 direct-burial low-voltage wire',Math.ceil(wire/50)*50,'ft','to the transformer + around the bank',true);
+    add('gfci','Outdoor GFCI outlet + timer / photocell',1,'ea','licensed electrician where required');}
+  if(ad.wf.on){var hgt=Math.max(0.5,num(ad.wf.height,2)),win=Math.max(6,num(ad.wf.width,24)),wft=win/12,tons=Math.max(1,Math.round(hgt*Math.max(1,wft/2)*2)/2),gph=win*125,pipe=gph<=2000?'1-1/2 in':gph<=4500?'2 in':'3 in';
+    sec('Waterfall');
+    add('wfrock','Boulders / waterfall rock',tons,'tons','~1 ton per ft of drop per 2 ft of falls width',true);
+    add('wfgravel','Gravel / cobble for gaps',Math.max(0.5,Math.round(tons*0.5*2)/2),'tons','~half the rock tonnage',true);
+    add('wfpump','Waterfall pump',fmt(win*100)+'–'+fmt(win*150),'GPH',fmt(win)+' in spillway × 100–150 GPH per inch; check the pump curve at head',true);
+    add('wfpipe',pipe+' flex PVC return line',Math.round(num(g.wfPipe,25)*1.1),'ft','pump to falls, + 10%',true);
+    add('wfweir','Spillway / weir',1,'ea',fmt(win)+' in wide');
+    add('wfliner','Liner + underlayment under the falls',Math.round((hgt*4+8)*(wft+4)),'sq ft','(height × 4 + 8) × (width + 4)',true);
+    add('foam','Waterfall foam',2,'cans','seal gaps between rocks',true);}
+  if(ad.ftn.on){var shore=distEdges(F.deepX,F.deepY,F.E);sec('Fountain');
+    add('ftn','Floating fountain'+(ad.ftn.size?' ('+ad.ftn.size+')':''),1,'ea',ad.ftn.pattern?ad.ftn.pattern+' pattern':'');
+    add('ftncord','Power cord length (min.)',Math.ceil((shore*1.2+Math.max(0,num(g.pumpDist,100)))/25)*25,'ft','fountain to shore + to the panel',true);
+    add('ftnmoor','Mooring lines + anchors',3,'sets','each line ≈ '+fmt(Math.ceil(shore*1.2))+' ft to a shore stake',true);
+    add('ftnpanel','Control panel with GFCI + timer',1,'ea','licensed electrician where required');}
+  if(ad.flt.type!=='none'||ad.flt.uv){var gal=M.gal,gr=fmt(Math.round(gal/2/100)*100)+'–'+fmt(Math.round(gal/100)*100);sec('Filtration');
+    if(ad.flt.type==='skimbio'){add('skim','Skimmer box',1,'ea','at the water line, downwind end');add('biof','Biofalls filter',1,'ea',ad.wf.on?'head of the waterfall':'sets the return point');add('fpump','Circulation pump',gr,'GPH','turn the pond over every 1–2 hrs',true);}
+    if(ad.flt.type==='pressure'){add('pfilt','Pressurized filter',1,'ea','rated ≥ '+fmt(Math.round(gal/100)*100)+' gal');add('fpump','Pump to match the filter',gr,'GPH','turn the pond over every 1–2 hrs',true);}
+    if(ad.flt.uv)add('uv','UV clarifier',1,'ea','rated ≥ '+fmt(Math.round(gal/100)*100)+' gal at pump flow');
+    if(ad.flt.type!=='none')add('fpipe','Filter plumbing (flex PVC + fittings)','per layout','','');}
+  var seedA=Math.max(0,d.areaOS-M.surf);sec('Bank stabilization');
+  add('seed','Grass seed',Math.ceil(seedA/1000*num(g.seedRate,8)),'lb',fmt(Math.round(seedA/100)*100)+' sq ft × '+f1(num(g.seedRate,8))+' lb / 1,000 (check label)',true);
+  add('straw','Straw mulch',Math.ceil(seedA/1000*2),'bales','~2 bales / 1,000 sq ft',true);
+  if(G.s<=3){var bankA=M.perim*G.cTOB*Math.sqrt(1+1/(G.s*G.s))+Math.PI*G.cTOB*G.cTOB;if(bankA>1)add('blanket','Erosion-control blanket (banks above water)',Math.ceil(bankA/10)*10,'sq ft','water line to top of bank',true);}
+  return R;}
+var EQUIP=['John Deere 331G CTL with bucket and blade receiver','Rotating laser, tripod, grade rod + receiver','Vibratory compactor','300 ft and 100 ft tapes, measuring wheel','3-4-5 tape or optical square for right angles','Sledge, stake bag, paint wand','Dewatering pump (if the water table is high)','Dump trailer or truck (if hauling)'];
+function matHTML(d){var R=matList(d),notes=P.guide.mat||{},h='<div class="tablewrap"><table class="gtab gmat"><thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Basis</th><th class="gn">Price / notes</th></tr></thead><tbody>';
+  R.forEach(function(r){if(r.sec){h+='<tr class="gsecrow"><td colspan="5">'+r.sec+'</td></tr>';return;}
+    h+='<tr><td>'+esc(r.item)+(r.est?' <span class="est">est.</span>':'')+'</td><td class="q">'+(typeof r.qty==='number'?fmt(r.qty,r.qty%1?1:0):esc(r.qty))+'</td><td>'+esc(r.unit)+'</td><td class="b">'+esc(r.basis)+'</td><td class="gn"><input type="text" data-mat="'+r.k+'" value="'+esc(notes[r.k]||'')+'" placeholder="—" aria-label="Price or notes"></td></tr>';});
+  h+='</tbody></table></div><p class="hint"><span class="est">est.</span> = rule-of-thumb estimate; confirm with your supplier. No prices are filled in.</p>';
+  h+='<h3 class="gh3">Equipment checklist</h3><ul class="gchk">'+EQUIP.map(function(e){return '<li>'+e+'</li>';}).join('')+'</ul>';
+  return h;}
+/* ---------- render ---------- */
+function gCard(letter,title,svg,body){return '<div class="gtitle"><span class="gl">'+letter+'</span><h3>'+title+'</h3></div><div class="gbody">'+(svg?'<div class="gfig">'+svg+'</div>':'')+'<div class="gtxt">'+body+'</div></div>';}
+function ulist(a){return '<ul>'+a.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';}
+function renderGuide(){var d=guideData(),G=d.G,shp=curShape();
+  var probe=$('#gB'),cw=(probe&&probe.clientWidth)||700,wide=!guidePrintW&&cw>=820,W=Math.max(300,Math.round(guidePrintW?guidePrintW:wide?cw*0.6-28:cw-26));
+  $('#gUnderWrap').style.display=G.lined?'':'none';
+  var date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+  var specs=[['Shape',shapeName()],['Water line',dimText()],['Depth',ft(M.ok?G.D:M.actMax)+(M.ok?'':' max')],['Bank slope',slopeLbl(G.s)],['Shelf',G.useSh?ft(G.sh.w)+' @ '+ft(G.sh.d):'None'],['Liner',G.lined?LINER[G.liner].n.split(' (')[0]:'None (clay)'],['Dig',fmt(M.exCY)+' cu yd · '+M.loads+' loads'],['Freeboard',ft(G.fb)]];
+  $('#gHead').innerHTML='<div class="sheet ghsheet"><div class="int-banner">BUILD GUIDE · INTERNAL · CREW FIELD PACKET</div>'+sheetHead()
+    +'<div class="sh-meta"><div><b>Project:</b> '+esc(P.name||'Pond project')+'</div><div><b>Printed:</b> '+date+'</div><div><b>Customer:</b> '+esc(P.customer.name||'—')+'</div><div><b>Site:</b> '+esc(P.customer.address||'—')+'</div></div>'
+    +'<div class="sh-specs">'+specs.map(function(x){return '<div><div class="k">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>';}).join('')+'</div></div>';
+  var w=[];
+  if(!M.ok)w.push('<b>Can’t reach full depth:</b> at '+slopeLbl(G.s)+' this footprint only gets to about '+ft(M.actMax)+' deep, with no flat bottom. Make it bigger, steeper or shallower (Steps 1–2).');
+  if(G.s<2)w.push('<b>Very steep banks ('+slopeLbl(G.s)+').</b> Not recommended'+(G.lined?' for liner installs':'')+'. The banks can slump, and it’s unsafe to climb out.');
+  else if(G.s<3)w.push('<b>Steep banks ('+slopeLbl(G.s)+').</b> Harder to compact, mow and climb out of'+(G.lined?', and the liner can slide':'')+'. Consider 3:1 or flatter, or add a shelf.');
+  if(G.lined&&G.os<=G.tb+G.tw+1)w.push('<b>Offset stakes too close:</b> '+f1(G.os)+' ft past the top of bank puts them in or next to the anchor trench ('+f1(G.tb)+'–'+f1(G.tb+G.tw)+' ft). Use '+Math.ceil(G.tb+G.tw+3)+' ft or more.');
+  var allow=num(P.slope.anchor,0)+num(P.slope.overlap,0),need=G.tb+G.td+G.tw;
+  if(G.lined&&allow<need)w.push('<b>Liner panel allowance:</b> Step 2 allows '+f1(allow)+' ft per side, but the anchor trench uses about '+f1(need)+' ft (back + down + across). <button class="btn small gnoprint" id="gFixAllow">Match allowance to trench</button>');
+  if(!G.lined)w.push('<b>No liner:</b> the pond only holds water if the soil does. Dig a test pit before you commit.');
+  $('#gWarn').innerHTML=w.map(function(x){return '<div class="note bad">'+x+'</div>';}).join('');
+  var fx=$('#gFixAllow');if(fx)fx.onclick=function(){P.slope.anchor=Math.max(0,Math.round((need-num(P.slope.overlap,0))*10)/10);bindAll();save();refresh();toast('Liner allowance updated (Step 2 settings)');};
+  /* A */
+  $('#gA .gdyn').innerHTML=gCard('A','Site check &amp; call 811',planSVG('site',W),ulist(['<b>Sunshine 811:</b> call 811 or go to sunshine811.com at least <b>2 full business days</b> before digging. Weekends and holidays don’t count; under-water digging needs 10. Write down the ticket number.','Look for overhead lines, wells, the septic tank and drainfield, irrigation, and buried propane or electric lines.','Measure setbacks from the dig limit (the offset-stake line, '+f1(G.cOS)+' ft outside the water line) to each feature. Required distances: <b>check local code</b>.','Pick the spoil area ('+f1(G.spoilOff)+' ft or more from the water), the topsoil pile and machine access.']));
+  /* B */
+  $('#gB .gdyn').innerHTML=gCard('B','Baseline, benchmark &amp; laser',planSVG('base',W),ulist(['Run the <b>baseline</b> down the long centerline. Set <b>Hub A</b> and <b>Hub B</b> '+f1(d.lead)+' ft past each end of the water line, outside the offset stakes. Baseline = <b>'+f1(d.blLen)+' ft</b>, with Sta 0+00 at Hub A.','Mark stations every <b>'+f1(G.sta)+' ft</b> along the baseline ('+d.rows.length+' stations, '+(d.rows.length?staFmt(d.rows[0].sta)+' to '+staFmt(d.rows[d.rows.length-1].sta):'—')+').','Set a <b>benchmark (BM)</b> where it won’t get disturbed: a hub, a nail in a tree or a slab corner. This guide assumes the BM is at existing grade, '+f1(G.bmAbove)+' ft above the water line.','Set the <b>rotating laser</b> outside the dig where it can see the whole site. Shoot the BM: the rod reads <b>'+f2(G.rodBM)+'</b>. Re-shoot the BM at every setup and every morning.','Mount the blade receiver on the 331G and check it against the rod on a known grade before digging.']));
+  /* C */
+  var cTxt;
+  if(shp.type==='round'){var R=shp.L/2,n=Math.max(8,Math.ceil(2*Math.PI*R/G.sta));cTxt=['Drive the <b>center pin</b> on the baseline at <b>Sta '+staFmt(d.lead+R)+'</b>.','Hook a tape or string to the pin and swing <b>R = '+f1(R)+' ft</b>. Set <b>'+n+' stakes</b>, one every '+fmt(360/n,1)+'° (about '+f1(2*Math.PI*R/n)+' ft apart).','Tie tape on the same string at each radius in the radius table (toe, bank, trench, offset), so one string lays out every line.','Paint the circle between the stakes.'];}
+  else if(shp.type==='rect'){var t3=tri345(shp.L,shp.W),r0=Math.max(0,Math.min(shp.cornerR,shp.L/2,shp.W/2));cTxt=['Set the four corner points (<b>PI1–PI4</b>) where the straight sides would meet: Sta '+staFmt(d.lead)+' and '+staFmt(d.lead+shp.L)+', '+f1(shp.W/2)+' ft left and right of the baseline.','Square each corner with <b>3-4-5</b> ('+(3*t3)+' – '+(4*t3)+' – '+(5*t3)+' ft), then check that <b>both diagonals = '+f1(Math.hypot(shp.L,shp.W))+' ft</b>.',r0>0.5?'Corner radius <b>'+f1(r0)+' ft</b>: set a radius point '+f1(r0)+' ft in from both sides at each corner, then swing '+f1(r0)+' ft between the tangent points.':'Sharp corners (no radius).','Pull string between the points and paint the sides.'];}
+  else cTxt=['At each station on the baseline, turn a right angle (3-4-5 or an optical square). Measure out the <b>left and right offsets</b> from the station table and set a stake (#L / #R).',shp.type==='oval'?'Or use the string trick: two focus stakes and a loop of string (see the notes under the table).':'Where the outline curves sharply'+(shp.type==='kidney'?' (the kidney’s inside curve)':'')+', add stakes at half-stations.','Also set stakes where the water line crosses the baseline at each end (baseline crossing table).','Paint a smooth curve through the stakes. Step back and eyeball the shape before going on.'];
+  $('#gC .gdyn').innerHTML=gCard('C','Stake the water line',planSVG('wl',W),ulist(cTxt)+'<p class="hint">Numbers on the drawing match the stake table below.</p>');
+  /* D */
+  var it0=lvIdx(d,'toe'),mid=d.rows.filter(function(r){return it0>=0&&r.L[it0].length;})[0]||d.rows[Math.floor(d.rows.length/2)];
+  $('#gD .gdyn').innerHTML=gCard('D','Offset stakes (they survive the dig)',planSVG('os',W),ulist(['Digging wipes out the water-line stakes, so set an <b>offset stake '+f1(G.os)+' ft outside the top of bank</b> on every station line (OS column). That’s '+f1(G.cOS)+' ft outside the water line.','Write on each stake: station and side, “O/S '+f1(G.os)+'”, the distances in to the water line and toe, and the <b>cut</b> to the bottom.','Cut = bottom target rod ('+f2(G.rodBot)+') minus the rod reading on the ground at the stake. On flat ground at BM grade that’s about <b>C '+f1(G.bmAbove+(M.ok?G.D:M.actMax))+'</b>. Shoot every stake; don’t assume.'])+(shp.type!=='round'&&mid?'<div class="gstake">'+stakeFaceSVG(mid,d)+'<div class="hint">Example stake face, Sta '+staFmt(mid.sta)+' left.</div></div>':''));
+  /* E */
+  var eTxt=M.ok?['The toe (where the bank meets the flat bottom) is <b>'+f1(G.run)+' ft</b> in from the water line: '+slopeLbl(G.s)+' × '+f1(G.D)+' ft deep'+(G.useSh?' + '+f1(G.sh.w)+' ft shelf':'')+'.','Flat bottom ≈ <b>'+f1(M.flatL)+' × '+f1(M.flatW)+' ft</b> ('+fmt(M.flatA)+' sq ft).','Paint or stake the toe from the Toe columns once the top lift is off, measuring from the offset stakes. Toe stakes won’t last; re-set them from the offsets as you go down.']:['<b style="color:var(--bad)">No flat bottom:</b> at '+slopeLbl(G.s)+' the banks meet at about '+f1(M.actMax)+' ft deep, so there’s no toe line to stake.','Dig to the bank check table. The deepest point is in the middle of the narrowest part.'];
+  $('#gE .gdyn').innerHTML=gCard('E','Toe of slope / flat bottom',planSVG('toe',W),ulist(eTxt));
+  /* F */
+  $('#gF').style.display=G.useSh?'':'none';
+  if(G.useSh)$('#gF .gdyn').innerHTML=gCard('F','Shelf line',planSVG('shelf',W),ulist(['Shelf outer edge: <b>'+f1(G.s*G.sh.d)+' ft</b> in from the water line, where the bank reaches '+f1(G.sh.d)+' ft deep.','Shelf inner edge: <b>'+f1(G.s*G.sh.d+G.sh.w)+' ft</b> in. Hold the shelf flat at rod <b>'+f2(G.rodShelf)+'</b>.','Paint both shelf lines from the offset stakes before final shaping.']));
+  /* G */
+  var gTxt=G.lined?['Anchor trench centerline: <b>'+f1(G.tb+G.tw/2)+' ft</b> outside the top of bank ('+f1(G.cTr)+' ft outside the water line). It’s '+f1(G.tw)+' ft wide × '+f1(G.td)+' ft deep and '+fmt(d.len.tr||0)+' ft around.','Paint both trench edges, measuring square to the bank from the top-of-bank paint.']:['No anchor trench: earthen / clay pond.'];
+  gTxt.push('<b>Spoil / berm:</b> pile it at least '+f1(G.spoilOff)+' ft from the water’s edge (the pond depth, but never under 12 ft), or spread it 3 ft high or less, graded away from the pond (NRCS Pond 378). Spread 3 ft high, the '+fmt(M.looseCY)+' loose cu yd covers about '+fmt(Math.round(M.looseCY*27/3/100)*100)+' sq ft. Or haul <b>'+M.loads+' loads</b>.','Keep the topsoil pile separate from the subsoil.');
+  $('#gG .gdyn').innerHTML=gCard('G',G.lined?'Anchor trench &amp; spoil area':'Spoil area',planSVG('trench',W),ulist(gTxt));
+  /* H */
+  $('#gH .gdyn').innerHTML=gCard('H','Cross-section, grade &amp; rod readings',sectionGuideSVG(W),'<p><b>How the laser works here:</b> the laser plane is level, so rod reading = laser height − ground height. A <b>bigger</b> number means <b>lower</b> ground. Target rod for any grade = BM rod + (BM height − grade height). Cut at any spot = target rod − the rod reading on the ground there.</p>'+rodTableHTML(G));
+  $('#gTable').innerHTML='<h2>Stake &amp; offset table <small>'+esc(shapeName())+' · '+esc(dimText())+'</small></h2>'+offsetTableHTML(d);
+  $('#gSteps').innerHTML='<ol class="gphases">'+stepsList(d).map(function(x){return '<li><b class="ph">'+x[0]+'</b>'+ulist(x[1])+'</li>';}).join('')+'</ol>';
+  var foc=document.activeElement&&document.activeElement.dataset?document.activeElement.dataset.mat:null;
+  $('#gMat').innerHTML='<h2>Materials list <small>'+esc(shapeName())+(G.lined?' · '+LINER[G.liner].n.split(' (')[0]+' liner':' · no liner')+'</small></h2>'+matHTML(d);
+  if(foc){var el=$('#gMat [data-mat="'+foc+'"]');if(el)el.focus();}}
+$('#gMat').addEventListener('input',function(e){var el=e.target;if(!el.dataset||!el.dataset.mat)return;if(!P.guide.mat||typeof P.guide.mat!=='object')P.guide.mat={};P.guide.mat[el.dataset.mat]=el.value;save();});
+function printGuide(){document.body.classList.remove('pr-cust','pr-int');document.body.classList.add('pr-guide');guidePrintW=700;if(curStep!=='guide')setStep('guide');else refresh();setTimeout(function(){window.print();},300);}
+$('#printGuide').onclick=printGuide;
+
 /* ---------- init ---------- */
 var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){refresh();},150);});
 load();fill(defaultProject(),P);loadPhotoForProject();bindAll();
 setStep((location.hash||'').replace('#','')||'shape',true);
-window.JPD={get P(){return P;},bind:bindAll,save:saveNow,refresh:refresh,setStep:setStep,setMode:function(m){mode=m;refresh();},metrics:function(){return M;},sample:function(){$('#sampleBg').click();},renderExport:renderExport,sumView:function(v){sumView=v;refresh();}};
+window.JPD={get P(){return P;},bind:bindAll,save:saveNow,refresh:refresh,setStep:setStep,setMode:function(m){mode=m;refresh();},metrics:function(){return M;},sample:function(){$('#sampleBg').click();},renderExport:renderExport,sumView:function(v){sumView=v;refresh();},guideData:function(){return guideData();},gOpts:function(){return gOpts();},guidePrint:function(w){guidePrintW=w||0;refresh();}};
 })();
 </script>
 <div id="jls-copyright" style="text-align:center;font-size:11px;color:#888;padding:10px 8px 70px">© 2026 Jarheads Land Service. All rights reserved. No part of this app may be copied, modified, or reused without written permission.</div>
