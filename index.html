@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><meta name="theme-color" content="#4b5320">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b1d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Jarheads Pond Excavation Developer</title>
+<style>:root{--olive:#4b5320;--olive-d:#2f3414;--olive-l:#6b7536;--tan:#d6c79f;--sand:#f2ecdc;--paper:#fffdf7;--ink:#17180f;--muted:#5d5f4e;--scarlet:#a51c24;--scarlet-d:#7f141a;--gold:#d6a428;--line:#cfc4a4;--ok:#2e7d32;--bad:#b3261e;--water:#1f6f86}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--sand);color:var(--ink);font-size:16px;line-height:1.4;-webkit-text-size-adjust:100%;padding-bottom:84px}
+h1,h2,h3{font-family:"Arial Black","Helvetica Neue",Impact,Arial,sans-serif;letter-spacing:.02em;margin:0}
+.top{background:linear-gradient(180deg,#1b1d12,#2a2e17);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:4px solid var(--gold);position:sticky;top:0;z-index:30}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand svg{width:46px;height:46px;flex:0 0 auto}
+.b1{font-family:"Arial Black",Impact,Arial,sans-serif;font-size:21px;letter-spacing:.12em;color:var(--gold);line-height:1}
+.b2{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#e9e2c8;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.projbtn{background:#3a3f1f;color:#fff;border:1px solid #6b7536;border-radius:10px;min-height:46px;padding:6px 12px;font-size:14px;font-weight:700;max-width:46vw;display:flex;align-items:center;gap:8px;cursor:pointer}
+.projbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.steps{display:flex;gap:6px;padding:8px 10px;background:var(--olive);overflow-x:auto;position:sticky;top:70px;z-index:25;scrollbar-width:none;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.steps::-webkit-scrollbar{display:none}
+.steps button{flex:1 0 auto;min-height:48px;border:0;border-radius:10px;background:#5e6830;color:#f3eedb;font-weight:800;font-size:15px;padding:6px 12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
+.steps button b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#2f3414;color:var(--gold);font-size:13px}
+.steps button.on{background:var(--scarlet);color:#fff;box-shadow:inset 0 -3px 0 var(--gold)}
+.steps button.on b{background:var(--gold);color:#1b1d12}
+.live{display:flex;flex-wrap:wrap;gap:6px 16px;padding:8px 14px;background:#e6dcc0;border-bottom:1px solid var(--line);font-size:14px}
+.live div{white-space:nowrap}.live b{font-size:16px}
+.live .flag{color:var(--bad);font-weight:800}
+main{max-width:1320px;margin:0 auto;padding:12px}
+.step{display:none}.step.on{display:block}
+.grid2{display:grid;grid-template-columns:minmax(320px,440px) 1fr;gap:14px;align-items:start}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 1px 2px rgba(0,0,0,.06);min-width:0}
+.card h2{font-size:17px;text-transform:uppercase;color:var(--olive-d);border-bottom:3px solid var(--tan);padding-bottom:6px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card h2 small{font-family:inherit;font-size:12px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:600}
+details.card>summary{font-family:"Arial Black",Arial,sans-serif;text-transform:uppercase;font-size:15px;color:var(--olive-d);cursor:pointer;min-height:32px;display:flex;align-items:center}
+details.card[open]>summary{margin-bottom:10px;border-bottom:3px solid var(--tan);padding-bottom:6px}
+label{display:block;font-weight:700;font-size:14px;color:#33351f;margin:0 0 10px}
+input[type=text],input[type=number],input[type=tel],input[type=email],select,textarea{display:block;width:100%;margin-top:4px;min-height:48px;font-size:17px;padding:8px 10px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-family:inherit}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--olive-l);box-shadow:0 0 0 3px rgba(107,117,54,.25)}
+input[type=range]{width:100%;height:36px;accent-color:var(--scarlet)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.sw{display:flex;align-items:center;gap:10px;min-height:48px;font-weight:700;cursor:pointer;margin:0 0 6px}
+.sw input{width:26px;height:26px;accent-color:var(--scarlet);flex:0 0 auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:8px 16px;border-radius:10px;border:2px solid var(--olive);background:#fff;color:var(--olive-d);font-weight:800;font-size:15px;cursor:pointer;text-decoration:none;font-family:inherit}
+.btn.primary{background:var(--scarlet);border-color:var(--scarlet-d);color:#fff}
+.btn.dark{background:var(--olive);color:#fff;border-color:var(--olive-d)}
+.btn.small{min-height:40px;padding:6px 12px;font-size:14px}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn:active{transform:translateY(1px)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.file{position:relative;overflow:hidden}.file input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:100px}
+.shapes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.shapes button,.slopes button{min-height:64px;border:2px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:12.5px;color:var(--olive-d);padding:4px;font-family:inherit}
+.shapes svg{width:40px;height:28px}
+.shapes button.on,.slopes button.on{border-color:var(--scarlet);background:#fbeeee;box-shadow:inset 0 0 0 1px var(--scarlet)}
+.slopes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.slopes button{font-size:19px}.slopes button small{font-size:11px;font-weight:700;color:var(--muted)}
+.seg{display:inline-flex;border:2px solid var(--olive);border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{min-height:44px;border:0;background:#fff;color:var(--olive-d);font-weight:800;padding:6px 12px;cursor:pointer;font-size:14px;font-family:inherit}
+.seg button+button{border-left:1px solid var(--olive)}
+.seg button.on{background:var(--olive);color:#fff}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);width:100%}
+.modes button{border-left:0!important;border-bottom:1px solid #b7b391}
+canvas{display:block;width:100%;touch-action:manipulation}
+#planCv,#secCv,#secCv2{background:#f7f3e6;border-radius:10px;border:1px solid var(--line)}
+.hint{font-size:13.5px;color:var(--muted);margin:4px 0 10px}
+.note{background:#f4efe0;border-left:5px solid var(--gold);padding:10px 12px;border-radius:8px;font-size:14px;margin:8px 0}
+.note.bad{border-left-color:var(--bad);background:#fbecea}
+.note.good{border-left-color:var(--ok);background:#edf5ec}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kpi{background:#f6f1e2;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.kpi .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}
+.kpi .v{font-size:21px;font-weight:900;color:var(--ink)}
+.kpi .u{font-size:12.5px;color:var(--muted)}
+.kpi.flag{background:#fbecea;border-color:#e3a9a4}.kpi.okk{background:#edf5ec;border-color:#b5d3b2}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:12.5px;margin-top:8px;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px;border:1px solid rgba(0,0,0,.15)}
+.tablewrap{overflow-x:auto}
+table.cmp{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+.cmp th,.cmp td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.cmp th:first-child,.cmp td:first-child{text-align:left;white-space:normal}
+.cmp thead th{background:var(--olive);color:#fff;position:sticky;top:0;cursor:pointer}
+.cmp .sel{background:#fbeeee;font-weight:800}.cmp thead th.sel{background:var(--scarlet)}
+.cmp td.bad{color:var(--bad);font-weight:800}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pc ul{margin:4px 0 0;padding-left:18px;font-size:14.5px}.pc li{margin-bottom:4px}
+.pc h3{font-size:14px;text-transform:uppercase}.pc .pro h3{color:var(--ok)}.pc .con h3{color:var(--bad)}
+.pcall details{border-top:1px solid var(--line);padding:6px 0}.pcall summary{font-weight:800;cursor:pointer;min-height:40px;display:flex;align-items:center}
+.mockwrap{position:relative;background:#202214;border-radius:10px;overflow:hidden;min-height:240px}
+#mockCv{touch-action:none;cursor:crosshair}
+#mockEmpty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#e9e2c8;text-align:center;padding:20px;gap:10px}
+.addon{border:2px solid var(--line);border-radius:14px}
+.addon.on{border-color:var(--olive-l);background:#fbfaf2}
+.addon .sw{font-family:"Arial Black",Arial,sans-serif;text-transform:uppercase;font-size:15px;color:var(--olive-d)}
+.addon .body{margin-top:6px}
+.addon:not(.on) .body{display:none}
+.addgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.internal{border:3px dashed var(--scarlet);background:#fff8f6}
+.internal h2{color:var(--scarlet)}
+.items .it{display:grid;grid-template-columns:1fr 120px 48px;gap:6px;align-items:end;margin-bottom:6px}
+.items .it input{margin-top:0}
+.price input{font-weight:800}
+.navbar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#1b1d12;border-top:3px solid var(--gold);z-index:30}
+.navbar .btn{min-width:120px}
+.navbar #stepLbl{color:#e9e2c8;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px;text-align:center}
+.saved{font-size:12px;color:#b9b28f;display:block;font-weight:600;letter-spacing:0}
+.modal{position:fixed;inset:0;background:rgba(10,12,5,.6);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:20px 10px;overflow:auto}
+.modal.hidden{display:none}
+.modal .box{background:var(--paper);border-radius:16px;max-width:620px;width:100%;padding:16px;border-top:6px solid var(--scarlet)}
+.plist{list-style:none;padding:0;margin:8px 0 12px}
+.plist li{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:6px;background:#fff}
+.plist li.cur{border-color:var(--scarlet);background:#fbeeee}
+.plist .pn{flex:1;min-width:0}.plist .pn b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.plist .pn small{color:var(--muted)}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#1b1d12;color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;opacity:0;transition:opacity .3s;z-index:70;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+/* summary sheets */
+.sumtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.sheet{background:#fff;max-width:8.5in;margin:0 auto 20px;padding:.45in .5in;box-shadow:0 2px 10px rgba(0,0,0,.15);border-radius:4px;color:#111;font-size:13px}
+.sh-head{display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--olive);padding-bottom:8px;margin-bottom:10px;gap:10px}
+.sh-head .co{display:flex;gap:10px;align-items:center}.sh-head svg{width:52px;height:52px}
+.sh-head .cn{font-family:"Arial Black",Arial,sans-serif;font-size:20px;color:var(--olive-d);letter-spacing:.06em}
+.sh-head .ct{font-size:11.5px;color:#444;text-align:right;line-height:1.35}
+.sh-title{font-family:"Arial Black",Arial,sans-serif;font-size:16px;text-transform:uppercase;color:var(--scarlet);margin:4px 0 8px;letter-spacing:.04em}
+.sh-meta{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;font-size:12.5px;margin-bottom:10px}
+.sh-specs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #cfc4a4;border-radius:6px;overflow:hidden;margin-bottom:10px}
+.sh-specs div{padding:6px 8px;border-right:1px solid #e3dbc4;border-bottom:1px solid #e3dbc4}
+.sh-specs .k{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#666;font-weight:800}.sh-specs .v{font-size:14.5px;font-weight:800}
+.sh-img{width:100%;max-height:3.3in;object-fit:contain;border-radius:4px;display:block;margin:0 auto 4px}
+.sh-cap{font-size:10.5px;color:#666;text-align:center;margin-bottom:8px}
+.sh-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.sh-two img{width:100%;max-height:2.4in;object-fit:contain;border:1px solid #ddd;border-radius:4px;display:block}
+.sh-sec h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--olive-d);margin:8px 0 4px;border-bottom:2px solid #e3dbc4;padding-bottom:2px}
+.sh-sec ul{margin:0;padding-left:18px}.sh-sec li{margin-bottom:2px}
+.sh-price{display:flex;justify-content:space-between;align-items:center;background:#f4efe0;border:2px solid var(--olive);border-radius:6px;padding:8px 12px;margin:10px 0;font-size:15px;font-weight:800}
+.sh-price .amt{font-size:22px;color:var(--olive-d)}
+.sh-sign{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-top:16px;font-size:11.5px;color:#444}
+.sh-sign div{border-top:1px solid #333;padding-top:3px}
+.sh-tw{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.sh-foot{margin-top:10px;border-top:2px solid var(--gold);padding-top:6px;font-size:10.5px;color:#555;text-align:center}
+.sheet.internal-sheet{border-top:8px solid var(--scarlet)}
+.int-banner{background:var(--scarlet);color:#fff;font-weight:900;text-align:center;padding:4px;letter-spacing:.2em;font-size:12px;margin-bottom:8px}
+table.it{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:8px}
+table.it td,table.it th{border-bottom:1px solid #e3dbc4;padding:4px 6px;text-align:right}table.it td:first-child,table.it th:first-child{text-align:left}
+table.it tr.tot td{font-weight:900;border-top:2px solid #333}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.addgrid{grid-template-columns:1fr}#step-photo .col:last-child{order:-1}#step-photo .col:last-child .card{position:relative}}
+@media (max-width:520px){
+ body{font-size:15px}.b1{font-size:17px}.b2{font-size:10px;letter-spacing:.03em}.brand svg{width:38px;height:38px}
+ .top{padding:8px 10px}.steps{top:62px;padding:6px}.steps button{font-size:12.5px;padding:4px 8px;gap:5px;min-height:46px}.steps button b{width:22px;height:22px;font-size:12px}
+ .steps button span{display:none}.steps button.on span{display:inline}
+ main{padding:8px}.card{padding:12px}.shapes{grid-template-columns:repeat(5,1fr);gap:4px}.shapes button{font-size:11px;min-height:60px}.shapes svg{width:32px}
+ .slopes button{font-size:16px;min-height:58px}.row3{grid-template-columns:1fr 1fr 1fr;gap:6px}.pc{grid-template-columns:1fr}
+ .kpi .v{font-size:18px}.navbar .btn{min-width:96px;padding:8px 10px}.live{font-size:12.5px;gap:4px 12px;padding:6px 10px}.live b{font-size:14px}
+ .sheet{padding:.25in;font-size:12px}.sh-specs{grid-template-columns:repeat(2,1fr)}.sh-two{grid-template-columns:1fr}.sh-meta{grid-template-columns:1fr}
+ .projbtn{max-width:40vw;font-size:13px;padding:6px 8px}
+ #step-summary .row3{grid-template-columns:1fr}.sh-head .co svg{width:40px;height:40px}.sh-head .cn{font-size:15px}
+}
+@media print{
+ @page{size:letter;margin:.4in}
+ body{background:#fff;padding:0}
+ .top,.steps,.live,.navbar,.noprint,#toast,.modal,.step:not(#step-summary){display:none!important}
+ main{padding:0;max-width:none}#step-summary{display:block!important}
+ .sheet{box-shadow:none;margin:0;padding:0;max-width:none;border-radius:0}
+ body.pr-cust .internal-sheet{display:none!important} body.pr-int .cust-sheet{display:none!important}
+ .sheet{page-break-after:auto;font-size:11px}.sh-specs .v{font-size:13px}
+ .sh-head{padding-bottom:5px;margin-bottom:6px}.sh-title{margin:2px 0 5px}.sh-meta{margin-bottom:6px}.sh-specs{margin-bottom:6px}.sh-specs div{padding:4px 7px}
+ .sh-img{max-height:2.45in;background:none}.sh-two{margin-bottom:2px}.sh-two img{max-height:1.35in;object-fit:contain}.sh-tw{gap:4px 14px}.sh-cap{margin-bottom:4px}
+ .sh-sec h4{margin:5px 0 3px}.sh-price{margin:6px 0;padding:5px 10px}.sh-sign{margin-top:12px}.sh-foot{margin-top:6px}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="logo" viewBox="0 0 64 64"><path d="M32 3 L57 11 V30 C57 46 46 56 32 61 C18 56 7 46 7 30 V11 Z" fill="#4b5320" stroke="#d6a428" stroke-width="3"/><path d="M32 8 L52 14.5 V30 C52 43 43 51.5 32 56 C21 51.5 12 43 12 30 V14.5 Z" fill="none" stroke="#a51c24" stroke-width="1.6"/><text x="32" y="33" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="15" fill="#d6a428" letter-spacing="1">JLS</text><path d="M16 41 q4 -4 8 0 t8 0 t8 0 t8 0" fill="none" stroke="#7fc4d6" stroke-width="2.6" stroke-linecap="round"/><path d="M19 47 q3.3 -3 6.5 0 t6.5 0 t6.5 0 t6.5 0" fill="none" stroke="#7fc4d6" stroke-width="2" stroke-linecap="round"/><path d="M24 15 l2 4 4.4 .4 -3.3 2.9 1 4.3 -4.1 -2.3 -4.1 2.3 1 -4.3 -3.3 -2.9 4.4 -.4z" fill="#d6a428" transform="translate(8 -2) scale(.55)"/><path d="M24 15 l2 4 4.4 .4 -3.3 2.9 1 4.3 -4.1 -2.3 -4.1 2.3 1 -4.3 -3.3 -2.9 4.4 -.4z" fill="#d6a428" transform="translate(30 -2) scale(.55)"/></symbol>
+</defs></svg>
+
+<header class="top">
+  <div class="brand"><svg><use href="#logo"/></svg><div style="min-width:0"><div class="b1">JARHEADS</div><div class="b2">Pond Excavation Developer</div></div></div>
+  <button class="projbtn" id="btnProjects" aria-label="Projects"><svg width="20" height="20" viewBox="0 0 24 24" fill="#d6a428"><path d="M3 5h7l2 2h9v12H3z"/></svg><span id="projName">Project</span></button>
+</header>
+<nav class="steps" id="steps">
+  <button data-step="shape"><b>1</b><span>Shape</span></button>
+  <button data-step="slope"><b>2</b><span>Slope</span></button>
+  <button data-step="photo"><b>3</b><span>Site Photo</span></button>
+  <button data-step="addons"><b>4</b><span>Add-ons</span></button>
+  <button data-step="summary"><b>5</b><span>Summary</span></button>
+</nav>
+<div class="live" id="live"></div>
+
+<main>
+<!-- STEP 1 SHAPE -->
+<section class="step" id="step-shape">
+ <div class="grid2">
+  <div class="col">
+   <div class="card">
+    <h2>Pond shape &amp; size <small>at the water line</small></h2>
+    <div class="shapes" id="shapeBtns">
+      <button data-shape="round"><svg viewBox="0 0 40 28"><circle cx="20" cy="14" r="12" fill="#5fa8bd" stroke="#1f4f5e" stroke-width="2"/></svg>Round</button>
+      <button data-shape="oval"><svg viewBox="0 0 40 28"><ellipse cx="20" cy="14" rx="18" ry="11" fill="#5fa8bd" stroke="#1f4f5e" stroke-width="2"/></svg>Oval</button>
+      <button data-shape="rect"><svg viewBox="0 0 40 28"><rect x="2" y="3" width="36" height="22" rx="6" fill="#5fa8bd" stroke="#1f4f5e" stroke-width="2"/></svg>Rectangle</button>
+      <button data-shape="kidney"><svg viewBox="0 0 40 28"><path d="M4 15 C3 5 13 2 17 7 C20 10 23 9 26 5 C33 1 39 9 37 16 C35 25 24 27 17 25 C9 24 5 21 4 15Z" fill="#5fa8bd" stroke="#1f4f5e" stroke-width="2"/></svg>Kidney</button>
+      <button data-shape="free"><svg viewBox="0 0 40 28"><path d="M5 12 L14 3 L27 6 L37 12 L31 24 L16 22 L6 25 Z" fill="#5fa8bd" stroke="#1f4f5e" stroke-width="2" stroke-linejoin="round"/><circle cx="14" cy="3" r="2.4" fill="#d6a428"/><circle cx="37" cy="12" r="2.4" fill="#d6a428"/><circle cx="6" cy="25" r="2.4" fill="#d6a428"/></svg>Freeform</button>
+    </div>
+    <div class="row3">
+      <label><span id="lblL">Length (ft)</span><input type="number" inputmode="decimal" min="5" step="1" data-bind="shape.L"></label>
+      <label id="wWrap">Width (ft)<input type="number" inputmode="decimal" min="5" step="1" data-bind="shape.W"></label>
+      <label>Max depth (ft)<input type="number" inputmode="decimal" min="1" step="0.5" data-bind="shape.D"></label>
+    </div>
+    <label id="cornerWrap">Corner radius (ft) <input type="number" inputmode="decimal" min="0" step="1" data-bind="shape.cornerR"></label>
+    <div id="freeTools" class="note">
+      <b>Freeform:</b> drag the gold points on the plan view to shape the pond. Length/width rescale the whole outline.
+      <div class="btns"><button class="btn small" id="ptAdd">+ Add point</button><button class="btn small" id="ptDel">&minus; Remove point</button><button class="btn small" id="ptReset">Reset</button></div>
+    </div>
+    <label class="sw"><input type="checkbox" data-bind="shape.shelfOn"> Add shallow shelf (plant / safety ledge)</label>
+    <div class="row2" id="shelfWrap">
+      <label>Shelf depth (ft)<input type="number" inputmode="decimal" min="0.5" step="0.5" data-bind="shape.shelfD"></label>
+      <label>Shelf width (ft)<input type="number" inputmode="decimal" min="1" step="1" data-bind="shape.shelfW"></label>
+    </div>
+    <p class="hint">Shelf runs around the whole edge. Banks use the slope picked in Step 2.</p>
+   </div>
+   <div class="card">
+    <h2>Project &amp; customer</h2>
+    <label>Project name<input type="text" data-bind="name" placeholder="e.g. Smith Back Pasture Pond"></label>
+    <label>Customer name<input type="text" data-bind="customer.name"></label>
+    <label>Site address<input type="text" data-bind="customer.address"></label>
+    <div class="row2"><label>Phone<input type="tel" data-bind="customer.phone"></label><label>Email<input type="email" data-bind="customer.email"></label></div>
+   </div>
+  </div>
+  <div class="col">
+   <div class="card"><h2>Plan view <small>top-down, shaded by depth</small></h2><canvas id="planCv"></canvas><div class="legend" id="planLegend"></div></div>
+   <div class="card"><h2>Cross-section <span class="seg" id="secSeg"><button data-sec="long">Long</button><button data-sec="short">Short</button></span></h2><canvas id="secCv"></canvas><p class="hint" id="secNote"></p></div>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 2 SLOPE -->
+<section class="step" id="step-slope">
+ <div class="grid2">
+  <div class="col">
+   <div class="card">
+    <h2>Bank slope <small>horizontal : vertical</small></h2>
+    <div class="slopes" id="slopeBtns">
+      <button data-slope="2">2:1<small>steep</small></button>
+      <button data-slope="3">3:1<small>standard</small></button>
+      <button data-slope="4">4:1<small>gentle</small></button>
+      <button data-slope="5">5:1<small>walk-out</small></button>
+      <button data-slope="custom">Custom<small>any</small></button>
+    </div>
+    <label id="customWrap">Custom slope &mdash; feet of run per 1 ft of drop<input type="number" inputmode="decimal" min="1" max="12" step="0.25" data-bind="slope.custom"></label>
+    <div id="depthCheck"></div>
+    <div class="kpis" id="slopeKpis"></div>
+   </div>
+   <div class="card"><h2>Pros &amp; cons <small id="pcFor"></small></h2><div id="prosCons"></div><div class="pcall" id="pcAll"></div></div>
+   <details class="card">
+    <summary>Calculation settings</summary>
+    <div class="row2">
+     <label>Swell / fluff factor<input type="number" inputmode="decimal" step="0.05" min="1" data-bind="slope.swell"></label>
+     <label>Trailer capacity (cu yd)<input type="number" inputmode="decimal" step="1" min="1" data-bind="slope.trailer"></label>
+     <label>Freeboard: top of bank above water (ft)<input type="number" inputmode="decimal" step="0.5" min="0" data-bind="slope.fb"></label>
+     <label>Anchor trench allowance each side (ft)<input type="number" inputmode="decimal" step="0.5" min="0" data-bind="slope.anchor"></label>
+     <label>Extra liner overlap each side (ft)<input type="number" inputmode="decimal" step="0.5" min="0" data-bind="slope.overlap"></label>
+    </div>
+    <p class="hint">Excavation includes the freeboard band above the water line. Loose (hauled) volume = bank cu yd &times; swell factor.</p>
+   </details>
+  </div>
+  <div class="col">
+   <div class="card"><h2>Cross-section at this slope <span class="seg" id="secSeg2"><button data-sec="long">Long</button><button data-sec="short">Short</button></span></h2><canvas id="secCv2"></canvas></div>
+   <div class="card"><h2>Compare slopes <small>tap a column to pick it</small></h2><div class="tablewrap" id="cmpTable"></div></div>
+   <details class="card"><summary>How these numbers are calculated</summary><div id="method" style="font-size:14px"></div></details>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 3 PHOTO -->
+<section class="step" id="step-photo">
+ <div class="grid2">
+  <div class="col">
+   <div class="card">
+    <h2>Site photo mockup</h2>
+    <div class="btns">
+      <label class="btn primary file" style="margin:0">Upload / take photo<input type="file" accept="image/*" id="photoIn"></label>
+      <button class="btn" id="sampleBg">Use sample yard</button>
+      <button class="btn small danger" id="clearPhoto">Remove photo</button>
+    </div>
+    <div class="seg modes" id="modeBtns">
+      <button data-mode="move">Move pond</button><button data-mode="scale">Set scale</button><button data-mode="persp">Perspective</button>
+      <button data-mode="wf">Waterfall</button><button data-mode="diff">Diffusers</button><button data-mode="view">View only</button>
+    </div>
+    <div class="note" id="modeHelp"></div>
+    <div id="scaleBox">
+      <label>Real length of the line you drew (ft)<input type="number" inputmode="decimal" min="1" step="1" data-bind="photo.scaleFt"></label>
+      <div class="hint" id="scaleInfo"></div>
+    </div>
+    <div id="perspBox">
+      <label class="sw"><input type="checkbox" data-bind="photo.persp.on"> Use ground perspective (4 points)</label>
+      <div class="row2">
+        <label>Near edge, 1&rarr;2 (ft)<input type="number" inputmode="decimal" min="1" data-bind="photo.persp.w"></label>
+        <label>Side edge, 2&rarr;3 (ft)<input type="number" inputmode="decimal" min="1" data-bind="photo.persp.d"></label>
+      </div>
+      <button class="btn small" id="perspClear">Clear points</button> <span class="hint" id="perspInfo"></span>
+    </div>
+    <label>Rotate pond <span id="rotV"></span><input type="range" min="0" max="360" step="1" data-bind="photo.rot"></label>
+    <label>Overlay size <span id="sizeV"></span><input type="range" min="25" max="300" step="1" data-bind="photo.size"></label>
+    <label id="tiltWrap">Ground tilt (simple perspective) <span id="tiltV"></span><input type="range" min="0" max="80" step="1" data-bind="photo.tilt"></label>
+    <div class="row2">
+      <label>Shoreline edge<select data-bind="photo.edge"><option value="rock">Rock edge</option><option value="grass">Grass bank</option><option value="sand">Sand / soil bank</option></select></label>
+      <label>Water color<select data-bind="photo.water"><option value="natural">Natural green-blue</option><option value="clear">Clear blue</option><option value="dark">Dark (deep)</option></select></label>
+    </div>
+    <label class="sw"><input type="checkbox" data-bind="photo.night"> Night view (shows lights)</label>
+    <label class="sw"><input type="checkbox" data-bind="photo.dims"> Show dimensions on rendering</label>
+    <div class="btns"><button class="btn primary" id="exportPng">Export PNG</button><button class="btn" id="toSummary">Use in summary &rsaquo;</button></div>
+    <p class="hint">Turn lights, waterfall, aeration and fountain on in Step 4. They show up here.</p>
+   </div>
+  </div>
+  <div class="col">
+   <div class="card" style="padding:8px"><div class="mockwrap"><canvas id="mockCv"></canvas>
+     <div id="mockEmpty"><svg width="70" height="70"><use href="#logo"/></svg><b style="font-size:18px">Add a site photo</b><span>Upload a photo of the area (camera roll works), or use the sample yard to try it out.</span></div></div></div>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 4 ADDONS -->
+<section class="step" id="step-addons">
+ <div class="addgrid">
+  <div class="card addon" id="ad-light">
+   <label class="sw"><input type="checkbox" data-bind="addons.light.on"> Lighting</label>
+   <div class="body">
+    <div class="row2"><label>Number of lights<input type="number" inputmode="numeric" min="1" step="1" data-bind="addons.light.count"></label>
+    <label>Type<select data-bind="addons.light.type"><option value="underwater">LED underwater</option><option value="landscape">LED landscape (bank)</option><option value="both">Both (split)</option></select></label></div>
+    <label>Notes<input type="text" data-bind="addons.light.notes" placeholder="e.g. warm white, low-voltage transformer, timer"></label>
+    <label class="price">Price / cost ($)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="addons.light.price"></label>
+   </div>
+  </div>
+  <div class="card addon" id="ad-wf">
+   <label class="sw"><input type="checkbox" data-bind="addons.wf.on"> Waterfall</label>
+   <div class="body">
+    <div class="row2"><label>Height (ft)<input type="number" inputmode="decimal" min="0.5" step="0.5" data-bind="addons.wf.height"></label>
+    <label>Spillway width (in)<input type="number" inputmode="decimal" min="6" step="1" data-bind="addons.wf.width"></label></div>
+    <div class="note" id="wfInfo"></div>
+    <label class="price">Price / cost ($)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="addons.wf.price"></label>
+    <p class="hint">Drag the waterfall to a spot on the shoreline in Step 3.</p>
+   </div>
+  </div>
+  <div class="card addon" id="ad-aer">
+   <label class="sw"><input type="checkbox" data-bind="addons.aer.on"> Aeration (bottom diffusers)</label>
+   <div id="aerWarn"></div>
+   <div class="body">
+    <div class="row2"><label>Diffusers<input type="number" inputmode="numeric" min="1" max="12" step="1" data-bind="addons.aer.diffusers"></label>
+    <label>Compressor / kit<input type="text" data-bind="addons.aer.model"></label></div>
+    <div class="note">Bottom diffuser aeration is recommended for ponds deeper than about 6 ft. It mixes the water so the bottom doesn&rsquo;t run low on oxygen. Standard setup: Airmax PS20-class compressor with 2 diffusers, each on its own air line.</div>
+    <label class="price">Price / cost ($)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="addons.aer.price"></label>
+   </div>
+  </div>
+  <div class="card addon" id="ad-ftn">
+   <label class="sw"><input type="checkbox" data-bind="addons.ftn.on"> Fountain</label>
+   <div class="body">
+    <div class="row2"><label>Size / HP<input type="text" data-bind="addons.ftn.size" placeholder="e.g. 1/2 HP floating"></label>
+    <label>Spray pattern<input type="text" data-bind="addons.ftn.pattern" placeholder="e.g. trumpet, geyser"></label></div>
+    <p class="hint">A floating fountain adds looks and some surface aeration. In deeper ponds it does not replace bottom diffusers.</p>
+    <label class="price">Price / cost ($)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="addons.ftn.price"></label>
+   </div>
+  </div>
+  <div class="card addon on" id="ad-flt">
+   <label class="sw" style="pointer-events:none">Filtration</label>
+   <div class="body">
+    <div class="note" id="fltRec"></div>
+    <label>Filter system<select data-bind="addons.flt.type">
+      <option value="none">None: aeration + plants + beneficial bacteria</option>
+      <option value="skimbio">Skimmer + biofalls</option>
+      <option value="pressure">Pressurized filter</option>
+    </select></label>
+    <label class="sw"><input type="checkbox" data-bind="addons.flt.uv"> UV clarifier (optional)</label>
+    <div class="hint" id="fltDesc"></div>
+    <label class="price">Price / cost ($)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="addons.flt.price"></label>
+   </div>
+  </div>
+  <div class="card">
+   <h2>Other line items <small>show on customer summary, no prices</small></h2>
+   <div class="items" id="otherItems"></div>
+   <button class="btn small" id="addItem">+ Add item</button>
+  </div>
+  <div class="card internal">
+   <h2>Internal costing <small>never shown to customer</small></h2>
+   <div class="row2">
+    <label>Excavation day rate ($)<input type="number" inputmode="decimal" step="any" data-bind="internal.dayRate"></label>
+    <label>Est. machine days<input type="number" inputmode="decimal" step="0.5" min="0" placeholder="enter" data-bind="internal.days"></label>
+    <label>Materials markup (%)<input type="number" inputmode="decimal" step="1" min="0" data-bind="internal.markup"></label>
+    <label>Liner cost ($ / sq ft)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="internal.linerRate"></label>
+    <label>Hauling ($ / load)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="internal.haulRate"></label>
+    <label>Other cost ($)<input type="number" inputmode="decimal" step="any" placeholder="0" data-bind="internal.otherCost"></label>
+   </div>
+   <p class="hint">Add-on prices are treated as your cost; markup is applied to add-ons, liner, and other materials. Full breakdown is on the Internal summary.</p>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 5 SUMMARY -->
+<section class="step" id="step-summary">
+ <div class="card noprint" style="margin-bottom:12px">
+  <h2>Customer summary details</h2>
+  <div class="row3">
+   <label>Lump-sum price ($, optional)<input type="number" inputmode="decimal" step="any" placeholder="leave blank to hide" data-bind="summary.lump"></label>
+   <label>Timeline<input type="text" data-bind="summary.timeline" placeholder="e.g. 5&ndash;7 working days, weather permitting"></label>
+   <label>Show plan &amp; section drawings<select data-bind="summary.drawings"><option value="yes">Yes</option><option value="no">No</option></select></label>
+  </div>
+  <label>Notes for customer<textarea data-bind="summary.notes" placeholder="e.g. Excess dirt spread on site to the north. Customer responsible for permits if required."></textarea></label>
+ </div>
+ <div class="sumtools noprint">
+  <span class="seg" id="sumSeg"><button data-sum="cust">Customer view</button><button data-sum="int">Internal view</button></span>
+  <button class="btn primary" id="printCust">Print / Save PDF (customer)</button>
+  <button class="btn" id="printInt">Print internal</button>
+ </div>
+ <div id="sheets"></div>
+</section>
+</main>
+
+<div class="navbar">
+  <button class="btn" id="prev">&lsaquo; Back</button>
+  <div id="stepLbl"></div>
+  <button class="btn primary" id="next">Next &rsaquo;</button>
+</div>
+
+<div class="modal hidden" id="projModal">
+ <div class="box">
+  <h2 style="font-size:19px;color:var(--olive-d);margin-bottom:6px">Saved projects</h2>
+  <p class="hint">Projects save automatically on this device (browser storage). Use Backup to move them to another device.</p>
+  <ul class="plist" id="plist"></ul>
+  <div class="btns">
+   <button class="btn primary" id="pNew">+ New project</button>
+   <button class="btn" id="pDup">Duplicate current</button>
+   <button class="btn" id="pExport">Backup (.json)</button>
+   <label class="btn file" style="margin:0">Restore backup<input type="file" accept=".json,application/json" id="pImport"></label>
+   <button class="btn dark" id="pClose">Close</button>
+  </div>
+ </div>
+</div>
+<div id="toast"></div>
+<script>/* ===== CORE GEOMETRY (no DOM) ===== */
+var GAL_PER_CF = 7.48052;
+function polyArea(p){var a=0;for(var i=0,n=p.length;i<n;i++){var q=p[i],r=p[(i+1)%n];a+=q[0]*r[1]-r[0]*q[1];}return Math.abs(a)/2;}
+function polyPerim(p){var s=0;for(var i=0,n=p.length;i<n;i++){var q=p[i],r=p[(i+1)%n];s+=Math.hypot(r[0]-q[0],r[1]-q[1]);}return s;}
+function bbox(p){var a=Infinity,b=Infinity,c=-Infinity,d=-Infinity;p.forEach(function(q){if(q[0]<a)a=q[0];if(q[1]<b)b=q[1];if(q[0]>c)c=q[0];if(q[1]>d)d=q[1];});return {minX:a,minY:b,maxX:c,maxY:d,w:c-a,h:d-b};}
+function centroid(p){var a=0,cx=0,cy=0;for(var i=0,n=p.length;i<n;i++){var q=p[i],r=p[(i+1)%n],f=q[0]*r[1]-r[0]*q[1];a+=f;cx+=(q[0]+r[0])*f;cy+=(q[1]+r[1])*f;}if(Math.abs(a)<1e-9)return [0,0];return [cx/(3*a),cy/(3*a)];}
+function ellipsePoly(a,b,n){n=n||144;var p=[];for(var i=0;i<n;i++){var t=2*Math.PI*i/n;p.push([a*Math.cos(t),b*Math.sin(t)]);}return p;}
+function roundRectPoly(L,W,r,seg){seg=seg||16;r=Math.max(0,Math.min(r||0,L/2-0.01,W/2-0.01));var hx=L/2,hy=W/2;
+  if(r<0.05)return [[-hx,-hy],[hx,-hy],[hx,hy],[-hx,hy]];
+  var c=[[hx-r,-hy+r,-Math.PI/2],[hx-r,hy-r,0],[-hx+r,hy-r,Math.PI/2],[-hx+r,-hy+r,Math.PI]],p=[];
+  c.forEach(function(k){for(var i=0;i<=seg;i++){var t=k[2]+(Math.PI/2)*i/seg;p.push([k[0]+r*Math.cos(t),k[1]+r*Math.sin(t)]);}});return p;}
+function normalizeTo(p,L,W){var b=bbox(p),cx=(b.minX+b.maxX)/2,cy=(b.minY+b.maxY)/2;return p.map(function(q){return [(q[0]-cx)*L/b.w,(q[1]-cy)*W/b.h];});}
+function kidneyPoly(L,W,n){n=n||160;var p=[];for(var i=0;i<n;i++){var t=2*Math.PI*i/n,x=Math.cos(t),y=Math.sin(t);
+  if(y<0){var dent=0.55*Math.exp(-Math.pow((x+0.05)/0.42,2));y=y*(1-dent);} y=y*(1+0.12*x);p.push([x,y]);}
+  return normalizeTo(p,L,W);}
+function splineClosed(pts,seg){seg=seg||12;var n=pts.length,out=[];if(n<3)return pts.slice();
+  for(var i=0;i<n;i++){var p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n],p3=pts[(i+2)%n];
+    for(var k=0;k<seg;k++){var t=k/seg,t2=t*t,t3=t2*t;
+      out.push([0.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
+                0.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3)]);}}
+  return out;}
+function defaultFreePts(L,W){var f=[1,0.92,0.78,0.95,1,0.86,1.04,0.9];return normalizeTo(ellipsePoly(L/2,W/2,8).map(function(q,i){return [q[0]*f[i],q[1]*f[i]];}),L,W);}
+function shapePoly(s){var L=+s.L||1,W=+s.W||1;switch(s.type){
+  case 'round':return ellipsePoly(L/2,L/2,144);
+  case 'oval':return ellipsePoly(L/2,W/2,144);
+  case 'rect':return roundRectPoly(L,W,+s.cornerR||0,16);
+  case 'kidney':return kidneyPoly(L,W,160);
+  case 'free':return splineClosed(s.pts&&s.pts.length>=3?s.pts:defaultFreePts(L,W),12);}
+  return ellipsePoly(L/2,W/2);}
+function pointInPoly(x,y,p){var c=false;for(var i=0,j=p.length-1;i<p.length;j=i++){var a=p[i],b=p[j];if(((a[1]>y)!==(b[1]>y))&&(x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0]))c=!c;}return c;}
+function makeEdges(p){var n=p.length,E={n:n,ax:new Float64Array(n),ay:new Float64Array(n),dx:new Float64Array(n),dy:new Float64Array(n),l2:new Float64Array(n)};
+  for(var i=0;i<n;i++){var a=p[i],b=p[(i+1)%n];E.ax[i]=a[0];E.ay[i]=a[1];E.dx[i]=b[0]-a[0];E.dy[i]=b[1]-a[1];E.l2[i]=E.dx[i]*E.dx[i]+E.dy[i]*E.dy[i]||1e-12;}return E;}
+function distEdges(x,y,E){var best=Infinity;for(var i=0;i<E.n;i++){var px=x-E.ax[i],py=y-E.ay[i],t=(px*E.dx[i]+py*E.dy[i])/E.l2[i];if(t<0)t=0;else if(t>1)t=1;var qx=px-t*E.dx[i],qy=py-t*E.dy[i],d=qx*qx+qy*qy;if(d<best)best=d;}return Math.sqrt(best);}
+/* Distance field: every grid cell inside the water line stores its horizontal distance to shore.
+   Depth at a cell = f(distance, slope) so any slope can be evaluated from one field. */
+function buildField(poly,target){target=target||40000;var A=polyArea(poly),P=polyPerim(poly),bb=bbox(poly);
+  var h=Math.max(Math.sqrt(A/target),0.05),nx=Math.max(1,Math.ceil(bb.w/h)),ny=Math.max(1,Math.ceil(bb.h/h));
+  var x0=bb.minX+(bb.w-nx*h)/2,y0=bb.minY+(bb.h-ny*h)/2,grid=new Float32Array(nx*ny).fill(-1),E=makeEdges(poly),count=0,maxD=0,mi=0,mj=0,n=poly.length;
+  for(var j=0;j<ny;j++){var y=y0+(j+0.5)*h,xs=[];
+    for(var e=0;e<n;e++){var a=poly[e],b=poly[(e+1)%n];if((a[1]<=y)!==(b[1]<=y))xs.push(a[0]+(y-a[1])*(b[0]-a[0])/(b[1]-a[1]));}
+    xs.sort(function(u,v){return u-v;});
+    for(var k=0;k+1<xs.length;k+=2){var i0=Math.max(0,Math.ceil((xs[k]-x0)/h-0.5)),i1=Math.min(nx-1,Math.floor((xs[k+1]-x0)/h-0.5));
+      for(var i=i0;i<=i1;i++){var x=x0+(i+0.5)*h,d=distEdges(x,y,E);grid[j*nx+i]=d;count++;if(d>maxD){maxD=d;mi=i;mj=j;}}}}
+  var k2=count?A/(count*h*h):1;
+  return {poly:poly,E:E,grid:grid,nx:nx,ny:ny,x0:x0,y0:y0,h:h,count:count,A:A,P:P,k:k2,maxD:maxD,mi:mi,mj:mj,bb:bb,
+          deepX:x0+(mi+0.5)*h,deepY:y0+(mj+0.5)*h};}
+function depthAt(x,s,D,sh){if(!(x>0))return 0;if(!sh||!sh.on||!(sh.d>0)||sh.d>=D)return Math.min(D,x/s);
+  var r1=s*sh.d;if(x<r1)return x/s;if(x<r1+(+sh.w||0))return sh.d;return Math.min(D,sh.d+(x-r1-(+sh.w||0))/s);}
+function reqRun(s,D,sh){return s*D+((sh&&sh.on&&sh.d>0&&sh.d<D)?(+sh.w||0):0);}
+/* Section profile along a line (axis 'x' = long, 'y' = short) through a point. Returns samples [t,depth|null]. */
+function profile(F,axis,through,s,D,sh,step){var bb=F.bb,lo=axis==='x'?bb.minX:bb.minY,hi=axis==='x'?bb.maxX:bb.maxY,c=through,out=[];
+  step=step||Math.max((hi-lo)/600,0.05);
+  for(var t=lo-step;t<=hi+step;t+=step){var x=axis==='x'?t:c,y=axis==='x'?c:t;
+    out.push([t,pointInPoly(x,y,F.poly)?depthAt(distEdges(x,y,F.E),s,D,sh):null]);}
+  return out;}
+function profileLen(pr){var L=0,inside=0;for(var i=1;i<pr.length;i++){var a=pr[i-1],b=pr[i];
+    if(a[1]!==null&&b[1]!==null)L+=Math.hypot(b[0]-a[0],b[1]-a[1]);else if(a[1]!==null||b[1]!==null)L+=Math.abs(b[0]-a[0])/2;}
+  return L;}
+function profileSpan(pr){var lo=null,hi=null;pr.forEach(function(q){if(q[1]!==null){if(lo===null)lo=q[0];hi=q[0];}});return lo===null?0:hi-lo;}
+/* Main metrics for one slope. o = {s,D,sh,fb,anchor,overlap,swell,trailer} */
+function metrics(F,o){var s=+o.s,D=+o.D,sh=o.sh,g=F.grid,ca=F.h*F.h*F.k,vol=0,flat=0,shelfA=0,shallow=0,run=reqRun(s,D,sh),
+    useSh=sh&&sh.on&&sh.d>0&&sh.d<D,r1=useSh?s*sh.d:0,r2=useSh?r1+(+sh.w||0):0,fx0=Infinity,fx1=-Infinity,fy0=Infinity,fy1=-Infinity,
+    cm=run/2,am=0,ab=0;
+  for(var j=0;j<F.ny;j++)for(var i=0;i<F.nx;i++){var d=g[j*F.nx+i];if(d<0)continue;var z=depthAt(d,s,D,sh);vol+=z;
+    if(d>=run-1e-9){flat++;var x=F.x0+(i+0.5)*F.h,y=F.y0+(j+0.5)*F.h;if(x<fx0)fx0=x;if(x>fx1)fx1=x;if(y<fy0)fy0=y;if(y>fy1)fy1=y;}
+    else if(useSh&&d>=r1&&d<r2)shelfA++;
+    if(z<3)shallow++; if(d>=cm)am++; if(d>=s*D)ab++;}
+  vol*=ca;var flatA=flat*ca,shelfArea=shelfA*ca,A=F.A,P=F.P,sec=Math.sqrt(1+1/(s*s)),fb=+o.fb||0;
+  var slopePlan=Math.max(0,A-flatA-shelfArea),linerWet=flatA+shelfArea+slopePlan*sec,fbBand=P*s*fb*sec+Math.PI*s*s*fb*fb*sec;
+  var linerSurf=linerWet+fbBand;
+  var fbVol=fb*A+P*s*fb*fb/2+Math.PI*s*s*fb*fb*fb/3;
+  var exCF=vol+fbVol,exCY=exCF/27,loose=exCY*(+o.swell||1),loads=Math.ceil(loose/(+o.trailer||16)-1e-9);
+  var ok=F.maxD>=run-1e-6,actMax=depthAt(F.maxD,s,D,sh);
+  var prX=profile(F,'x',F.deepY,s,D,sh),prY=profile(F,'y',F.deepX,s,D,sh);
+  var edge=2*(s*fb*sec+(+o.anchor||0)+(+o.overlap||0));
+  var panelL=profileLen(prX)+edge,panelW=profileLen(prY)+edge;
+  var prism=useSh?null:(D/6)*(A+4*am*ca+ab*ca)*GAL_PER_CF; /* classic prismoidal cross-check */
+  return {s:s,D:D,volCF:vol,gal:vol*GAL_PER_CF,surf:A,acres:A/43560,perim:P,exCF:exCF,exCY:exCY,looseCY:loose,loads:loads,
+    linerSurf:linerSurf,panelL:panelL,panelW:panelW,panelArea:panelL*panelW,ok:ok,actMax:actMax,maxRun:F.maxD,needRun:run,
+    flatA:flatA,flatL:flat?fx1-fx0+F.h:0,flatW:flat?fy1-fy0+F.h:0,shelfA:shelfArea,shallowPct:F.count?100*shallow/F.count:0,
+    gradePct:100/s,prismGal:prism,avgDepth:vol/A};}
+/* Homography: 4 src -> 4 dst */
+function solveH(src,dst){var A=[],b=[];for(var i=0;i<4;i++){var x=src[i][0],y=src[i][1],u=dst[i][0],v=dst[i][1];
+    A.push([x,y,1,0,0,0,-u*x,-u*y]);b.push(u);A.push([0,0,0,x,y,1,-v*x,-v*y]);b.push(v);}
+  var n=8;for(var c=0;c<n;c++){var m=c;for(var r=c+1;r<n;r++)if(Math.abs(A[r][c])>Math.abs(A[m][c]))m=r;
+    var t=A[c];A[c]=A[m];A[m]=t;t=b[c];b[c]=b[m];b[m]=t;if(Math.abs(A[c][c])<1e-12)return null;
+    for(r=0;r<n;r++){if(r===c)continue;var f=A[r][c]/A[c][c];for(var k=c;k<n;k++)A[r][k]-=f*A[c][k];b[r]-=f*b[c];}}
+  var h=b.map(function(v,i){return v/A[i][i];});return [[h[0],h[1],h[2]],[h[3],h[4],h[5]],[h[6],h[7],1]];}
+function applyH(H,x,y){var w=H[2][0]*x+H[2][1]*y+H[2][2];return [(H[0][0]*x+H[0][1]*y+H[0][2])/w,(H[1][0]*x+H[1][1]*y+H[1][2])/w,w];}
+function invert3(m){var a=m[0][0],b=m[0][1],c=m[0][2],d=m[1][0],e=m[1][1],f=m[1][2],g=m[2][0],h=m[2][1],i=m[2][2];
+  var A=e*i-f*h,B=-(d*i-f*g),C=d*h-e*g,det=a*A+b*B+c*C;if(Math.abs(det)<1e-15)return null;
+  return [[A/det,-(b*i-c*h)/det,(b*f-c*e)/det],[B/det,(a*i-c*g)/det,-(a*f-c*d)/det],[C/det,-(a*h-b*g)/det,(a*e-b*d)/det]];}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+if(typeof module!=='undefined')module.exports={polyArea:polyArea,polyPerim:polyPerim,shapePoly:shapePoly,buildField:buildField,metrics:metrics,depthAt:depthAt,solveH:solveH,applyH:applyH,invert3:invert3,roundRectPoly:roundRectPoly,GAL_PER_CF:GAL_PER_CF};
+/* ===== END CORE ===== */
+</script>
+<script>/* ===== APP ===== */
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s);},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
+var LS_KEY='jpd.projects.v1',LS_CUR='jpd.current.v1',LS_PHOTO='jpd.photo.';
+var STEPS=['shape','slope','photo','addons','summary'],STEP_LBL={shape:'1 · Shape & size',slope:'2 · Bank slope',photo:'3 · Site photo',addons:'4 · Add-ons',summary:'5 · Summary'};
+var CO={name:'Jarheads Land Service',phone:'352-538-7145',email:'jarheadslandservice@gmail.com',town:'Williston, FL'};
+var projects={},P=null,curStep='shape',F=null,FK='',M=null,memPhotos={},secAxis='long',sumView='cust';
+var photo={img:null,w:0,h:0},mode='move',drag=null,perimCache={k:'',s:null},mockRaf=0;
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function num(v,d){var n=parseFloat(v);return isFinite(n)?n:d;}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function fmt(n,d){if(n===''||n===null||n===undefined||!isFinite(n))return '—';d=d||0;return Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});}
+function money(n){if(n===''||n===null||n===undefined||!isFinite(n))return 'TBD';var c=Math.abs(n%1)>0.004;return (n<0?'-$':'$')+fmt(Math.abs(n),c?2:0);}
+function ft(n){var r=Math.round(n*10)/10;return (r%1?fmt(r,1):fmt(r,0))+"'";}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show');},2600);}
+
+function defaultProject(){return {v:1,id:uid(),name:'New Pond Project',created:Date.now(),updated:Date.now(),
+ customer:{name:'',address:'',phone:'',email:''},
+ shape:{type:'rect',L:100,W:67,D:8,cornerR:15,shelfOn:false,shelfD:2,shelfW:4,pts:null},
+ slope:{choice:'3',custom:3.5,swell:1.25,trailer:16,fb:1,anchor:2,overlap:1},
+ photo:{has:false,sample:false,px:null,py:null,rot:0,size:100,tilt:45,edge:'rock',water:'natural',night:false,dims:false,scaleP:[],scaleFt:'',persp:{on:false,pts:[],w:'',d:''},wf:null,diff:null},
+ addons:{light:{on:false,count:6,type:'underwater',notes:'',price:''},wf:{on:false,height:2,width:24,price:''},aer:{on:true,diffusers:2,model:'Airmax PS20 class',price:''},ftn:{on:false,size:'',pattern:'',price:''},flt:{type:'none',uv:false,price:''},other:[]},
+ internal:{dayRate:1300,days:'',markup:15,linerRate:'',haulRate:'',otherCost:''},
+ summary:{lump:'',timeline:'',drawings:'yes',notes:''}};}
+function isObj(o){return o&&typeof o==='object'&&!Array.isArray(o);}
+function fill(def,o){Object.keys(def).forEach(function(k){if(o[k]===undefined)o[k]=def[k];else if(isObj(def[k])&&isObj(o[k]))fill(def[k],o[k]);});return o;}
+function getPath(o,p){return p.split('.').reduce(function(a,k){return a==null?a:a[k];},o);}
+function setPath(o,p,v){var k=p.split('.'),l=k.pop();k.reduce(function(a,x){return a[x];},o)[l]=v;}
+
+/* ---------- storage ---------- */
+function load(){try{projects=JSON.parse(localStorage.getItem(LS_KEY)||'{}')||{};}catch(e){projects={};}
+  Object.keys(projects).forEach(function(id){fill(defaultProject(),projects[id]);});
+  var cur=null;try{cur=localStorage.getItem(LS_CUR);}catch(e){}
+  if(cur&&projects[cur])P=projects[cur];else{var ids=Object.keys(projects);if(ids.length)P=projects[ids[0]];else{P=defaultProject();projects[P.id]=P;}}}
+var saveT;function save(){clearTimeout(saveT);saveT=setTimeout(saveNow,350);}
+function saveNow(){P.updated=Date.now();projects[P.id]=P;try{localStorage.setItem(LS_KEY,JSON.stringify(projects));localStorage.setItem(LS_CUR,P.id);setSavedLbl('Saved');}catch(e){setSavedLbl('Not saved (storage full)');}}
+function setSavedLbl(t){var s=$('#stepLbl .saved');if(s)s.textContent=t;}
+function savePhotoData(id,data){memPhotos[id]=data;try{localStorage.setItem(LS_PHOTO+id,data);return true;}catch(e){toast('Photo is too big to keep after closing; it works for now.');return false;}}
+function getPhotoData(id){return memPhotos[id]||(function(){try{return localStorage.getItem(LS_PHOTO+id);}catch(e){return null;}})();}
+
+/* ---------- derived values ---------- */
+function curShape(){var s=P.shape,L=clamp(num(s.L,100),3,3000),W=s.type==='round'?L:clamp(num(s.W,60),3,3000);return {type:s.type,L:L,W:W,D:clamp(num(s.D,8),0.5,80),cornerR:Math.max(0,num(s.cornerR,0)),pts:s.pts};}
+function shelf(){var s=P.shape;return {on:!!s.shelfOn,d:num(s.shelfD,0),w:Math.max(0,num(s.shelfW,0))};}
+function slopeVal(c){c=c||P.slope.choice;return c==='custom'?clamp(num(P.slope.custom,3),0.5,20):+c;}
+function slopeLbl(s){return (Math.round(s*100)/100)+':1';}
+function opts(s){return {s:s,D:curShape().D,sh:shelf(),fb:Math.max(0,num(P.slope.fb,0)),anchor:Math.max(0,num(P.slope.anchor,0)),overlap:Math.max(0,num(P.slope.overlap,0)),swell:Math.max(1,num(P.slope.swell,1.25)),trailer:Math.max(1,num(P.slope.trailer,16))};}
+function ensureField(fast){var sh=curShape();var key=JSON.stringify([sh.type,sh.L,sh.W,sh.cornerR,sh.type==='free'?sh.pts:0,fast?1:0]);
+  if(key!==FK){F=buildField(shapePoly(sh),fast?9000:40000);FK=key;}}
+function compute(fast){if(P.shape.type==='free'&&!(P.shape.pts&&P.shape.pts.length>=3)){var s=curShape();P.shape.pts=defaultFreePts(s.L,s.W);}
+  ensureField(fast);M=metrics(F,opts(slopeVal()));}
+var SHAPE_NAME={round:'Round',oval:'Oval',rect:'Rectangle',kidney:'Kidney',free:'Custom freeform'};
+function shapeName(){var s=curShape();if(s.type==='rect')return s.cornerR>0.5?'Rectangle, rounded corners':'Rectangle';return SHAPE_NAME[s.type];}
+function dimText(){var s=curShape();if(s.type==='round')return ft(s.L)+' diameter';return ft(F.bb.w)+' × '+ft(F.bb.h);}
+
+/* ---------- binding ---------- */
+function bindAll(){$$('[data-bind]').forEach(function(el){var v=getPath(P,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=(v===null||v===undefined)?'':v;});}
+function onBind(e){var el=e.target;if(!el.dataset||!el.dataset.bind)return;var v,p=el.dataset.bind;
+  if(el.type==='checkbox')v=el.checked;else if(el.type==='number'||el.type==='range'){if(el.value===''){v='';}else{v=parseFloat(el.value);if(!isFinite(v))return;}}else v=el.value;
+  var old=getPath(P,p);setPath(P,p,v);
+  if(P.shape.type==='free'&&(p==='shape.L'||p==='shape.W')&&num(v,0)>=3&&P.shape.pts){var b=bbox(P.shape.pts.length?splineClosed(P.shape.pts,12):[[0,0]]);var sx=p==='shape.L'?num(v,1)/b.w:1,sy=p==='shape.W'?num(v,1)/b.h:1;P.shape.pts=P.shape.pts.map(function(q){return [q[0]*sx,q[1]*sy];});}
+  if(p==='addons.aer.diffusers')P.photo.diff=null;
+  if(p.indexOf('photo.persp')===0&&p!=='photo.persp.on'&&P.photo.persp.on===false&&P.photo.persp.pts.length===4)P.photo.persp.on=true,bindAll();
+  if(p==='name'||p==='customer.name')$('#projName').textContent=P.name||'Project';
+  save();refresh();}
+document.addEventListener('input',onBind);document.addEventListener('change',function(e){if(e.target.dataset&&e.target.dataset.bind&&(e.target.tagName==='SELECT'||e.target.type==='checkbox'))return;onBind(e);});
+
+/* ---------- steps ---------- */
+function setStep(s,noScroll){if(STEPS.indexOf(s)<0)s='shape';curStep=s;
+  $$('.step').forEach(function(el){el.classList.toggle('on',el.id==='step-'+s);});
+  $$('#steps button').forEach(function(b){b.classList.toggle('on',b.dataset.step===s);if(b.dataset.step===s&&b.scrollIntoView)try{b.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}});
+  var i=STEPS.indexOf(s);$('#prev').style.visibility=i>0?'visible':'hidden';
+  $('#next').innerHTML=i<STEPS.length-1?'Next &rsaquo;':'Print';
+  $('#stepLbl').innerHTML=STEP_LBL[s]+'<span class="saved">Auto-saves on this device</span>';
+  try{history.replaceState(null,'','#'+s);}catch(e){}
+  if(!noScroll)window.scrollTo(0,0);refresh();}
+$$('#steps button').forEach(function(b){b.onclick=function(){setStep(b.dataset.step);};});
+$('#prev').onclick=function(){var i=STEPS.indexOf(curStep);if(i>0)setStep(STEPS[i-1]);};
+$('#next').onclick=function(){var i=STEPS.indexOf(curStep);if(i<STEPS.length-1)setStep(STEPS[i+1]);else doPrint('cust');};
+
+/* ---------- master refresh ---------- */
+function refresh(fast){compute(fast);updateVis();renderLive();
+  if(curStep==='shape')renderShape();else if(curStep==='slope')renderSlope();else if(curStep==='photo')renderPhoto();else if(curStep==='addons')renderAddons();else if(curStep==='summary')renderSummary();}
+function updateVis(){var s=P.shape;
+  $$('#shapeBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.shape===s.type);});
+  $('#wWrap').style.display=s.type==='round'?'none':'';$('#lblL').textContent=s.type==='round'?'Diameter (ft)':'Length (ft)';
+  $('#cornerWrap').style.display=s.type==='rect'?'':'none';$('#freeTools').style.display=s.type==='free'?'':'none';
+  $('#shelfWrap').style.display=s.shelfOn?'':'none';
+  $$('#slopeBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.slope===String(P.slope.choice));});
+  $('#customWrap').style.display=P.slope.choice==='custom'?'':'none';
+  $$('[data-sec]').forEach(function(b){b.classList.toggle('on',b.dataset.sec===secAxis);});
+  $$('#modeBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.mode===mode);});
+  $$('#sumSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.sum===sumView);});
+  ['light','wf','aer','ftn'].forEach(function(k){var map={light:'ad-light',wf:'ad-wf',aer:'ad-aer',ftn:'ad-ftn'};$('#'+map[k]).classList.toggle('on',!!P.addons[k].on);});
+  $('#projName').textContent=P.name||'Project';}
+function renderLive(){var sh=curShape();var h='<div>Surface <b>'+fmt(M.surf)+'</b> sq ft</div><div>Water <b>'+fmt(Math.round(M.gal/100)*100)+'</b> gal</div><div>Dig <b>'+fmt(M.exCY)+'</b> cu yd</div><div><b>'+M.loads+'</b> loads</div><div><b>'+ft(sh.D)+'</b> deep @ <b>'+slopeLbl(slopeVal())+'</b></div>';
+  if(!M.ok)h+='<div class="flag">&#9888; Max depth not reachable: ~'+ft(M.actMax)+'</div>';$('#live').innerHTML=h;}
+
+$$('#shapeBtns button').forEach(function(b){b.onclick=function(){var t=b.dataset.shape,s=P.shape;if(t==='free'&&!(s.pts&&s.pts.length>=3)){var c=curShape();s.pts=defaultFreePts(c.L,c.W);}
+  if(t==='round'&&s.type!=='round')s.W=s.L;s.type=t;P.photo.diff=null;P.photo.wf=null;bindAll();save();refresh();};});
+$$('#slopeBtns button').forEach(function(b){b.onclick=function(){P.slope.choice=b.dataset.slope;save();refresh();};});
+$$('[data-sec]').forEach(function(b){b.onclick=function(){secAxis=b.dataset.sec;refresh();};});
+
+/* ---------- canvas helpers ---------- */
+function setupCanvas(cv,w,h){var dpr=Math.min(window.devicePixelRatio||1,2.5);cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);cv.style.height=h+'px';var ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return ctx;}
+function cssW(cv){return cv.clientWidth||(cv.parentElement&&cv.parentElement.clientWidth-28)||640;}
+function lerpC(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+function depthRGB(z,D){if(z>=D-1e-6)return [10,48,70];var step=D>16?D/8:1,band=Math.floor(z/step)*step;var t=clamp(band/D,0,1);return lerpC([196,234,240],[24,92,122],Math.pow(t,0.85));}
+function pathPoly(ctx,pts){ctx.beginPath();pts.forEach(function(p,i){if(i)ctx.lineTo(p[0],p[1]);else ctx.moveTo(p[0],p[1]);});ctx.closePath();}
+function arrowLine(ctx,x1,y1,x2,y2){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();var a=Math.atan2(y2-y1,x2-x1);[[x1,y1,a+Math.PI],[x2,y2,a]].forEach(function(q){ctx.beginPath();ctx.moveTo(q[0],q[1]);ctx.lineTo(q[0]-7*Math.cos(q[2]-0.4),q[1]-7*Math.sin(q[2]-0.4));ctx.lineTo(q[0]-7*Math.cos(q[2]+0.4),q[1]-7*Math.sin(q[2]+0.4));ctx.closePath();ctx.fill();});}
+function label(ctx,t,x,y,opt){opt=opt||{};ctx.font=(opt.bold?'800 ':'600 ')+(opt.size||12)+'px -apple-system,Segoe UI,Roboto,Arial,sans-serif';ctx.textAlign=opt.align||'center';ctx.textBaseline='middle';
+  if(opt.bg){var w=ctx.measureText(t).width+10,h=(opt.size||12)+8,x0=opt.align==='left'?x-3:opt.align==='right'?x-w+3:x-w/2;ctx.fillStyle=opt.bg;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x0,y-h/2,w,h,4);else ctx.rect(x0,y-h/2,w,h);ctx.fill();}
+  ctx.fillStyle=opt.color||'#17180f';ctx.fillText(t,x,y);}
+function offsetPoly(poly,d){var n=poly.length,out=[],cw=0;for(var i=0;i<n;i++){var a=poly[i],b=poly[(i+1)%n];cw+=a[0]*b[1]-b[0]*a[1];}var sg=cw>0?-1:1;
+  for(i=0;i<n;i++){var p0=poly[(i-1+n)%n],p1=poly[i],p2=poly[(i+1)%n],e1=[p1[0]-p0[0],p1[1]-p0[1]],e2=[p2[0]-p1[0],p2[1]-p1[1]],l1=Math.hypot(e1[0],e1[1])||1,l2=Math.hypot(e2[0],e2[1])||1;
+    var nx=(e1[1]/l1+e2[1]/l2),ny=-(e1[0]/l1+e2[0]/l2),ln=Math.hypot(nx,ny)||1;nx/=ln;ny/=ln;var cosh=Math.max(0.35,(nx*e2[1]/l2-ny*e2[0]/l2));out.push([p1[0]+sg*nx*d/cosh,p1[1]+sg*ny*d/cosh]);}return out;}
+
+/* ---------- plan view ---------- */
+var planXf=null;
+function drawPlan(cv,wOverride){var bb=F.bb,w=wOverride||cssW(cv),pad={l:22,r:58,t:22,b:58},s=slopeVal(),fb=opts(s).fb,ext=s*fb;
+  var sc=(w-pad.l-pad.r)/(bb.w+2*ext),h=clamp(Math.round((bb.h+2*ext)*sc+pad.t+pad.b),200,wOverride?900:Math.max(320,Math.min(620,(window.innerHeight||800)*0.62)));sc=Math.min(sc,(h-pad.t-pad.b)/(bb.h+2*ext));
+  var ctx=setupCanvas(cv,w,h),ox=pad.l+((w-pad.l-pad.r)-(bb.w+2*ext)*sc)/2+ext*sc-bb.minX*sc,oy=pad.t+((h-pad.t-pad.b)-(bb.h+2*ext)*sc)/2+ext*sc-bb.minY*sc;
+  planXf={sc:sc,ox:ox,oy:oy};var T=function(x,y){return [ox+x*sc,oy+y*sc];};
+  ctx.fillStyle='#f3eedb';ctx.fillRect(0,0,w,h);
+  var gs=[5,10,20,25,50,100,200].find(function(g){return g*sc>=28;})||500;ctx.strokeStyle='rgba(120,110,80,.13)';ctx.lineWidth=1;
+  for(var gx=Math.floor((-ox/sc)/gs)*gs;gx*sc+ox<w;gx+=gs){ctx.beginPath();ctx.moveTo(ox+gx*sc,0);ctx.lineTo(ox+gx*sc,h);ctx.stroke();}
+  for(var gy=Math.floor((-oy/sc)/gs)*gs;gy*sc+oy<h;gy+=gs){ctx.beginPath();ctx.moveTo(0,oy+gy*sc);ctx.lineTo(w,oy+gy*sc);ctx.stroke();}
+  var sp=F.poly.map(function(p){return T(p[0],p[1]);});
+  if(fb>0){var top=offsetPoly(F.poly,ext).map(function(p){return T(p[0],p[1]);});pathPoly(ctx,top);ctx.fillStyle='#d9c69a';ctx.fill();ctx.setLineDash([6,4]);ctx.strokeStyle='#7a5c2e';ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([]);}
+  var D=curShape().D,sh=shelf(),oc=document.createElement('canvas');oc.width=F.nx;oc.height=F.ny;var ox2=oc.getContext('2d'),im=ox2.createImageData(F.nx,F.ny);
+  for(var i=0;i<F.grid.length;i++){var d=F.grid[i];if(d<0)continue;var c=depthRGB(depthAt(d,s,D,sh),D);im.data[i*4]=c[0];im.data[i*4+1]=c[1];im.data[i*4+2]=c[2];im.data[i*4+3]=255;}
+  ox2.putImageData(im,0,0);ctx.save();pathPoly(ctx,sp);ctx.clip();ctx.fillStyle='rgb(196,234,240)';ctx.fill();ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  var p0=T(F.x0,F.y0);ctx.drawImage(oc,p0[0],p0[1],F.nx*F.h*sc,F.ny*F.h*sc);ctx.restore();
+  pathPoly(ctx,sp);ctx.strokeStyle='#123c4a';ctx.lineWidth=2.5;ctx.stroke();
+  var dp=T(F.deepX,F.deepY);label(ctx,(M.ok?'Deepest ':'Max ')+ft(M.actMax),dp[0],dp[1],{bold:true,color:'#fff',size:13,bg:'rgba(0,0,0,.45)'});
+  ctx.strokeStyle='#33351f';ctx.fillStyle='#33351f';ctx.lineWidth=1.3;var yb=oy+(bb.maxY+ext)*sc+20,xr=ox+(bb.maxX+ext)*sc+22;
+  arrowLine(ctx,ox+bb.minX*sc,yb,ox+bb.maxX*sc,yb);label(ctx,ft(bb.w)+(P.shape.type==='round'?' dia.':''),(ox+(bb.minX+bb.maxX)/2*sc),yb+13,{bold:true,size:13,bg:'#f3eedb'});
+  if(P.shape.type!=='round'){arrowLine(ctx,xr,oy+bb.minY*sc,xr,oy+bb.maxY*sc);ctx.save();ctx.translate(xr+14,oy+(bb.minY+bb.maxY)/2*sc);ctx.rotate(-Math.PI/2);label(ctx,ft(bb.h),0,0,{bold:true,size:13,bg:'#f3eedb'});ctx.restore();}
+  var sb=[10,20,25,50,100,200].find(function(g){return g*sc>=60;})||500;ctx.fillStyle='#17180f';ctx.fillRect(10,h-14,sb*sc,5);ctx.fillStyle='#d6a428';ctx.fillRect(10,h-14,sb*sc/2,5);label(ctx,sb+' ft',10+sb*sc+6,h-11,{align:'left',size:11});
+  if(fb>0)label(ctx,'dashed = top of bank (+'+ft(fb)+')',w-8,h-11,{align:'right',size:11,color:'#7a5c2e'});
+  if(P.shape.type==='free'&&!wOverride){P.shape.pts.forEach(function(q,k){var t=T(q[0],q[1]);ctx.beginPath();ctx.arc(t[0],t[1],11,0,7);ctx.fillStyle=k===selPt?'#a51c24':'#d6a428';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle='#17180f';ctx.stroke();label(ctx,String(k+1),t[0],t[1],{bold:true,size:10,color:'#17180f'});});}
+  if(!wOverride){var lg='',step=D>16?D/8:1;for(var z=0;z<D-1e-6;z+=step){var c2=depthRGB(z,D);lg+='<span><i style="background:rgb('+c2.join(',')+')"></i>'+fmt(z,step%1?1:0)+'–'+fmt(Math.min(D,z+step),step%1?1:0)+' ft</span>';}
+    lg+='<span><i style="background:rgb(10,48,70)"></i>flat bottom ('+ft(D)+')</span>';$('#planLegend').innerHTML=lg;}}
+var selPt=-1,ptDrag=null;
+function planPt(e){var r=$('#planCv').getBoundingClientRect();return [((e.clientX-r.left)-planXf.ox)/planXf.sc,((e.clientY-r.top)-planXf.oy)/planXf.sc];}
+$('#planCv').addEventListener('pointerdown',function(e){if(P.shape.type!=='free'||!planXf)return;var p=planPt(e),best=-1,bd=1e9;P.shape.pts.forEach(function(q,i){var d=Math.hypot(q[0]-p[0],q[1]-p[1])*planXf.sc;if(d<bd){bd=d;best=i;}});
+  if(bd<26){selPt=best;ptDrag=best;this.setPointerCapture(e.pointerId);this.style.touchAction='none';e.preventDefault();refresh();}});
+$('#planCv').addEventListener('pointermove',function(e){if(ptDrag===null)return;var p=planPt(e);P.shape.pts[ptDrag]=[Math.round(p[0]*10)/10,Math.round(p[1]*10)/10];
+  if(!drawPlan.raf)drawPlan.raf=requestAnimationFrame(function(){drawPlan.raf=0;refresh(true);});});
+function endPt(){if(ptDrag===null)return;ptDrag=null;$('#planCv').style.touchAction='';var b=bbox(splineClosed(P.shape.pts,12));P.shape.L=Math.round(b.w);P.shape.W=Math.round(b.h);bindAll();P.photo.diff=null;P.photo.wf=null;save();refresh();}
+$('#planCv').addEventListener('pointerup',endPt);$('#planCv').addEventListener('pointercancel',endPt);
+$('#ptAdd').onclick=function(){var pts=P.shape.pts,bi=0,bl=0;pts.forEach(function(q,i){var r=pts[(i+1)%pts.length],l=Math.hypot(r[0]-q[0],r[1]-q[1]);if(l>bl){bl=l;bi=i;}});var a=pts[bi],b=pts[(bi+1)%pts.length];pts.splice(bi+1,0,[(a[0]+b[0])/2,(a[1]+b[1])/2]);selPt=bi+1;save();refresh();};
+$('#ptDel').onclick=function(){var pts=P.shape.pts;if(pts.length<=4){toast('Freeform needs at least 4 points');return;}pts.splice(selPt>=0&&selPt<pts.length?selPt:pts.length-1,1);selPt=-1;save();refresh();};
+$('#ptReset').onclick=function(){var c=curShape();P.shape.pts=defaultFreePts(c.L,c.W);selPt=-1;save();refresh();};
+
+/* ---------- cross-section ---------- */
+function drawSection(cv,axis,wOverride){var s=slopeVal(),o=opts(s),D=o.D,fb=o.fb,sh=o.sh,ax=axis==='short'?'y':'x';
+  var pr=profile(F,ax,ax==='x'?F.deepY:F.deepX,s,D,sh),segs=[],cur=null;pr.forEach(function(q){if(q[1]!==null){if(!cur){cur=[];segs.push(cur);}cur.push(q);}else cur=null;});
+  if(!segs.length)return;var t0=segs[0][0][0],t1=segs[segs.length-1][segs[segs.length-1].length-1][0],ext=s*fb,span=t1-t0+2*ext,mg=span*0.06+4;
+  var w=wOverride||cssW(cv),h=clamp(Math.round(w*0.42),190,320),pl=14,pr2=14,pt=40,pb=34,hs=(w-pl-pr2)/(span+2*mg),vs=(h-pt-pb)/(D+fb),ex=vs/hs;if(ex<1){vs=hs;ex=1;}
+  var ctx=setupCanvas(cv,w,h),X=function(t){return pl+(t-t0+ext+mg)*hs;},yW=pt+fb*vs,Y=function(z){return yW+z*vs;};
+  var g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#eef4f6');g.addColorStop(1,'#f7f3e6');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#b8975f';ctx.fillRect(0,pt,w,h-pt);ctx.fillStyle='#a48250';for(var k=0;k<60;k++){ctx.fillRect((k*97)%w,pt+8+((k*53)%(h-pt-10)),3,2);}
+  ctx.fillStyle='#6f8f3a';ctx.fillRect(0,pt-4,w,5);
+  segs.forEach(function(sg){var a=sg[0][0],b=sg[sg.length-1][0],cut=[[X(a-ext),pt],[X(a),yW]];sg.forEach(function(q){cut.push([X(q[0]),Y(q[1])]);});cut.push([X(b),yW]);cut.push([X(b+ext),pt]);
+    ctx.fillStyle='#eef4f6';pathPoly(ctx,cut);ctx.fill();
+    var wat=[[X(a),yW]];sg.forEach(function(q){wat.push([X(q[0]),Y(q[1])]);});wat.push([X(b),yW]);var wg=ctx.createLinearGradient(0,yW,0,Y(D));wg.addColorStop(0,'rgba(95,175,200,.85)');wg.addColorStop(1,'rgba(20,80,110,.95)');ctx.fillStyle=wg;pathPoly(ctx,wat);ctx.fill();
+    ctx.beginPath();cut.forEach(function(p,i){if(i)ctx.lineTo(p[0],p[1]);else ctx.moveTo(p[0],p[1]);});ctx.strokeStyle='#111';ctx.lineWidth=2.2;ctx.stroke();});
+  ctx.setLineDash([5,4]);ctx.strokeStyle='#1565c0';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(X(t0)-4,yW);ctx.lineTo(X(t1)+4,yW);ctx.stroke();ctx.setLineDash([]);
+  ctx.strokeStyle='#33351f';ctx.fillStyle='#33351f';ctx.lineWidth=1.2;arrowLine(ctx,X(t0),14,X(t1),14);label(ctx,ft(t1-t0)+' at water line',(X(t0)+X(t1))/2,14,{bold:true,size:12.5,bg:'#eef4f6'});
+  var dq=null;segs.forEach(function(sg){sg.forEach(function(q){if(!dq||q[1]>dq[1]+1e-6)dq=q;});});
+  if(dq){var mx=X(dq[0]);var fl=segs[0].filter(function(q){return q[1]>=dq[1]-1e-6;});if(fl.length>2)mx=(X(fl[0][0])+X(fl[fl.length-1][0]))/2;
+    ctx.strokeStyle='#fff';ctx.fillStyle='#fff';arrowLine(ctx,mx,yW+2,mx,Y(dq[1])-2);label(ctx,ft(dq[1])+' deep',mx+8,(yW+Y(dq[1]))/2,{bold:true,size:13,align:'left',color:'#fff',bg:'rgba(0,0,0,.4)'});
+    if(fl.length>2){var fw=fl[fl.length-1][0]-fl[0][0];if(fw>1)label(ctx,'flat bottom '+ft(fw),mx,Y(dq[1])+14,{size:11.5,bold:true,color:'#2a1d0a'});}}
+  var sg0=segs[0],bx=X(sg0[0][0]),run=Math.min(s*Math.min(D,sh.on&&sh.d>0&&sh.d<D?sh.d:D),(t1-t0)/2)*hs,bx2=bx+run*0.55,by=yW+(run*0.55/hs/s)*vs;
+  label(ctx,slopeLbl(s)+' bank',bx2+6,by-10,{bold:true,size:12.5,align:'left',color:'#7f141a',bg:'rgba(255,255,255,.75)'});
+  if(sh.on&&sh.d>0&&sh.d<D&&sh.w>0)label(ctx,'shelf '+ft(sh.w)+' @ '+ft(sh.d),X(sg0[0][0]+s*sh.d+sh.w/2),Y(sh.d)+14,{size:11,bold:true,color:'#2a1d0a'});
+  if(fb>0)label(ctx,'bank +'+ft(fb),X(t1)+4,pt-12,{size:11,align:'left',color:'#5a3e17'});
+  label(ctx,'Liner / finished grade',w-pr2,h-12,{size:11,align:'right',color:'#2a1d0a'});
+  label(ctx,ex>1.05?'Vertical ×'+fmt(ex,ex<10?1:0)+' for clarity':'True scale',pl,h-12,{size:11,align:'left',color:'#2a1d0a'});
+  return ex;}
+
+/* ---------- step 1 render ---------- */
+function renderShape(){drawPlan($('#planCv'));var ex=drawSection($('#secCv'),secAxis);
+  $('#secNote').textContent=(secAxis==='long'?'Long section':'Short section')+' through the deepest point. Bank slope '+slopeLbl(slopeVal())+' (change in Step 2).';}
+
+/* ---------- step 2: slope ---------- */
+var PC={
+ 2:{t:'2:1 (50% grade): steep',pro:['Smallest footprint and least dirt for a given bottom size and depth','Reaches full depth in a tight footprint; holds the most water for a given water-line size','Less shallow water, so fewer rooted weeds along the edge','Deep water close to the bank for fishing'],
+    con:['Steep banks erode and slump more easily, especially in sandy soil','Harder to place, seam and hold a liner; more stress on the liner','Hard or unsafe to climb out for people, kids, pets and livestock','Can\u2019t be mowed; banks are harder to shape and compact']},
+ 3:{t:'3:1 (33% grade): common standard',pro:['Common standard for farm, fish and lined ponds','Good balance of depth versus dirt moved','Limited shallow edge, so fewer weeds than flatter slopes','Decent bank fishing with deeper water near shore','Walkable with care; liner places well'],
+    con:['Still steep for small kids or pets to climb out; consider a shelf or a walk-out area','Many guidelines treat 3:1 as about the steepest bank for mowing','Banks need vegetation or cover to control erosion']},
+ 4:{t:'4:1 (25% grade): gentle',pro:['Easier to walk out: safer for kids, pets and livestock','Dry banks are easy to mow and maintain','More stable banks with less erosion','Easier liner install and repairs'],
+    con:['More shallow water near the edge lets sunlight reach the bottom, so more weeds and algae','For the same bottom size and depth: a larger footprint and more dirt moved','In a fixed footprint: less water and less depth possible']},
+ 5:{t:'5:1 (20% grade): walk-out / beach-like',pro:['Gentlest entry and safest to walk out','Very stable banks','Easy access for wildlife and livestock; easy mowing'],
+    con:['Largest shallow area: most prone to weeds, algae and warm water','Biggest footprint and most dirt for the same bottom size and depth','Often can\u2019t reach full depth unless the pond is large']}};
+function pcKey(s){return s<=2.5?2:s<=3.5?3:s<=4.5?4:5;}
+function pcHTML(k){var d=PC[k];return '<div class="pc"><div class="pro"><h3>Pros</h3><ul>'+d.pro.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div><div class="con"><h3>Cons</h3><ul>'+d.con.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div></div>';}
+function kpi(k,v,u,cls){return '<div class="kpi '+(cls||'')+'"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="u">'+(u||'')+'</div></div>';}
+var martinRef=null;
+function renderSlope(){var s=slopeVal(),o=opts(s),D=o.D;
+  $('#depthCheck').innerHTML=M.ok?'<div class="note good"><b>&#10003; Reaches '+ft(D)+'.</b> At '+slopeLbl(s)+' the banks need '+ft(M.needRun)+' of run from shore. This footprint allows up to '+ft(M.maxRun)+'. Flat bottom about '+(M.flatA>0?ft(M.flatL)+' × '+ft(M.flatW):'a point')+'.</div>'
+    :'<div class="note bad"><b>&#9888; Banks meet before '+ft(D)+'.</b> At '+slopeLbl(s)+' you need '+ft(M.needRun)+' of run from shore to reach full depth, but the footprint only allows '+ft(M.maxRun)+'. Deepest achievable is about <b>'+ft(M.actMax)+'</b> with no flat bottom. Go bigger, steeper, or shallower.</div>';
+  $('#slopeKpis').innerHTML=kpi('Water volume',fmt(Math.round(M.gal/100)*100),'gallons ('+fmt(M.volCF)+' cu ft)')+kpi('Surface area',fmt(M.surf),'sq ft · '+fmt(M.acres,2)+' acre')
+   +kpi('Excavation',fmt(M.exCY),'bank cu yd (incl. freeboard)')+kpi('Trailer loads',fmt(M.loads),fmt(M.looseCY)+' loose cu yd ÷ '+fmt(o.trailer)+' (swell '+o.swell+')')
+   +kpi('Liner surface',fmt(M.linerSurf),'sq ft installed (bottom + banks)')+kpi('Liner panel',fmt(M.panelL)+' × '+fmt(M.panelW),'ft · '+fmt(M.panelArea)+' sq ft with anchor + overlap')
+   +kpi('Flat bottom',M.flatA>0?fmt(M.flatL)+' × '+fmt(M.flatW):'none',M.flatA>0?'ft · '+fmt(M.flatA)+' sq ft':'banks meet',M.ok?'okk':'flag')
+   +kpi('Shallow water',fmt(M.shallowPct)+'%','of surface under 3 ft deep · avg depth '+ft(M.avgDepth));
+  var cols=['2','3','4','5'];if(P.slope.choice==='custom'&&[2,3,4,5].indexOf(s)<0)cols.push('custom');
+  var R=cols.map(function(c){var sv=slopeVal(c);return {c:c,s:sv,m:metrics(F,opts(sv))};});
+  var rows=[['Bank grade',function(m){return fmt(m.gradePct)+'%';}],['Reaches '+ft(D)+'?',function(m){return m.ok?'Yes':'No: max ~'+ft(m.actMax);},function(m){return m.ok?'':'bad';}],
+   ['Flat bottom (ft)',function(m){return m.flatA>0?fmt(m.flatL)+'×'+fmt(m.flatW):'none';}],['Water (gal)',function(m){return fmt(Math.round(m.gal/100)*100);}],
+   ['Excavation (bank cu yd)',function(m){return fmt(m.exCY);}],['Loose cu yd',function(m){return fmt(m.looseCY);}],['16-yd trailer loads'.replace('16',fmt(o.trailer)),function(m){return fmt(m.loads);}],
+   ['Liner surface (sq ft)',function(m){return fmt(m.linerSurf);}],['Liner panel (ft)',function(m){return fmt(m.panelL)+'×'+fmt(m.panelW);}],['Shallow <3 ft (% of surface)',function(m){return fmt(m.shallowPct)+'%';}]];
+  var cur=String(P.slope.choice),h='<table class="cmp"><thead><tr><th>Surface '+fmt(M.surf)+' sq ft</th>'+R.map(function(r){return '<th data-pick="'+r.c+'" class="'+(r.c===cur?'sel':'')+'">'+slopeLbl(r.s)+'</th>';}).join('')+'</tr></thead><tbody>';
+  rows.forEach(function(rw){h+='<tr><td>'+rw[0]+'</td>'+R.map(function(r){return '<td class="'+(r.c===cur?'sel ':'')+(rw[2]?rw[2](r.m):'')+'">'+rw[1](r.m)+'</td>';}).join('')+'</tr>';});
+  $('#cmpTable').innerHTML=h+'</tbody></table><p class="hint">This table keeps the water-line size fixed, so steeper banks dig more and hold more water. If you fix the bottom size and depth instead, flatter banks need a bigger footprint and more dirt.</p>';$$('#cmpTable [data-pick]').forEach(function(th){th.onclick=function(){P.slope.choice=th.dataset.pick;save();refresh();};});
+  var k=pcKey(s);$('#pcFor').textContent=P.slope.choice==='custom'?'custom '+slopeLbl(s)+', closest to '+k+':1':PC[k].t;$('#prosCons').innerHTML=pcHTML(k);
+  $('#pcAll').innerHTML=[2,3,4,5].filter(function(x){return x!==k;}).map(function(x){return '<details><summary>'+PC[x].t+'</summary>'+pcHTML(x)+'</details>';}).join('')+'<p class="hint">General guidance only. Soil type, liner, use (fish, swimming, livestock, stormwater) and local rules can change the right choice.</p>';
+  drawSection($('#secCv2'),secAxis);
+  if(!martinRef){var mf=buildField(roundRectPoly(100,67,15,16),40000);martinRef=metrics(mf,{s:3,D:8,sh:{on:false},fb:0,anchor:2,overlap:1,swell:1.25,trailer:16});}
+  $('#method').innerHTML='<p><b>Volume:</b> the water-line outline is split into a fine grid (~40,000 cells). Each cell gets its distance to shore, and the depth there follows the bank slope (depth = distance ÷ slope, capped at max depth, with the shelf if used). Adding up the cells is the same as stacking offset contour slices: the frustum / prismoidal method, but it works for any shape, including freeform. Gallons = cu ft × 7.48.</p>'
+   +(M.prismGal?'<p><b>Cross-check (prismoidal formula):</b> V = d/6 × (A<sub>top</sub> + 4·A<sub>mid</sub> + A<sub>bottom</sub>) = '+fmt(Math.round(M.prismGal/100)*100)+' gal vs. grid '+fmt(Math.round(M.gal/100)*100)+' gal.</p>':'')
+   +'<p><b>Depth check:</b> full depth needs slope × depth (+ shelf width) of horizontal run from the nearest shore. If the footprint is too narrow, the banks meet first and the app flags it.</p>'
+   +'<p><b>Excavation</b> = water volume + the freeboard band between the water line and top of bank. <b>Loads</b> = bank cu yd × swell factor ÷ trailer size, rounded up.</p>'
+   +'<p><b>Liner:</b> installed surface uses true slope length (√(1+1/s²)). Panel size = section length along the slope through the deepest point, plus the freeboard bank and anchor-trench and overlap allowance on each side.</p>'
+   +'<p><b>Reference check:</b> a 100 × 67 ft rounded rectangle (15 ft corners), 8 ft deep at 3:1 works out to <b>'+fmt(Math.round(martinRef.gal/100)*100)+' gal</b> (prismoidal '+fmt(Math.round(martinRef.prismGal/100)*100)+'). That matches a real ~205,000 gal design we built.</p>';}
+
+/* ---------- step 3: photo mockup ---------- */
+var mockCv=$('#mockCv');
+function makeSampleYard(){var W=1600,H=1050,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d'),R=mulberry32(11),hz=H*0.3,g;
+  g=x.createLinearGradient(0,0,0,hz);g.addColorStop(0,'#7fb0d8');g.addColorStop(1,'#dce9ef');x.fillStyle=g;x.fillRect(0,0,W,hz+40);
+  for(var i=0;i<6;i++){x.fillStyle='rgba(255,255,255,.55)';var cx=R()*W,cy=30+R()*hz*0.5;for(var j=0;j<6;j++){x.beginPath();x.ellipse(cx+j*28,cy+(R()-.5)*12,40+R()*30,14+R()*8,0,0,7);x.fill();}}
+  for(i=0;i<220;i++){var tx=R()*W,ty=hz-8+R()*16,r=16+R()*38;x.fillStyle=['#36502a','#2e4624','#41602f','#4a6a34'][i%4];x.beginPath();x.arc(tx,ty-r*0.6,r,0,7);x.fill();}
+  g=x.createLinearGradient(0,hz,0,H);g.addColorStop(0,'#8a9a4e');g.addColorStop(0.45,'#73903c');g.addColorStop(1,'#5f7f2f');x.fillStyle=g;x.fillRect(0,hz+4,W,H);
+  for(i=0;i<5000;i++){var y=hz+8+Math.pow(R(),1.3)*(H-hz),k=(y-hz)/(H-hz);x.fillStyle='rgba('+(60+R()*60|0)+','+(85+R()*60|0)+','+(30+R()*30|0)+','+(0.25+R()*.3)+')';x.beginPath();x.ellipse(R()*W,y,(8+R()*30)*(0.3+k),(3+R()*7)*(0.3+k),0,0,7);x.fill();}
+  for(i=0;i<22000;i++){y=hz+6+Math.pow(R(),0.75)*(H-hz);k=(y-hz)/(H-hz);var xx=R()*W;x.strokeStyle='hsla('+(65+R()*35|0)+','+(28+R()*30|0)+'%,'+(20+R()*30|0)+'%,.6)';x.lineWidth=0.4+k*1.6;x.beginPath();x.moveTo(xx,y);x.lineTo(xx+(R()-.5)*5*k,y-(2+R()*9)*(0.25+k));x.stroke();}
+  x.fillStyle='rgba(185,160,110,.55)';x.beginPath();x.moveTo(W*0.08,H);x.lineTo(W*0.18,H);x.lineTo(W*0.47,hz+10);x.lineTo(W*0.455,hz+10);x.closePath();x.fill();
+  x.fillStyle='#7c2d22';x.fillRect(W*0.08,hz-62,120,62);x.fillStyle='#4a4a46';x.beginPath();x.moveTo(W*0.08-10,hz-62);x.lineTo(W*0.08+60,hz-100);x.lineTo(W*0.08+130,hz-62);x.closePath();x.fill();x.fillStyle='#2a1a14';x.fillRect(W*0.08+44,hz-36,30,36);
+  for(i=0;i<16;i++){var fx=W*0.62+i*62,fy=hz+30+i*9;x.fillStyle='#5a4630';x.fillRect(fx,fy-28-i*1.5,6+i*0.4,28+i*1.5);}
+  x.strokeStyle='#5a4630';x.lineWidth=2;x.beginPath();x.moveTo(W*0.62,hz+12);x.lineTo(W*0.62+15*62,hz+30+15*9-40);x.stroke();
+  return c;}
+function loadPhotoForProject(){photo.img=null;photo.w=photo.h=0;
+  if(P.photo.sample){photo.img=makeSampleYard();photo.w=photo.img.width;photo.h=photo.img.height;return;}
+  if(P.photo.has){var d=getPhotoData(P.id);if(d){var im=new Image();im.onload=function(){photo.img=im;photo.w=im.naturalWidth;photo.h=im.naturalHeight;if(curStep==='photo')renderPhoto();};im.src=d;}}}
+function resetPlacement(){var ph=P.photo;ph.px=photo.w/2;ph.py=photo.h*0.62;ph.scaleP=[];ph.persp.pts=[];ph.persp.on=false;ph.wf=null;ph.diff=null;}
+$('#photoIn').onchange=function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var im=new Image();im.onload=function(){var mx=1600,sc=Math.min(1,mx/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*sc);c.height=Math.round(im.naturalHeight*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  var data=c.toDataURL('image/jpeg',0.82);savePhotoData(P.id,data);P.photo.has=true;P.photo.sample=false;photo.img=c;photo.w=c.width;photo.h=c.height;resetPlacement();P.photo.tilt=45;bindAll();mode='scale';save();refresh();toast('Photo loaded. Next: draw a scale line.');};im.onerror=function(){toast('Could not read that image');};im.src=rd.result;};rd.readAsDataURL(f);e.target.value='';};
+$('#sampleBg').onclick=function(){P.photo.sample=true;P.photo.has=false;photo.img=makeSampleYard();photo.w=photo.img.width;photo.h=photo.img.height;resetPlacement();P.photo.py=photo.h*0.66;P.photo.tilt=62;bindAll();save();refresh();};
+$('#clearPhoto').onclick=function(){if(!photo.img)return;if(!confirm('Remove the photo from this project?'))return;try{localStorage.removeItem(LS_PHOTO+P.id);}catch(e){}delete memPhotos[P.id];P.photo.has=false;P.photo.sample=false;photo.img=null;save();refresh();};
+$$('#modeBtns button').forEach(function(b){b.onclick=function(){mode=b.dataset.mode;refresh();};});
+$('#perspClear').onclick=function(){P.photo.persp.pts=[];P.photo.persp.on=false;bindAll();save();refresh();};
+$('#exportPng').onclick=function(){if(!photo.img){toast('Add a photo first');return;}var c=renderExport(true);var name='Jarheads-Pond-Concept-'+(P.name||'pond').replace(/[^\w\-]+/g,'-')+'.png';
+  if(c.toBlob)c.toBlob(function(b){var u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},4000);toast('PNG saved: '+name);},'image/png');};
+$('#toSummary').onclick=function(){setStep('summary');};
+
+function getMap(){var ph=P.photo,pp=ph.persp;
+  if(pp.on&&pp.pts.length===4&&num(pp.w,0)>0&&num(pp.d,0)>0){var w=+pp.w,d=+pp.d,H=solveH([[0,d],[w,d],[w,0],[0,0]],pp.pts);if(H){var Hi=invert3(H);if(Hi)return {g2i:function(X,Y){return applyH(H,X,Y);},i2g:function(x,y){return applyH(Hi,x,y);},persp:true,scaled:true};}}
+  var c=Math.max(0.17,Math.cos(num(ph.tilt,0)*Math.PI/180)),ppf=curPPF(c);
+  return {g2i:function(X,Y){return [X*ppf,Y*ppf*c,1];},i2g:function(x,y){return [x/ppf,y/(ppf*c),1];},persp:false,scaled:scaleSet()};}
+function scaleSet(){var ph=P.photo;return ph.scaleP.length===2&&num(ph.scaleFt,0)>0;}
+function curPPF(c){var ph=P.photo;if(scaleSet()){var a=ph.scaleP[0],b=ph.scaleP[1];return Math.max(0.01,Math.hypot(b[0]-a[0],(b[1]-a[1])/c)/(+ph.scaleFt));}var sh=curShape();return photo.w*0.5/Math.max(sh.L,sh.W);}
+function pondXf(map){var ph=P.photo;if(ph.px==null){ph.px=photo.w/2;ph.py=photo.h*0.62;}var cg=map.i2g(ph.px,ph.py),r=num(ph.rot,0)*Math.PI/180,k=num(ph.size,100)/100,cs=Math.cos(r),sn=Math.sin(r);
+  var l2g=function(u,v){return [cg[0]+k*(u*cs-v*sn),cg[1]+k*(u*sn+v*cs)];};
+  return {k:k,l2g:l2g,g2l:function(X,Y){var dx=(X-cg[0])/k,dy=(Y-cg[1])/k;return [dx*cs+dy*sn,-dx*sn+dy*cs];},l2i:function(u,v){var g=l2g(u,v);return map.g2i(g[0],g[1]);}};}
+function lscale(map,X,u,v){var g=X.l2g(u,v),a=map.g2i(g[0],g[1]),b=map.g2i(g[0]+1,g[1]),c=map.g2i(g[0],g[1]+1),sx=Math.hypot(b[0]-a[0],b[1]-a[1]),sy=Math.hypot(c[0]-a[0],c[1]-a[1]);return {sx:sx,sy:Math.max(sy,sx*0.12),f:clamp(sy/sx,0.12,1)};}
+function perimSamples(){if(perimCache.k===FK)return perimCache.s;var p=F.poly,n=p.length,tot=F.P,sp=Math.max(0.5,tot/700),out=[],acc=0;
+  for(var i=0;i<n;i++){var a=p[i],b=p[(i+1)%n],L=Math.hypot(b[0]-a[0],b[1]-a[1]);if(L<1e-9)continue;var nx=(b[1]-a[1])/L,ny=-(b[0]-a[0])/L,mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+    if(pointInPoly(mx+nx*0.05,my+ny*0.05,p)){nx=-nx;ny=-ny;}
+    for(var t=acc;t<L;t+=sp)out.push({u:a[0]+(b[0]-a[0])*t/L,v:a[1]+(b[1]-a[1])*t/L,nx:nx,ny:ny});acc=t-L;}
+  perimCache={k:FK,s:out};return out;}
+function pickEvery(arr,n){var out=[];if(!arr.length||n<=0)return out;for(var i=0;i<n;i++)out.push(arr[Math.floor(i*arr.length/n)]);return out;}
+function defaultDiff(){var n=clamp(Math.round(num(P.addons.aer.diffusers,2)),1,12),sh=curShape(),cx=F.deepX,cy=F.deepY,span=Math.max(M.flatL*0.7,sh.L*0.25),out=[];
+  for(var i=0;i<n;i++){var u=n===1?cx:cx-span/2+span*i/(n-1),v=cy;if(!pointInPoly(u,v,F.poly)){u=cx;}out.push([u,v]);}return out;}
+function defaultWf(){var s=perimSamples(),best=s[0],bd=1e9;s.forEach(function(q){var d=Math.hypot(q.u-F.bb.maxX*0.3,q.v-F.bb.minY);if(d<bd){bd=d;best=q;}});return {u:best.u,v:best.v,nx:best.nx,ny:best.ny};}
+function waterCols(){var w=P.photo.water;return w==='clear'?['#9ad0dd','#22708c','rgba(8,50,80,.42)']:w==='dark'?['#58767a','#163034','rgba(4,18,22,.5)']:['#8fb4a8','#2f5d55','rgba(12,42,38,.45)'];}
+function stone(ctx,x,y,rx,ry,col,R){ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(x+rx*0.12,y+ry*0.35,rx*1.02,ry*0.95,0,0,7);ctx.fill();
+  var g=ctx.createRadialGradient(x-rx*0.35,y-ry*0.45,Math.max(0.5,rx*0.1),x,y,Math.max(rx,ry)*1.1);g.addColorStop(0,'#e8e2d4');g.addColorStop(0.45,col);g.addColorStop(1,'#3d3a33');ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(x,y,rx,ry,(R()-.5)*0.6,0,7);ctx.fill();}
+var STONES=['#8d8a80','#a39e91','#7a7468','#b5ab97','#6e6a62','#9b8f78'];
+function renderScene(ctx,ui,ds){var W=photo.w,H=photo.h,ph=P.photo,ad=P.addons;ctx.drawImage(photo.img,0,0,W,H);
+  var map=getMap(),X=pondXf(map),poly=F.poly,ip=poly.map(function(q){return X.l2i(q[0],q[1]);});
+  if(ip.some(function(p){return !(p[2]>0)||!isFinite(p[0])||!isFinite(p[1]);})){label(ctx,'Pond is past the horizon. Move it lower or check the perspective points.',W/2,H/2,{bold:true,size:Math.max(14,W/50),color:'#fff',bg:'rgba(165,28,36,.9)'});drawUI(ctx,map,X,ds,ui);return;}
+  var cen=centroid(poly),ci=X.l2i(cen[0],cen[1]),L0=lscale(map,X,cen[0],cen[1]),ib=bbox(ip),R=mulberry32(5),cols=waterCols(),edge=ph.edge;
+  ctx.lineJoin='round';ctx.lineCap='round';
+  pathPoly(ctx,ip);ctx.strokeStyle=edge==='sand'?'rgba(196,170,118,.95)':edge==='grass'?'rgba(70,96,36,.9)':'rgba(88,70,46,.6)';ctx.lineWidth=(edge==='sand'?5:edge==='grass'?2.6:2.2)*L0.sx*X.k;ctx.stroke();
+  ctx.save();pathPoly(ctx,ip);ctx.clip();ctx.globalAlpha=0.93;var g=ctx.createLinearGradient(0,ib.minY,0,ib.maxY);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);ctx.fillStyle=g;ctx.fillRect(ib.minX-5,ib.minY-5,ib.w+10,ib.h+10);ctx.globalAlpha=1;
+  var dp=X.l2i(F.deepX,F.deepY),rg=ctx.createRadialGradient(dp[0],dp[1],0,dp[0],dp[1],Math.max(ib.w,ib.h)*0.55);rg.addColorStop(0,cols[2]);rg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=rg;ctx.fillRect(ib.minX,ib.minY,ib.w,ib.h);
+  var hg=ctx.createLinearGradient(0,ib.minY,0,ib.minY+ib.h*0.45);hg.addColorStop(0,'rgba(255,255,255,.22)');hg.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=hg;ctx.fillRect(ib.minX,ib.minY,ib.w,ib.h*0.45);
+  ctx.strokeStyle='rgba(255,255,255,.13)';for(var i=0;i<40;i++){var ry=ib.minY+R()*ib.h,rx=ib.minX+R()*ib.w,rw=ib.w*(0.04+R()*0.12);ctx.lineWidth=Math.max(1,L0.sy*0.15);ctx.beginPath();ctx.moveTo(rx,ry);ctx.quadraticCurveTo(rx+rw/2,ry-L0.sy*0.3,rx+rw,ry);ctx.stroke();}
+  pathPoly(ctx,ip);ctx.strokeStyle='rgba(10,20,15,.30)';ctx.lineWidth=3.2*L0.sx*X.k;ctx.stroke();ctx.strokeStyle='rgba(10,20,15,.25)';ctx.lineWidth=1.2*L0.sx*X.k;ctx.stroke();
+  ctx.restore();
+  var per=perimSamples(),k=X.k;
+  if(edge==='rock'){var sp=clamp(F.P/230,1.6,9),nS=Math.min(420,Math.round(F.P/sp)),pts=pickEvery(per,nS),stones=[];
+    pts.forEach(function(q,j){var r=R(),sz=sp*0.7*(0.75+r*0.55),off=(R()*0.5-0.1)*sz,u=q.u+q.nx*off,v=q.v+q.ny*off,p=X.l2i(u,v),ls=lscale(map,X,u,v);stones.push([p,sz*ls.sx*k,Math.max(sz*ls.sy*k*0.85,sz*ls.sx*k*0.4),STONES[j%STONES.length]]);});
+    stones.sort(function(a,b){return a[0][1]-b[0][1];}).forEach(function(s){stone(ctx,s[0][0],s[0][1],s[1],s[2],s[3],R);});}
+  else if(edge==='grass'){pickEvery(per,Math.min(900,Math.round(F.P*2.5))).forEach(function(q){var u=q.u+q.nx*(R()*0.9),v=q.v+q.ny*(R()*0.9),p=X.l2i(u,v),ls=lscale(map,X,u,v),hgt=(0.4+R()*0.7)*ls.sx*k;ctx.strokeStyle='hsl('+(70+R()*40|0)+','+(35+R()*25|0)+'%,'+(22+R()*22|0)+'%)';ctx.lineWidth=Math.max(1,ls.sx*k*0.08);ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(p[0]+(R()-.5)*hgt*0.6,p[1]-hgt);ctx.stroke();});}
+  else{pickEvery(per,Math.min(500,Math.round(F.P))).forEach(function(q){var u=q.u+q.nx*(0.3+R()*1.5),v=q.v+q.ny*(0.3+R()*1.5),p=X.l2i(u,v),ls=lscale(map,X,u,v);ctx.fillStyle='rgba('+(150+R()*50|0)+','+(125+R()*40|0)+','+(85+R()*30|0)+',.5)';ctx.beginPath();ctx.ellipse(p[0],p[1],ls.sx*k*0.3,ls.sy*k*0.2,0,0,7);ctx.fill();});}
+  if(ad.aer.on){if(!ph.diff||ph.diff.length!==clamp(Math.round(num(ad.aer.diffusers,2)),1,12))ph.diff=defaultDiff();
+    ph.diff.forEach(function(d){var p=X.l2i(d[0],d[1]),ls=lscale(map,X,d[0],d[1]),s=ls.sx*k;ctx.save();pathPoly(ctx,ip);ctx.clip();
+      var bg=ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],3*s);bg.addColorStop(0,'rgba(225,245,245,.6)');bg.addColorStop(1,'rgba(225,245,245,0)');ctx.fillStyle=bg;ctx.beginPath();ctx.ellipse(p[0],p[1],3*s,3*s*ls.f,0,0,7);ctx.fill();
+      [1.6,3.2,4.8].forEach(function(r,j){ctx.strokeStyle='rgba(255,255,255,'+(0.45-j*0.13)+')';ctx.lineWidth=Math.max(1,s*0.12);ctx.beginPath();ctx.ellipse(p[0],p[1],r*s,r*s*ls.f,0,0,7);ctx.stroke();});
+      for(var b=0;b<26;b++){var a=R()*7,rr=R()*1.6*s;ctx.fillStyle='rgba(255,255,255,'+(0.5+R()*0.4)+')';ctx.beginPath();ctx.arc(p[0]+Math.cos(a)*rr,p[1]+Math.sin(a)*rr*ls.f,Math.max(0.8,s*(0.06+R()*0.1)),0,7);ctx.fill();}ctx.restore();});}
+  if(ad.ftn.on){var fl=Math.min(10,Math.max(4,curShape().L/12)),s2=L0.sx*k,hh=fl*s2,c0=X.l2i(F.deepX,F.deepY);
+    [1.5,2.6].forEach(function(r){ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=Math.max(1,s2*0.1);ctx.beginPath();ctx.ellipse(c0[0],c0[1],r*s2,r*s2*L0.f,0,0,7);ctx.stroke();});
+    for(var a=0;a<70;a++){var vx=(R()-.5)*hh*0.9,pk=hh*(0.55+R()*0.45);ctx.strokeStyle='rgba(255,255,255,'+(0.22+R()*0.3)+')';ctx.lineWidth=Math.max(0.8,s2*0.07);ctx.beginPath();ctx.moveTo(c0[0],c0[1]);ctx.quadraticCurveTo(c0[0]+vx*0.5,c0[1]-pk*2,c0[0]+vx,c0[1]+(R()-.3)*s2*0.4*L0.f);ctx.stroke();}
+    var cg2=ctx.createLinearGradient(0,c0[1]-hh,0,c0[1]);cg2.addColorStop(0,'rgba(255,255,255,.1)');cg2.addColorStop(1,'rgba(255,255,255,.8)');ctx.fillStyle=cg2;ctx.beginPath();ctx.moveTo(c0[0]-s2*0.25,c0[1]);ctx.lineTo(c0[0],c0[1]-hh*1.02);ctx.lineTo(c0[0]+s2*0.25,c0[1]);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.ellipse(c0[0],c0[1],1.2*s2,1.2*s2*L0.f,0,0,7);ctx.fill();}
+  if(ad.wf.on){if(!ph.wf)ph.wf=defaultWf();var wf=ph.wf,hgt=Math.max(0.5,num(ad.wf.height,2)),wft=Math.max(0.5,num(ad.wf.width,24)/12),bu=wf.u+wf.nx*1.2,bv=wf.v+wf.ny*1.2,B=X.l2i(bu,bv),ls2=lscale(map,X,bu,bv),s3=ls2.sx*k,Hh=hgt*s3,ww=wft*s3,E=X.l2i(wf.u-wf.nx*1.6,wf.v-wf.ny*1.6);
+    var rows=3+Math.round(hgt),baseW=ww*1.5+4.5*s3;for(var r=rows;r>=0;r--){var ry2=B[1]-(r/rows)*Hh,rw2=baseW*(1-r/rows*0.5),n2=4+(r%2);for(var j=0;j<n2;j++){var sx2=B[0]-rw2/2+rw2*(j+0.5)/n2+(R()-.5)*s3*0.3,rr2=rw2/n2*0.62*(0.8+R()*0.4);stone(ctx,sx2,ry2,rr2,rr2*(0.55+0.3*ls2.f),STONES[(r+j)%STONES.length],R);}}
+    var lipY=B[1]-Hh;ctx.fillStyle='#57534a';ctx.beginPath();ctx.ellipse(B[0],lipY,ww*0.75,s3*0.35*ls2.f+2,0,0,7);ctx.fill();
+    var sg=ctx.createLinearGradient(0,lipY,0,E[1]);sg.addColorStop(0,'rgba(240,250,255,.95)');sg.addColorStop(1,'rgba(185,225,235,.85)');ctx.fillStyle=sg;ctx.beginPath();ctx.moveTo(B[0]-ww/2,lipY);ctx.lineTo(B[0]+ww/2,lipY);ctx.quadraticCurveTo(B[0]+ww*0.55,(lipY+E[1])/2,E[0]+ww*0.6,E[1]);ctx.lineTo(E[0]-ww*0.6,E[1]);ctx.quadraticCurveTo(B[0]-ww*0.55,(lipY+E[1])/2,B[0]-ww/2,lipY);ctx.fill();
+    for(j=0;j<14;j++){var t=(j+0.5)/14;ctx.strokeStyle='rgba(255,255,255,'+(0.4+R()*0.5)+')';ctx.lineWidth=Math.max(0.8,s3*0.05);ctx.beginPath();ctx.moveTo(B[0]-ww/2+ww*t,lipY);ctx.quadraticCurveTo(B[0]-ww*0.55+ww*1.1*t,(lipY+E[1])/2,E[0]-ww*0.6+ww*1.2*t,E[1]);ctx.stroke();}
+    for(j=0;j<16;j++){ctx.fillStyle='rgba(255,255,255,'+(0.45+R()*0.45)+')';ctx.beginPath();ctx.ellipse(E[0]+(R()-.5)*ww*1.6,E[1]+(R()-.3)*s3*0.8*ls2.f,s3*(0.2+R()*0.35),s3*(0.12+R()*0.2)*ls2.f+1,0,0,7);ctx.fill();}}
+  if(ph.night){ctx.fillStyle='rgba(6,12,38,.66)';ctx.fillRect(0,0,W,H);}
+  if(ad.light.on){var nL=clamp(Math.round(num(ad.light.count,6)),1,60),lp=pickEvery(per,nL),ty=ad.light.type;
+    lp.forEach(function(q,j){var uw=ty==='underwater'||(ty==='both'&&j%2===0),off=uw?-1.4:2.2,u=q.u+q.nx*off,v=q.v+q.ny*off,p=X.l2i(u,v),ls=lscale(map,X,u,v),s=ls.sx*k;
+      if(ph.night){ctx.save();ctx.globalCompositeOperation='lighter';if(uw){pathPoly(ctx,ip);ctx.clip();}var r=(uw?6:4)*s,gg=ctx.createRadialGradient(p[0],p[1],0,p[0],p[1],r);gg.addColorStop(0,uw?'rgba(160,235,255,.85)':'rgba(255,236,180,.95)');gg.addColorStop(0.35,uw?'rgba(90,200,240,.35)':'rgba(255,210,130,.35)');gg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gg;ctx.beginPath();ctx.ellipse(p[0],p[1],r,r*(uw?ls.f:Math.max(ls.f,0.6)),0,0,7);ctx.fill();ctx.restore();ctx.fillStyle='#fffbe8';ctx.beginPath();ctx.arc(p[0],p[1],Math.max(1.5,s*0.18),0,7);ctx.fill();}
+      else if(uw){ctx.fillStyle='rgba(235,245,240,.45)';ctx.beginPath();ctx.ellipse(p[0],p[1],s*0.35,s*0.35*ls.f+0.5,0,0,7);ctx.fill();}
+      else{ctx.fillStyle='#1d1d1a';ctx.fillRect(p[0]-s*0.15,p[1]-s*0.9,s*0.3,s*0.9);ctx.fillStyle='#3a3a34';ctx.beginPath();ctx.ellipse(p[0],p[1]-s*0.9,s*0.32,s*0.14+0.5,0,0,7);ctx.fill();}});}
+  if(ph.dims){var t2=dimText()+' · '+ft(M.actMax)+' deep · '+slopeLbl(slopeVal())+' banks · ≈'+fmt(Math.round(M.gal/1000)*1000)+' gal',fs=clamp(W/55,13,30);label(ctx,t2,ci[0],Math.min(H-fs,ib.maxY+fs*1.4),{bold:true,size:fs,color:'#fff',bg:'rgba(23,24,15,.78)'});}
+  drawUI(ctx,map,X,ds,ui,ip);}
+function drawUI(ctx,map,X,ds,ui,ip){if(!ui)return;var ph=P.photo,r=13/ds,lw=2/ds;
+  function hnd(p,col,t){ctx.beginPath();ctx.arc(p[0],p[1],r,0,7);ctx.fillStyle=col;ctx.fill();ctx.lineWidth=lw;ctx.strokeStyle='#111';ctx.stroke();if(t)label(ctx,t,p[0],p[1],{bold:true,size:11/ds,color:'#111'});}
+  if(mode==='move'&&ip){pathPoly(ctx,ip);ctx.setLineDash([8/ds,8/ds]);ctx.strokeStyle='rgba(214,164,40,.45)';ctx.lineWidth=1.2/ds;ctx.stroke();ctx.setLineDash([]);hnd([ph.px,ph.py],'#d6a428','✥');}
+  if(mode==='scale'){var sp=ph.scaleP;if(sp.length===2){ctx.strokeStyle='#ff3b30';ctx.lineWidth=3/ds;ctx.beginPath();ctx.moveTo(sp[0][0],sp[0][1]);ctx.lineTo(sp[1][0],sp[1][1]);ctx.stroke();label(ctx,num(ph.scaleFt,0)>0?ph.scaleFt+' ft':'enter length',(sp[0][0]+sp[1][0])/2,(sp[0][1]+sp[1][1])/2-18/ds,{bold:true,size:13/ds,color:'#fff',bg:'rgba(165,28,36,.9)'});}
+    sp.forEach(function(p,i){hnd(p,'#ff6b60',String(i+1));});}
+  if(mode==='persp'){var q=ph.persp.pts;if(q.length>1){ctx.strokeStyle='#00e5ff';ctx.lineWidth=2.5/ds;ctx.beginPath();q.forEach(function(p,i){if(i)ctx.lineTo(p[0],p[1]);else ctx.moveTo(p[0],p[1]);});if(q.length===4)ctx.closePath();ctx.stroke();}
+    if(q.length===4&&map.persp){var w=+ph.persp.w,d=+ph.persp.d;ctx.strokeStyle='rgba(0,229,255,.45)';ctx.lineWidth=1/ds;for(var i=1;i<4;i++){[[[w*i/4,0],[w*i/4,d]],[[0,d*i/4],[w,d*i/4]]].forEach(function(l){var a=map.g2i(l[0][0],l[0][1]),b=map.g2i(l[1][0],l[1][1]);ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();});}}
+    q.forEach(function(p,i){hnd(p,'#7ff3ff',String(i+1));});}
+  if(mode==='wf'&&P.addons.wf.on&&ph.wf){hnd(X.l2i(ph.wf.u+ph.wf.nx*1.2,ph.wf.v+ph.wf.ny*1.2),'#d6a428','W');}
+  if(mode==='diff'&&P.addons.aer.on&&ph.diff){ph.diff.forEach(function(d,i){hnd(X.l2i(d[0],d[1]),'#d6a428',String(i+1));});}}
+function renderExport(caption){var W=photo.w,H=photo.h,cap=caption?Math.max(34,Math.round(W*0.034)):0,c=document.createElement('canvas');c.width=W;c.height=H+cap;var ctx=c.getContext('2d');renderScene(ctx,false,1);
+  if(cap){ctx.fillStyle='#16170f';ctx.fillRect(0,H,W,cap);ctx.fillStyle='#d6a428';ctx.fillRect(0,H,W,Math.max(2,cap*0.07));var fs=Math.round(cap*0.42);
+    label(ctx,'Concept rendering — Jarheads Land Service — 352-538-7145',cap*0.4,H+cap*0.55,{align:'left',bold:true,size:fs,color:'#fff'});
+    ctx.font='600 '+Math.round(fs*0.85)+'px Arial';var right=(P.name||'')+'  ·  '+new Date().toLocaleDateString('en-US');if(ctx.measureText(right).width<W*0.33)label(ctx,right,W-cap*0.4,H+cap*0.55,{align:'right',size:Math.round(fs*0.85),color:'#d6c79f'});}
+  return c;}
+function mockSize(){var wrap=mockCv.parentElement,w=wrap.clientWidth||600,h=w*photo.h/photo.w,mh=Math.max(320,window.innerHeight*0.78);if(h>mh){h=mh;w=h*photo.w/photo.h;}return [Math.round(w),Math.round(h)];}
+function drawMock(){if(!photo.img)return;var sz=mockSize(),dpr=Math.min(window.devicePixelRatio||1,2),cw=Math.round(sz[0]*dpr),ch=Math.round(sz[1]*dpr);if(mockCv.width!==cw||mockCv.height!==ch){mockCv.width=cw;mockCv.height=ch;}
+  mockCv.style.width=sz[0]+'px';mockCv.style.height=sz[1]+'px';mockCv.style.margin='0 auto';var ctx=mockCv.getContext('2d'),s=cw/photo.w;ctx.setTransform(s,0,0,s,0,0);renderScene(ctx,true,sz[0]/photo.w);}
+var HELP={move:'<b>Move pond:</b> drag anywhere on the photo to place the pond. Use the sliders below to rotate and resize.',
+ scale:'<b>Set scale:</b> drag a line along something you know the length of (house wall, fence section, driveway), then type its real length below. Lines running across the photo work best.',
+ persp:'<b>Perspective (optional, more accurate):</b> tap 4 ground corners of a rectangle you know, like a slab, driveway, or 4 stakes: <b>1</b> near-left, <b>2</b> near-right, <b>3</b> far-right, <b>4</b> far-left. Then enter its sizes. Drag points to adjust.',
+ wf:'<b>Waterfall:</b> tap or drag along the shoreline to place it.',diff:'<b>Diffusers:</b> tap or drag inside the pond to move the nearest diffuser.',view:'<b>View only:</b> touches won\u2019t move anything. Good for scrolling on a phone.'};
+function renderPhoto(){var has=!!photo.img;$('#mockEmpty').style.display=has?'none':'flex';mockCv.style.display=has?'block':'none';
+  var help=HELP[mode];if(mode==='wf'&&!P.addons.wf.on)help+=' <i>Turn the waterfall on in Step 4 first.</i>';if(mode==='diff'&&!P.addons.aer.on)help+=' <i>Turn aeration on in Step 4 first.</i>';$('#modeHelp').innerHTML=help;
+  $('#scaleBox').style.display=mode==='scale'?'':'none';$('#perspBox').style.display=mode==='persp'?'':'none';
+  var map=has?getMap():null;$('#tiltWrap').style.display=map&&map.persp?'none':'';
+  $('#rotV').textContent=fmt(num(P.photo.rot,0))+'°';$('#tiltV').textContent=fmt(num(P.photo.tilt,0))+'°';
+  var sc=map&&map.scaled;$('#sizeV').innerHTML=fmt(num(P.photo.size,100))+'% '+(sc?(Math.round(num(P.photo.size,100))===100?'<span style="color:var(--ok)">(true size)</span>':'<span style="color:var(--bad)">(differs from design)</span>'):'<span style="color:var(--muted)">(not to scale yet)</span>');
+  $('#scaleInfo').innerHTML=scaleSet()?'Scale set: '+fmt(curPPF(Math.max(0.17,Math.cos(num(P.photo.tilt,0)*Math.PI/180))),1)+' px per ft.':(P.photo.scaleP.length===2?'Enter the real length to set the scale.':'Not to scale yet. Draw a line on the photo.');
+  $('#perspInfo').textContent=P.photo.persp.pts.length+'/4 points'+(map&&map.persp?' · perspective ON':'');
+  if(has)drawMock();}
+function evPt(e){var r=mockCv.getBoundingClientRect();return [(e.clientX-r.left)/r.width*photo.w,(e.clientY-r.top)/r.height*photo.h];}
+function near(a,b,ds){return Math.hypot(a[0]-b[0],a[1]-b[1])*ds<24;}
+function toLocal(p){var map=getMap(),X=pondXf(map),g=map.i2g(p[0],p[1]);return X.g2l(g[0],g[1]);}
+function setWfFrom(p){var l=toLocal(p),best=null,bd=1e18;perimSamples().forEach(function(q){var d=(q.u-l[0])*(q.u-l[0])+(q.v-l[1])*(q.v-l[1]);if(d<bd){bd=d;best=q;}});if(best)P.photo.wf={u:best.u,v:best.v,nx:best.nx,ny:best.ny};}
+mockCv.addEventListener('pointerdown',function(e){if(!photo.img||mode==='view')return;e.preventDefault();var p=evPt(e),ph=P.photo,ds=mockCv.getBoundingClientRect().width/photo.w;mockCv.setPointerCapture(e.pointerId);drag=null;
+  if(mode==='move')drag={t:'move',o:[ph.px-p[0],ph.py-p[1]]};
+  else if(mode==='scale'){var i=ph.scaleP.findIndex(function(q){return near(q,p,ds);});if(i>=0)drag={t:'sp',i:i};else{ph.scaleP=[p,[p[0],p[1]]];drag={t:'sp',i:1};}}
+  else if(mode==='persp'){var q=ph.persp.pts,j=q.findIndex(function(z){return near(z,p,ds);});if(j>=0)drag={t:'pp',i:j};else if(q.length<4){q.push(p);drag={t:'pp',i:q.length-1};if(q.length===4){if(!(num(ph.persp.w,0)>0))ph.persp.w=20;if(!(num(ph.persp.d,0)>0))ph.persp.d=20;ph.persp.on=true;bindAll();toast('Now enter the real sizes of that rectangle');}}else toast('Drag a point, or Clear points to start over');}
+  else if(mode==='wf'&&P.addons.wf.on){setWfFrom(p);drag={t:'wf'};}
+  else if(mode==='diff'&&P.addons.aer.on&&ph.diff){var l=toLocal(p),bi=0,bd=1e18;ph.diff.forEach(function(d,k){var dd=Math.hypot(d[0]-l[0],d[1]-l[1]);if(dd<bd){bd=dd;bi=k;}});drag={t:'df',i:bi};if(pointInPoly(l[0],l[1],F.poly))ph.diff[bi]=l;}
+  schedMock();});
+mockCv.addEventListener('pointermove',function(e){if(!drag)return;var p=evPt(e),ph=P.photo;
+  if(drag.t==='move'){ph.px=p[0]+drag.o[0];ph.py=p[1]+drag.o[1];}else if(drag.t==='sp')ph.scaleP[drag.i]=p;else if(drag.t==='pp')ph.persp.pts[drag.i]=p;else if(drag.t==='wf')setWfFrom(p);else if(drag.t==='df'){var l=toLocal(p);if(pointInPoly(l[0],l[1],F.poly))ph.diff[drag.i]=l;}
+  schedMock();});
+function endDrag(){if(!drag)return;if(drag.t==='sp'&&Math.hypot(P.photo.scaleP[0][0]-P.photo.scaleP[1][0],P.photo.scaleP[0][1]-P.photo.scaleP[1][1])<4)P.photo.scaleP=[];drag=null;save();renderPhoto();}
+mockCv.addEventListener('pointerup',endDrag);mockCv.addEventListener('pointercancel',endDrag);
+function schedMock(){if(mockRaf)return;mockRaf=requestAnimationFrame(function(){mockRaf=0;drawMock();});}
+
+/* ---------- step 4: add-ons ---------- */
+var FLT={none:'No mechanical filter. Bottom aeration keeps oxygen up, aquatic plants compete with algae for nutrients, and beneficial bacteria break down muck. Typical for large earthen or lined fish and farm ponds.',
+ skimbio:'A skimmer pulls leaves and debris off the surface. Water returns through a biofalls (biological filter at the waterfall). Typical for small ornamental and koi ponds.',
+ pressure:'A pressurized filter is compact, can sit hidden or buried, and backwashes easily. Suited to small ornamental and koi ponds.'};
+var FLT_NAME={none:'No mechanical filter (natural balance)',skimbio:'Skimmer + biofalls',pressure:'Pressurized filter'};
+function renderAddons(){var ad=P.addons,w=num(ad.wf.width,0),D=curShape().D;
+  $('#wfInfo').innerHTML=w>0?'<b>Pump estimate:</b> '+fmt(w)+'" spillway × 100–150 GPH per inch ≈ <b>'+fmt(w*100)+'–'+fmt(w*150)+' GPH</b>. Pick the pump from its curve at total head ('+ft(num(ad.wf.height,0))+' lift plus pipe friction).':'Enter spillway width for a pump estimate.';
+  $('#aerWarn').innerHTML=(!ad.aer.on&&D>6)?'<div class="note bad">Max depth is '+ft(D)+'. Bottom diffuser aeration is recommended for ponds over about 6 ft deep.</div>':'';
+  var big=M.gal>=20000||M.surf>=2500;
+  $('#fltRec').innerHTML=big?'<b>Recommendation:</b> at about '+fmt(Math.round(M.gal/1000)*1000)+' gal this is a large pond. A mechanical filter usually isn\u2019t needed: aeration, plants and beneficial bacteria do the work.'
+    :'<b>Recommendation:</b> at about '+fmt(Math.round(M.gal/100)*100)+' gal this is a small ornamental-size pond. A skimmer + biofalls or a pressurized filter is typical, especially with fish. A UV clarifier is optional for green water.';
+  $('#fltDesc').innerHTML=FLT[ad.flt.type]+(ad.flt.uv?'<br><b>UV clarifier:</b> optional. Clears green water (free-floating algae) in smaller ponds; it does not remove string algae or muck.':'');
+  var h='';ad.other.forEach(function(it,i){h+='<div class="it"><label style="margin:0">Item<input type="text" data-oi="'+i+'" data-of="desc" value="'+esc(it.desc)+'" placeholder="e.g. Fish stocking, dock, rip-rap"></label><label style="margin:0" class="price">Cost $<input type="number" inputmode="decimal" step="any" data-oi="'+i+'" data-of="price" value="'+esc(it.price)+'" placeholder="TBD"></label><button class="btn small danger" data-odel="'+i+'" aria-label="Remove">&times;</button></div>';});
+  $('#otherItems').innerHTML=h||'<p class="hint">None yet.</p>';
+  $$('[data-odel]').forEach(function(b){b.onclick=function(){ad.other.splice(+b.dataset.odel,1);save();renderAddons();};});}
+$('#otherItems').addEventListener('input',function(e){var el=e.target;if(el.dataset.oi===undefined)return;var it=P.addons.other[+el.dataset.oi];it[el.dataset.of]=el.dataset.of==='price'?(el.value===''?'':parseFloat(el.value)):el.value;save();});
+$('#addItem').onclick=function(){P.addons.other.push({desc:'',price:''});save();renderAddons();var ins=$$('#otherItems input[data-of=desc]');if(ins.length)ins[ins.length-1].focus();};
+
+/* ---------- step 5: summary ---------- */
+function addonLines(){var ad=P.addons,L=[];
+  if(ad.aer.on)L.push('Bottom diffuser aeration: '+esc(ad.aer.model||'compressor')+', '+fmt(num(ad.aer.diffusers,2))+' diffuser'+(num(ad.aer.diffusers,2)==1?'':'s'));
+  if(ad.light.on)L.push(fmt(num(ad.light.count,0))+' '+({underwater:'LED underwater',landscape:'LED landscape',both:'LED underwater + landscape'}[ad.light.type])+' lights'+(ad.light.notes?' ('+esc(ad.light.notes)+')':''));
+  if(ad.wf.on)L.push('Waterfall: about '+ft(num(ad.wf.height,0))+' high with a '+fmt(num(ad.wf.width,0))+'" spillway');
+  if(ad.ftn.on)L.push('Fountain'+(ad.ftn.size?': '+esc(ad.ftn.size):'')+(ad.ftn.pattern?', '+esc(ad.ftn.pattern)+' pattern':''));
+  L.push('Filtration: '+FLT_NAME[ad.flt.type]+(ad.flt.uv?' + UV clarifier':''));
+  ad.other.forEach(function(it){if(it.desc)L.push(esc(it.desc));});return L;}
+function mockData(){if(!photo.img)return null;try{return renderExport(true).toDataURL('image/jpeg',0.86);}catch(e){return null;}}
+function drawingData(){var c1=document.createElement('canvas'),c2=document.createElement('canvas');document.body.appendChild(c1);document.body.appendChild(c2);c1.style.cssText=c2.style.cssText='position:absolute;left:-9999px;width:700px';
+  var save1=planXf;drawPlan(c1,700);planXf=save1;drawSection(c2,secAxis==='short'?'short':'long',700);var r=[c1.toDataURL('image/png'),c2.toDataURL('image/png')];c1.remove();c2.remove();return r;}
+function sheetHead(){return '<div class="sh-head"><div class="co"><svg><use href="#logo"/></svg><div><div class="cn">JARHEADS LAND SERVICE</div><div style="font-size:11px;color:#555;letter-spacing:.08em">VETERAN-OWNED · EXCAVATION · LAND CLEARING · PONDS</div></div></div><div class="ct">'+CO.town+'<br>'+CO.phone+'<br>'+CO.email+'</div></div>';}
+function costRows(){var ad=P.addons,I=P.internal,mk=num(I.markup,0)/100,rows=[],labor=0,mat=0,tbd=[];
+  var rate=num(I.dayRate,NaN),days=num(I.days,NaN);if(isFinite(rate)&&isFinite(days)){labor+=rate*days;rows.push(['Excavation: '+fmt(days,days%1?1:0)+' day(s) × '+money(rate),rate*days,'L']);}else{rows.push(['Excavation: '+(isFinite(days)?fmt(days,1)+' days':'days not entered')+' × '+money(rate),'','L']);tbd.push('machine days');}
+  var hr=num(I.haulRate,NaN);if(isFinite(hr)){labor+=hr*M.loads;rows.push(['Hauling: '+M.loads+' loads × '+money(hr),hr*M.loads,'L']);}else rows.push(['Hauling: '+M.loads+' loads (rate not entered)','','L']);
+  var lr=num(I.linerRate,NaN);if(isFinite(lr)){mat+=lr*M.panelArea;rows.push(['Liner: '+fmt(M.panelArea)+' sq ft panel × '+money(lr)+'/sq ft',lr*M.panelArea,'M']);}else{rows.push(['Liner: '+fmt(M.panelArea)+' sq ft panel ($/sq ft not entered)','','M']);tbd.push('liner rate');}
+  [['aer','Aeration'],['light','Lighting'],['wf','Waterfall'],['ftn','Fountain']].forEach(function(k){var a=ad[k[0]];if(!a.on)return;var p=num(a.price,NaN);if(isFinite(p)){mat+=p;rows.push([k[1],p,'M']);}else{rows.push([k[1]+' (price TBD)','','M']);tbd.push(k[1].toLowerCase());}});
+  var fp=num(ad.flt.price,NaN);if(ad.flt.type!=='none'||ad.flt.uv||isFinite(fp)){if(isFinite(fp)){mat+=fp;rows.push(['Filtration: '+FLT_NAME[ad.flt.type]+(ad.flt.uv?' + UV':''),fp,'M']);}else{rows.push(['Filtration (price TBD)','','M']);tbd.push('filtration');}}
+  ad.other.forEach(function(it){if(!it.desc&&it.price==='')return;var p=num(it.price,NaN);if(isFinite(p)){mat+=p;rows.push([esc(it.desc||'Other item'),p,'M']);}else{rows.push([esc(it.desc||'Other item')+' (TBD)','','M']);tbd.push(it.desc||'item');}});
+  var oc=num(I.otherCost,NaN);if(isFinite(oc)&&oc){mat+=oc;rows.push(['Other cost',oc,'M']);}
+  return {rows:rows,labor:labor,mat:mat,mk:mk,markup:mat*mk,total:labor+mat*(1+mk),tbd:tbd};}
+function renderSummary(){var sh=curShape(),s=slopeVal(),S=P.summary,cu=P.customer,img=mockData(),dr=S.drawings!=='no'?drawingData():null,date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var spec=function(k,v){return '<div><div class="k">'+k+'</div><div class="v">'+v+'</div></div>';};
+  var c='<div class="sheet cust-sheet"'+(sumView==='cust'?'':' style="display:none"')+'>'+sheetHead()+'<div class="sh-title">Pond Concept &amp; Proposal Summary</div>'
+   +'<div class="sh-meta"><div><b>Project:</b> '+esc(P.name||'Pond project')+'</div><div><b>Date:</b> '+date+'</div><div><b>Customer:</b> '+esc(cu.name||'—')+'</div><div><b>Site:</b> '+esc(cu.address||'—')+'</div>'+(cu.phone||cu.email?'<div><b>Contact:</b> '+esc([cu.phone,cu.email].filter(Boolean).join(' · '))+'</div>':'')+'</div>'
+   +'<div class="sh-specs">'+spec('Shape',shapeName())+spec('Size (water line)',dimText())+spec('Max depth',ft(M.actMax))+spec('Bank slope',slopeLbl(s))
+   +spec('Water volume','≈ '+fmt(Math.round(M.gal/1000)*1000)+' gal')+spec('Surface area',fmt(Math.round(M.surf/10)*10)+' sq ft')+spec('Acreage',fmt(M.acres,2)+' ac')+spec('Shelf',shelf().on&&shelf().d>0?ft(shelf().w)+' wide @ '+ft(shelf().d):'None')+'</div>'
+   +(img?'<img class="sh-img" src="'+img+'" alt="Concept rendering"><div class="sh-cap">Concept rendering for illustration. Final shape and placement follow site conditions.</div>':'')
+   +(dr?'<div class="sh-two"><div><img src="'+dr[0]+'" alt="Plan view"><div class="sh-cap">Plan view (shaded by depth)</div></div><div><img src="'+dr[1]+'" alt="Cross-section"><div class="sh-cap">Cross-section through deepest point</div></div></div>':'')
+   +'<div class="sh-sec"><h4>Included features</h4><ul>'+addonLines().map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul></div>'
+   +(num(S.lump,NaN)>0?'<div class="sh-price"><span>Lump-sum price</span><span class="amt">'+money(num(S.lump,0))+'</span></div>':'')
+   +'<div class="sh-sec"><div class="sh-tw">'+(S.timeline?'<div><h4>Timeline</h4><div>'+esc(S.timeline)+'</div></div>':'')+'<div><h4>Warranty</h4><div>12-month workmanship warranty from the date of completion.</div></div></div>'+(S.notes?'<h4>Notes</h4><div style="white-space:pre-wrap">'+esc(S.notes)+'</div>':'')+'</div>'
+   +'<div class="sh-sign"><div>Accepted by (customer signature)</div><div>Date</div></div>'
+   +'<div class="sh-foot">Jarheads Land Service · Veteran-owned · '+CO.town+' · '+CO.phone+' · '+CO.email+'</div></div>';
+  var cr=costRows(),lump=num(S.lump,NaN),o=opts(s);
+  var tr=function(k,v){return '<tr><td>'+k+'</td><td>'+v+'</td></tr>';};
+  var it='<div class="sheet internal-sheet"'+(sumView==='int'?'':' style="display:none"')+'><div class="int-banner">INTERNAL · NOT FOR CUSTOMER</div>'+sheetHead()+'<div class="sh-title" style="color:var(--olive-d)">Internal Job Sheet: '+esc(P.name||'Pond project')+'</div>'
+   +'<div class="sh-meta"><div><b>Customer:</b> '+esc(cu.name||'—')+'</div><div><b>Site:</b> '+esc(cu.address||'—')+'</div><div><b>Shape:</b> '+shapeName()+', '+dimText()+'</div><div><b>Depth / slope:</b> '+ft(sh.D)+' design · '+slopeLbl(s)+'</div></div>'
+   +'<div class="sh-two"><div><h4 style="margin:0 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Dirt &amp; liner</h4><table class="it">'
+   +tr('Excavation (bank)',fmt(M.exCY)+' cu yd')+tr('Water volume',fmt(M.volCF)+' cu ft · '+fmt(Math.round(M.gal/100)*100)+' gal')+tr('Freeboard included','+'+ft(o.fb))+tr('Swell factor','× '+o.swell)+tr('Loose (hauled) volume',fmt(M.looseCY)+' cu yd')
+   +tr('Trailer loads ('+fmt(o.trailer)+' cu yd)','<b>'+M.loads+'</b>')+tr('Liner surface (installed)',fmt(M.linerSurf)+' sq ft')+tr('Liner panel to order',fmt(M.panelL)+' × '+fmt(M.panelW)+' ft = '+fmt(M.panelArea)+' sq ft')
+   +tr('Allowance each side','anchor '+ft(o.anchor)+' + overlap '+ft(o.overlap))+'</table></div><div><h4 style="margin:0 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Geometry</h4><table class="it">'
+   +tr('Surface area',fmt(M.surf)+' sq ft · '+fmt(M.acres,2)+' ac')+tr('Perimeter (water line)',fmt(M.perim)+' ft')+tr('Flat bottom',M.flatA>0?fmt(M.flatL)+' × '+fmt(M.flatW)+' ft':'none')
+   +tr('Depth check',M.ok?'OK: reaches '+ft(sh.D):'<b style="color:var(--bad)">Max ~'+ft(M.actMax)+'</b>')+tr('Run needed / available',ft(M.needRun)+' / '+ft(M.maxRun))+tr('Shallow (&lt;3 ft)',fmt(M.shallowPct)+'% of surface')+tr('Average depth',ft(M.avgDepth))
+   +(M.prismGal?tr('Prismoidal cross-check',fmt(Math.round(M.prismGal/100)*100)+' gal'):'')+'</table></div></div>'
+   +'<h4 style="margin:6px 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Costing</h4><table class="it"><tr><th>Item</th><th>Amount</th></tr>'
+   +cr.rows.map(function(r){return '<tr><td>'+r[0]+(r[2]==='M'?' <small style="color:#888">(material)</small>':'')+'</td><td>'+(r[1]===''?'TBD':money(r[1]))+'</td></tr>';}).join('')
+   +'<tr><td>Labor + hauling</td><td>'+money(cr.labor)+'</td></tr><tr><td>Materials subtotal</td><td>'+money(cr.mat)+'</td></tr><tr><td>Materials markup ('+fmt(cr.mk*100,cr.mk*100%1?1:0)+'%)</td><td>'+money(cr.markup)+'</td></tr>'
+   +'<tr class="tot"><td>Suggested price (from entered numbers)</td><td>'+money(cr.total)+'</td></tr>'
+   +(isFinite(lump)?'<tr><td>Lump sum quoted to customer</td><td>'+money(lump)+'</td></tr>'+(cr.tbd.length?'<tr><td>Difference (quote − suggested)</td><td style="color:#888">incomplete: '+cr.tbd.length+' item(s) TBD</td></tr>':'<tr><td>Difference (quote − suggested)</td><td style="color:'+(lump-cr.total>=0?'var(--ok)':'var(--bad)')+'">'+money(lump-cr.total)+'</td></tr>'):'')+'</table>'
+   +(cr.tbd.length?'<div class="note bad" style="font-size:12px">Not counted yet (enter in Step 4): '+esc(cr.tbd.join(', '))+'.</div>':'')
+   +'<div class="sh-foot">Internal only. Numbers are estimates from the design inputs; check against site conditions and supplier quotes.</div></div>';
+  $('#sheets').innerHTML=c+it;}
+$$('#sumSeg button').forEach(function(b){b.onclick=function(){sumView=b.dataset.sum;refresh();};});
+function doPrint(which){sumView=which;if(curStep!=='summary')setStep('summary');else refresh();document.body.classList.remove('pr-cust','pr-int');document.body.classList.add(which==='int'?'pr-int':'pr-cust');
+  setTimeout(function(){window.print();},250);}
+window.addEventListener('afterprint',function(){document.body.classList.remove('pr-cust','pr-int');});
+$('#printCust').onclick=function(){doPrint('cust');};$('#printInt').onclick=function(){doPrint('int');};
+
+/* ---------- projects ---------- */
+function openProjects(){var ids=Object.keys(projects).sort(function(a,b){return (projects[b].updated||0)-(projects[a].updated||0);});
+  $('#plist').innerHTML=ids.map(function(id){var p=projects[id];return '<li class="'+(id===P.id?'cur':'')+'"><div class="pn"><b>'+esc(p.name||'Untitled')+'</b><small>'+esc([p.customer&&p.customer.name,p.customer&&p.customer.address].filter(Boolean).join(' · ')||'No customer yet')+' · '+new Date(p.updated||Date.now()).toLocaleDateString('en-US')+'</small></div>'
+    +(id===P.id?'<span class="hint" style="margin:0 6px">Open</span>':'<button class="btn small dark" data-open="'+id+'">Open</button>')+'<button class="btn small danger" data-del="'+id+'">Delete</button></li>';}).join('');
+  $$('[data-open]').forEach(function(b){b.onclick=function(){switchTo(b.dataset.open);closeProjects();};});
+  $$('[data-del]').forEach(function(b){b.onclick=function(){var p=projects[b.dataset.del];if(!confirm('Delete "'+(p.name||'Untitled')+'"? This cannot be undone.'))return;delete projects[b.dataset.del];try{localStorage.removeItem(LS_PHOTO+b.dataset.del);}catch(e){}
+    if(b.dataset.del===P.id){var rest=Object.keys(projects);if(rest.length)P=projects[rest[0]];else{P=defaultProject();projects[P.id]=P;}switchTo(P.id);}saveNow();openProjects();};});
+  $('#projModal').classList.remove('hidden');}
+function closeProjects(){$('#projModal').classList.add('hidden');}
+function switchTo(id){saveNow();P=projects[id];fill(defaultProject(),P);FK='';perimCache.k='';selPt=-1;loadPhotoForProject();bindAll();saveNow();refresh();}
+$('#btnProjects').onclick=openProjects;$('#pClose').onclick=closeProjects;$('#projModal').onclick=function(e){if(e.target.id==='projModal')closeProjects();};
+$('#pNew').onclick=function(){var p=defaultProject();projects[p.id]=p;switchTo(p.id);closeProjects();setStep('shape');toast('New project started');};
+$('#pDup').onclick=function(){var p=JSON.parse(JSON.stringify(P));p.id=uid();p.name=(P.name||'Project')+' (copy)';p.created=p.updated=Date.now();projects[p.id]=p;var d=getPhotoData(P.id);if(d)savePhotoData(p.id,d);switchTo(p.id);closeProjects();toast('Duplicated');};
+$('#pExport').onclick=function(){saveNow();var photos={};Object.keys(projects).forEach(function(id){var d=getPhotoData(id);if(d)photos[id]=d;});
+  var blob=new Blob([JSON.stringify({app:'Jarheads Pond Excavation Developer',version:1,exported:new Date().toISOString(),projects:projects,photos:photos})],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download='Jarheads-Pond-Projects-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},3000);};
+$('#pImport').onchange=function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result),n=0;Object.keys(d.projects||{}).forEach(function(id){projects[id]=fill(defaultProject(),d.projects[id]);n++;});
+    Object.keys(d.photos||{}).forEach(function(id){savePhotoData(id,d.photos[id]);});saveNow();openProjects();toast('Restored '+n+' project(s)');}catch(err){toast('That file is not a valid backup');}};rd.readAsText(f);e.target.value='';};
+
+/* ---------- init ---------- */
+var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){refresh();},150);});
+load();fill(defaultProject(),P);loadPhotoForProject();bindAll();
+setStep((location.hash||'').replace('#','')||'shape',true);
+window.JPD={get P(){return P;},bind:bindAll,save:saveNow,refresh:refresh,setStep:setStep,setMode:function(m){mode=m;refresh();},metrics:function(){return M;},sample:function(){$('#sampleBg').click();},renderExport:renderExport,sumView:function(v){sumView=v;refresh();}};
+})();
+</script>
+</body>
+</html>
