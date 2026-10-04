@@ -664,23 +664,26 @@ function ft(n){var r=Math.round(n*10)/10;return (r%1?fmt(r,1):fmt(r,0))+"'";}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show');},2600);}
 
-function defaultProject(){return {v:1,id:uid(),name:'New Pond Project',created:Date.now(),updated:Date.now(),
+function defaultProject(){return {v:2,id:uid(),name:'New Pond Project',created:Date.now(),updated:Date.now(),
  customer:{name:'',address:'',phone:'',email:''},
  shape:{type:'rect',L:100,W:67,D:8,cornerR:15,shelfOn:false,shelfD:2,shelfW:4,pts:null},
- slope:{choice:'3',custom:3.5,swell:1.25,trailer:16,fb:1,anchor:2,overlap:1},
+ slope:{choice:'3',custom:3.5,swell:1.25,trailer:16,fb:1,anchor:4,overlap:1},
  photo:{has:false,sample:false,px:null,py:null,rot:0,size:100,tilt:45,edge:'rock',water:'natural',night:false,dims:false,scaleP:[],scaleFt:'',persp:{on:false,pts:[],w:'',d:''},wf:null,diff:null},
  addons:{light:{on:false,count:6,type:'underwater',notes:'',price:''},wf:{on:false,height:2,width:24,price:''},aer:{on:true,diffusers:2,model:'Airmax PS20 class',price:''},ftn:{on:false,size:'',pattern:'',price:''},flt:{type:'none',uv:false,price:''},other:[]},
  internal:{dayRate:1300,days:'',markup:15,linerRate:'',haulRate:'',otherCost:''},
  summary:{lump:'',timeline:'',drawings:'yes',notes:''},
  guide:{liner:'rpe',underlay:true,sta:10,os:10,trenchBack:2,trenchW:1,trenchD:2,rodBM:5,bmAbove:'',pumpDist:100,fillDist:100,wfPipe:25,lightW:10,topsoil:6,seedRate:8,setbacks:{well:'',septic:'',prop:'',house:'',power:''},mat:{}}};}
 function isObj(o){return o&&typeof o==='object'&&!Array.isArray(o);}
+/* v1 -> v2: old default anchor allowance (2 ft + 1 ft overlap = 3 ft/side) didn't clear the default anchor trench (2 back + 2 down + 1 across = 5 ft). Bump only untouched old defaults. */
+function migrate(o){if(o&&(o.v||1)<2){if(o.slope&&num(o.slope.anchor,NaN)===2)o.slope.anchor=4;o.v=2;}return o;}
 function fill(def,o){Object.keys(def).forEach(function(k){if(o[k]===undefined)o[k]=def[k];else if(isObj(def[k])&&isObj(o[k]))fill(def[k],o[k]);});return o;}
 function getPath(o,p){return p.split('.').reduce(function(a,k){return a==null?a:a[k];},o);}
 function setPath(o,p,v){var k=p.split('.'),l=k.pop();k.reduce(function(a,x){return a[x];},o)[l]=v;}
 
 /* ---------- storage ---------- */
 function load(){try{projects=JSON.parse(localStorage.getItem(LS_KEY)||'{}')||{};}catch(e){projects={};}
-  Object.keys(projects).forEach(function(id){fill(defaultProject(),projects[id]);});
+  var mig=false;Object.keys(projects).forEach(function(id){if((projects[id].v||1)<2)mig=true;fill(defaultProject(),migrate(projects[id]));});
+  if(mig){try{localStorage.setItem(LS_KEY,JSON.stringify(projects));}catch(e){}}
   var cur=null;try{cur=localStorage.getItem(LS_CUR);}catch(e){}
   if(cur&&projects[cur])P=projects[cur];else{var ids=Object.keys(projects);if(ids.length)P=projects[ids[0]];else{P=defaultProject();projects[P.id]=P;}}}
 var saveT;function save(){clearTimeout(saveT);saveT=setTimeout(saveNow,350);}
@@ -1111,7 +1114,7 @@ $('#pDup').onclick=function(){var p=JSON.parse(JSON.stringify(P));p.id=uid();p.n
 $('#pExport').onclick=function(){saveNow();var photos={};Object.keys(projects).forEach(function(id){var d=getPhotoData(id);if(d)photos[id]=d;});
   var blob=new Blob([JSON.stringify({app:'Jarheads Pond Excavation Developer',version:1,exported:new Date().toISOString(),projects:projects,photos:photos})],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=u;a.download='Jarheads-Pond-Projects-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},3000);};
-$('#pImport').onchange=function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result),n=0;Object.keys(d.projects||{}).forEach(function(id){projects[id]=fill(defaultProject(),d.projects[id]);n++;});
+$('#pImport').onchange=function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result),n=0;Object.keys(d.projects||{}).forEach(function(id){projects[id]=fill(defaultProject(),migrate(d.projects[id]));n++;});
     Object.keys(d.photos||{}).forEach(function(id){savePhotoData(id,d.photos[id]);});saveNow();openProjects();toast('Restored '+n+' project(s)');}catch(err){toast('That file is not a valid backup');}};rd.readAsText(f);e.target.value='';};
 
 
