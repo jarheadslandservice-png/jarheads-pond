@@ -519,6 +519,15 @@ table.it tr.tot td{font-weight:900;border-top:2px solid #333}
   <div class="col">
    <div class="card internal">
     <h2>Pricing inputs <small>internal</small></h2>
+    <div id="adderWrap" style="border:2px dashed var(--gold);background:#fffbf0;border-radius:12px;padding:6px 10px 2px;margin:0 0 12px">
+     <label class="sw" style="margin:0"><input type="checkbox" data-bind="est.adderOn"> Large tree / pine adder</label>
+     <p class="hint" style="margin:0 0 8px"><b>Turn on when trees call for it.</b> Adds a flat $ per pine 8&quot;+ and per large tree, on top of both the day and acre prices.</p>
+     <div class="row2" id="adderBox">
+      <label class="price">$ per qualifying tree<input type="number" inputmode="decimal" step="5" min="0" data-bind="est.adderAmt"></label>
+      <label>Large (non-pine) tree size<select data-bind="est.largeMin"><option value="t12">6&quot; and up</option><option value="t18">12&quot; and up</option><option value="t24">18&quot; and up</option><option value="t99">Over 24&quot; only</option></select></label>
+     </div>
+     <p class="hint" id="adderHint" style="margin-top:0"></p>
+    </div>
     <div class="row2">
      <label class="price">Day rate ($)<input type="number" inputmode="decimal" step="25" min="0" data-bind="est.dayRate"></label>
      <label>Markup on materials, rentals, disposal (%)<input type="number" inputmode="decimal" step="1" min="0" data-bind="est.markup"></label>
@@ -528,12 +537,6 @@ table.it tr.tot td{font-weight:900;border-top:2px solid #333}
      <label>Operating cost / machine day ($)<input type="number" inputmode="decimal" step="any" min="0" placeholder="optional" data-bind="est.opCost"></label>
     </div>
     <p class="hint">Operating cost is fuel, teeth, undercarriage wear, insurance. Fill it in to see real profit. Blank means profit is shown before machine costs.</p>
-    <label class="sw"><input type="checkbox" data-bind="est.adderOn"> Large tree / pine adder (flat $ per tree)</label>
-    <div class="row2" id="adderBox">
-     <label class="price">$ per qualifying tree<input type="number" inputmode="decimal" step="5" min="0" data-bind="est.adderAmt"></label>
-     <label>Large (non-pine) tree size<select data-bind="est.largeMin"><option value="t12">6&quot; and up</option><option value="t18">12&quot; and up</option><option value="t24">18&quot; and up</option><option value="t99">Over 24&quot; only</option></select></label>
-    </div>
-    <p class="hint" id="adderHint" style="margin-top:0">Counts pines 8&quot;+ plus other trees at the size above. Added on top of both the day and acre prices.</p>
     <label class="sw"><input type="checkbox" data-bind="est.helperOn"> Helper on this job</label>
     <div class="row2" id="helperBox">
      <label>Helper pay ($/hr)<input type="number" inputmode="decimal" step="1" min="0" data-bind="est.helperPay"></label>
@@ -713,7 +716,7 @@ function estimate(P,traced){
  var qb=['t12','t18','t24','t99'].indexOf(E.largeMin)>=0?E.largeMin:'t24',qi=BINS.map(function(b){return b[0];}).indexOf(qb);
  r.largeMin=qb;r.largeLabel=BINS[qi][1].replace(/[\u2013-].*$/,'').replace('Over ','')+'"+';r.adderPines=r.pineStumps;r.adderLarge=0;
  BINS.forEach(function(b,i){if(i>=qi)r.adderLarge+=pv(V.trees[b[0]],0);});
- r.adderOn=E.adderOn!==false&&E.adderOn!=='false';r.adderAmt=pv(E.adderAmt,100);r.adderN=r.adderOn?r.adderPines+r.adderLarge:0;r.treeAdder=r.adderN*r.adderAmt;
+ r.adderOn=E.adderOn===true||E.adderOn==='true';  /* off unless Mike turns it on */r.adderAmt=pv(E.adderAmt,100);r.adderN=r.adderOn?r.adderPines+r.adderLarge:0;r.treeAdder=r.adderN*r.adderAmt;
  r.dayPrice=r.machinePrice+r.helperBill+r.passPrice+r.mob+r.treeAdder;
  var share=r.billDays>0?r.scopeDays/r.billDays:1;
  r.scopeLabor=r.scopeDays*rate+r.helperBill*share;            /* covered by a $/acre price */
@@ -769,7 +772,7 @@ function defaultProject(){var p={v:1,id:uid(),name:'New Clearing Job',created:Da
    cyAc:clone(DEFAULT_DEBRIS.cyAc),treeCy:clone(DEFAULT_DEBRIS.treeCy),stumpCy:clone(DEFAULT_DEBRIS.stumpCy),pineCy:clone(DEFAULT_DEBRIS.pineCy)},
  extras:{gradeOn:false,gradeAc:'',gradeAcDay:1.5,seedOn:false,seedAc:'',seedMatAc:'',seedHrsAc:3,seedNote:'',fenceOn:false,fenceFt:'',fenceFtDay:800,fenceNote:'',
    exRate:'',exDeliv:'',exRound:'1',exDays:'',rentals:[{on:false,desc:'Forestry mulcher head (CTL)',rate:'',days:1,deliv:''},{on:false,desc:'Excavator (other work)',rate:'',days:1,deliv:''}],mob:'',other:[]},
- est:{dayRate:1300,markup:15,adderOn:true,adderAmt:100,largeMin:'t24',roundDays:'0.5',adjDays:'',perAcre:'',opCost:'',helperOn:false,helperPay:20,helperBill:30,helperHrsDay:8,helperHrs:'',
+ est:{dayRate:1300,markup:15,adderOn:false,adderAmt:100,largeMin:'t24',roundDays:'0.5',adjDays:'',perAcre:'',opCost:'',helperOn:false,helperPay:20,helperBill:30,helperHrsDay:8,helperHrs:'',
    method:'day',lump:'',roundPrice:'50',deposit:50,timeline:'',valid:30,showBasis:'yes',showMap:'yes',notes:''}};
  var d=myDefaults();if(d){if(d.rates)p.rates=fill(clone(DEFAULT_RATES),clone(d.rates));['cyAc','treeCy','stumpCy','pineCy','pileCy','pilesPerDay','ashHrs','swell','trailer','loadMin','dumpMin','finalAcDay'].forEach(function(k){if(d.debris&&d.debris[k]!==undefined)p.debris[k]=clone(d.debris[k]);});
    ['gradeAcDay','seedHrsAc','fenceFtDay','exRound'].forEach(function(k){if(d.extras&&d.extras[k]!==undefined)p.extras[k]=d.extras[k];});
@@ -1121,6 +1124,7 @@ function dayRows(){var D=P.debris,rows=[['Clearing: brush, trees'+(R.stumps?', s
   if(P.extras.gradeOn)rows.push(['Fine grade / blade pass',R.d.grade]);if(P.extras.seedOn)rows.push(['Seed &amp; straw',R.d.seed]);if(P.extras.fenceOn&&R.fenceFt)rows.push(['Fence line clearing',R.d.fence]);
   if(R.d.adj)rows.push(['Days adjustment',R.d.adj]);return rows;}
 function renderEstimate(){var E=P.est;
+  $('#adderHint').innerHTML=R.adderOn?'This job: <b>'+fmt(R.adderN)+'</b> qualifying ('+fmt(R.adderPines)+' pines 8&quot;+, '+fmt(R.adderLarge)+' trees '+R.largeLabel+') = <b>'+money(R.treeAdder)+'</b>':'Off. This job has '+fmt(R.adderPines)+' pines 8&quot;+ and '+fmt(R.adderLarge)+' trees '+R.largeLabel+' that would count.';
   $('#perAcreIn').placeholder=isFinite(R.impliedAcre)?fmt(Math.round(R.impliedAcre))+' implied':'implied';
   $('#helperHrsIn').placeholder=fmt(R.billDays*num(E.helperHrsDay,8))+' (auto)';$('#lumpIn').placeholder=money(R.calcLump)+' (auto)';$('#timelineIn').placeholder=autoTimeline();
   var t='<table class="daytab">'+dayRows().map(function(r){return '<tr><td>'+r[0]+'</td><td>'+days(r[1])+' d</td></tr>';}).join('')
