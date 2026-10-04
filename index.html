@@ -20,6 +20,9 @@ h1,h2,h3{font-family:"Arial Black","Helvetica Neue",Impact,Arial,sans-serif;lett
 .b2{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#e9e2c8;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .projbtn{background:#3a3f1f;color:#fff;border:1px solid #6b7536;border-radius:10px;min-height:46px;padding:6px 12px;font-size:14px;font-weight:700;max-width:46vw;display:flex;align-items:center;gap:8px;cursor:pointer}
 .projbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.topr{display:flex;align-items:center;gap:8px;min-width:0}
+.appsw{display:flex;align-items:center;gap:6px;background:#2a2e17;color:#e9e2c8;border:1px solid #6b7536;border-radius:10px;min-height:46px;padding:6px 10px;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}
+.appsw svg{flex:0 0 auto}
 .steps{display:flex;gap:6px;padding:8px 10px;background:var(--olive);overflow-x:auto;position:sticky;top:70px;z-index:25;scrollbar-width:none;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 .steps::-webkit-scrollbar{display:none}
 .steps button{flex:1 0 auto;min-height:48px;border:0;border-radius:10px;background:#5e6830;color:#f3eedb;font-weight:800;font-size:15px;padding:6px 12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
@@ -196,7 +199,7 @@ ul.gchk{columns:2;margin:0;padding-left:0;list-style:none;font-size:14px}ul.gchk
  .slopes button{font-size:16px;min-height:58px}.row3{grid-template-columns:1fr 1fr 1fr;gap:6px}.pc{grid-template-columns:1fr}
  .kpi .v{font-size:18px}.navbar .btn{min-width:96px;padding:8px 10px}.live{font-size:12.5px;gap:4px 12px;padding:6px 10px}.live b{font-size:14px}
  .sheet{padding:.25in;font-size:12px}.sh-specs{grid-template-columns:repeat(2,1fr)}.sh-two{grid-template-columns:1fr}.sh-meta{grid-template-columns:1fr}
- .projbtn{max-width:40vw;font-size:13px;padding:6px 8px}
+ .projbtn{max-width:30vw;font-size:13px;padding:6px 8px}.appsw span{display:none}.appsw{padding:6px 7px}.topr{gap:6px}.top{gap:6px}
  #step-summary .row3{grid-template-columns:1fr}.sh-head .co svg{width:40px;height:40px}.sh-head .cn{font-size:15px}
 }
 @media print{
@@ -235,7 +238,10 @@ ul.gchk{columns:2;margin:0;padding-left:0;list-style:none;font-size:14px}ul.gchk
 
 <header class="top">
   <div class="brand"><svg><use href="#logo"/></svg><div style="min-width:0"><div class="b1">JARHEADS</div><div class="b2">Pond Excavation Developer</div></div></div>
-  <button class="projbtn" id="btnProjects" aria-label="Projects"><svg width="20" height="20" viewBox="0 0 24 24" fill="#d6a428"><path d="M3 5h7l2 2h9v12H3z"/></svg><span id="projName">Project</span></button>
+  <div class="topr">
+   <a class="appsw" id="toClearing" href="clearing/" title="Open the Land Clearing Estimator"><svg width="22" height="22" viewBox="0 0 20 24"><path d="M10 1 l6 9 h-3 l5 7 h-16 l5 -7 h-3z" fill="#8fbf5a"/><rect x="8.6" y="17" width="2.8" height="6" fill="#c49a5a"/></svg><span>Clearing</span></a>
+   <button class="projbtn" id="btnProjects" aria-label="Projects"><svg width="20" height="20" viewBox="0 0 24 24" fill="#d6a428"><path d="M3 5h7l2 2h9v12H3z"/></svg><span id="projName">Project</span></button>
+  </div>
 </header>
 <nav class="steps" id="steps">
   <button data-step="shape"><b>1</b><span>Shape</span></button>
@@ -546,6 +552,7 @@ ul.gchk{columns:2;margin:0;padding-left:0;list-style:none;font-size:14px}ul.gchk
    <label class="btn file" style="margin:0">Restore backup<input type="file" accept=".json,application/json" id="pImport"></label>
    <button class="btn dark" id="pClose">Close</button>
   </div>
+  <p class="hint" style="margin-top:10px"><a href="clearing/" id="toClearing2" style="color:var(--scarlet);font-weight:800">&rsaquo; Open the Land Clearing Estimator</a></p>
  </div>
 </div>
 <div id="toast"></div>
@@ -1584,6 +1591,7 @@ function printGuide(){document.body.classList.remove('pr-cust','pr-int');documen
 $('#printGuide').onclick=printGuide;
 
 /* ---------- init ---------- */
+if(location.protocol==='file:'){$$('#toClearing,#toClearing2').forEach(function(a){a.href='https://jarheadslandservice-png.github.io/jarheads-pond/clearing/';});}
 var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){refresh();},150);});
 load();fill(defaultProject(),P);loadPhotoForProject();bindAll();
 setStep((location.hash||'').replace('#','')||'shape',true);

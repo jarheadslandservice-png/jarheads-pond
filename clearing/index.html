@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- © 2026 Jarheads Land Service. All rights reserved. No part of this app may be copied, modified, or reused without written permission. -->
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="theme-color" content="#4b5320">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b1d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Jarheads Land Clearing Estimator</title>
+<style>:root{--olive:#4b5320;--olive-d:#2f3414;--olive-l:#6b7536;--tan:#d6c79f;--sand:#f2ecdc;--paper:#fffdf7;--ink:#17180f;--muted:#5d5f4e;--scarlet:#a51c24;--scarlet-d:#7f141a;--gold:#d6a428;--line:#cfc4a4;--ok:#2e7d32;--bad:#b3261e;--water:#1f6f86}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--sand);color:var(--ink);font-size:16px;line-height:1.4;-webkit-text-size-adjust:100%;padding-bottom:84px}
+h1,h2,h3{font-family:"Arial Black","Helvetica Neue",Impact,Arial,sans-serif;letter-spacing:.02em;margin:0}
+.top{background:linear-gradient(180deg,#1b1d12,#2a2e17);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:4px solid var(--gold);position:sticky;top:0;z-index:30}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand svg{width:46px;height:46px;flex:0 0 auto}
+.b1{font-family:"Arial Black",Impact,Arial,sans-serif;font-size:21px;letter-spacing:.12em;color:var(--gold);line-height:1}
+.b2{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#e9e2c8;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.projbtn{background:#3a3f1f;color:#fff;border:1px solid #6b7536;border-radius:10px;min-height:46px;padding:6px 12px;font-size:14px;font-weight:700;max-width:46vw;display:flex;align-items:center;gap:8px;cursor:pointer}
+.projbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.steps{display:flex;gap:6px;padding:8px 10px;background:var(--olive);overflow-x:auto;position:sticky;top:70px;z-index:25;scrollbar-width:none;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.steps::-webkit-scrollbar{display:none}
+.steps button{flex:1 0 auto;min-height:48px;border:0;border-radius:10px;background:#5e6830;color:#f3eedb;font-weight:800;font-size:15px;padding:6px 12px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
+.steps button b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#2f3414;color:var(--gold);font-size:13px}
+.steps button.on{background:var(--scarlet);color:#fff;box-shadow:inset 0 -3px 0 var(--gold)}
+.steps button.on b{background:var(--gold);color:#1b1d12}
+.live{display:flex;flex-wrap:wrap;gap:6px 16px;padding:8px 14px;background:#e6dcc0;border-bottom:1px solid var(--line);font-size:14px}
+.live div{white-space:nowrap}.live b{font-size:16px}
+.live .flag{color:var(--bad);font-weight:800}
+main{max-width:1320px;margin:0 auto;padding:12px}
+.step{display:none}.step.on{display:block}
+.grid2{display:grid;grid-template-columns:minmax(320px,440px) 1fr;gap:14px;align-items:start}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 1px 2px rgba(0,0,0,.06);min-width:0}
+.card h2{font-size:17px;text-transform:uppercase;color:var(--olive-d);border-bottom:3px solid var(--tan);padding-bottom:6px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card h2 small{font-family:inherit;font-size:12px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:600}
+details.card>summary{font-family:"Arial Black",Arial,sans-serif;text-transform:uppercase;font-size:15px;color:var(--olive-d);cursor:pointer;min-height:32px;display:flex;align-items:center}
+details.card[open]>summary{margin-bottom:10px;border-bottom:3px solid var(--tan);padding-bottom:6px}
+label{display:block;font-weight:700;font-size:14px;color:#33351f;margin:0 0 10px}
+input[type=text],input[type=number],input[type=tel],input[type=email],select,textarea{display:block;width:100%;margin-top:4px;min-height:48px;font-size:17px;padding:8px 10px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-family:inherit}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--olive-l);box-shadow:0 0 0 3px rgba(107,117,54,.25)}
+input[type=range]{width:100%;height:36px;accent-color:var(--scarlet)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.sw{display:flex;align-items:center;gap:10px;min-height:48px;font-weight:700;cursor:pointer;margin:0 0 6px}
+.sw input{width:26px;height:26px;accent-color:var(--scarlet);flex:0 0 auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:8px 16px;border-radius:10px;border:2px solid var(--olive);background:#fff;color:var(--olive-d);font-weight:800;font-size:15px;cursor:pointer;text-decoration:none;font-family:inherit}
+.btn.primary{background:var(--scarlet);border-color:var(--scarlet-d);color:#fff}
+.btn.dark{background:var(--olive);color:#fff;border-color:var(--olive-d)}
+.btn.small{min-height:40px;padding:6px 12px;font-size:14px}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn:active{transform:translateY(1px)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.file{position:relative;overflow:hidden}.file input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:100px}
+.shapes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.shapes button,.slopes button{min-height:64px;border:2px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:12.5px;color:var(--olive-d);padding:4px;font-family:inherit}
+.shapes svg{width:40px;height:28px}
+.shapes button.on,.slopes button.on{border-color:var(--scarlet);background:#fbeeee;box-shadow:inset 0 0 0 1px var(--scarlet)}
+.slopes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.slopes button{font-size:19px}.slopes button small{font-size:11px;font-weight:700;color:var(--muted)}
+.seg{display:inline-flex;border:2px solid var(--olive);border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{min-height:44px;border:0;background:#fff;color:var(--olive-d);font-weight:800;padding:6px 12px;cursor:pointer;font-size:14px;font-family:inherit}
+.seg button+button{border-left:1px solid var(--olive)}
+.seg button.on{background:var(--olive);color:#fff}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);width:100%}
+.modes button{border-left:0!important;border-bottom:1px solid #b7b391}
+canvas{display:block;width:100%;touch-action:manipulation}
+#planCv,#secCv,#secCv2{background:#f7f3e6;border-radius:10px;border:1px solid var(--line)}
+.hint{font-size:13.5px;color:var(--muted);margin:4px 0 10px}
+.note{background:#f4efe0;border-left:5px solid var(--gold);padding:10px 12px;border-radius:8px;font-size:14px;margin:8px 0}
+.note.bad{border-left-color:var(--bad);background:#fbecea}
+.note.good{border-left-color:var(--ok);background:#edf5ec}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kpi{background:#f6f1e2;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.kpi .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}
+.kpi .v{font-size:21px;font-weight:900;color:var(--ink)}
+.kpi .u{font-size:12.5px;color:var(--muted)}
+.kpi.flag{background:#fbecea;border-color:#e3a9a4}.kpi.okk{background:#edf5ec;border-color:#b5d3b2}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:12.5px;margin-top:8px;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px;border:1px solid rgba(0,0,0,.15)}
+.tablewrap{overflow-x:auto}
+table.cmp{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+.cmp th,.cmp td{padding:8px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.cmp th:first-child,.cmp td:first-child{text-align:left;white-space:normal}
+.cmp thead th{background:var(--olive);color:#fff;position:sticky;top:0;cursor:pointer}
+.cmp .sel{background:#fbeeee;font-weight:800}.cmp thead th.sel{background:var(--scarlet)}
+.cmp td.bad{color:var(--bad);font-weight:800}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pc ul{margin:4px 0 0;padding-left:18px;font-size:14.5px}.pc li{margin-bottom:4px}
+.pc h3{font-size:14px;text-transform:uppercase}.pc .pro h3{color:var(--ok)}.pc .con h3{color:var(--bad)}
+.pcall details{border-top:1px solid var(--line);padding:6px 0}.pcall summary{font-weight:800;cursor:pointer;min-height:40px;display:flex;align-items:center}
+.mockwrap{position:relative;background:#202214;border-radius:10px;overflow:hidden;min-height:240px}
+#mockCv{touch-action:none;cursor:crosshair}
+#mockEmpty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#e9e2c8;text-align:center;padding:20px;gap:10px}
+.addon{border:2px solid var(--line);border-radius:14px}
+.addon.on{border-color:var(--olive-l);background:#fbfaf2}
+.addon .sw{font-family:"Arial Black",Arial,sans-serif;text-transform:uppercase;font-size:15px;color:var(--olive-d)}
+.addon .body{margin-top:6px}
+.addon:not(.on) .body{display:none}
+.addgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.internal{border:3px dashed var(--scarlet);background:#fff8f6}
+.internal h2{color:var(--scarlet)}
+.items .it{display:grid;grid-template-columns:1fr 120px 48px;gap:6px;align-items:end;margin-bottom:6px}
+.items .it input{margin-top:0}
+.price input{font-weight:800}
+.navbar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#1b1d12;border-top:3px solid var(--gold);z-index:30}
+.navbar .btn{min-width:120px}
+.navbar #stepLbl{color:#e9e2c8;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px;text-align:center}
+.saved{font-size:12px;color:#b9b28f;display:block;font-weight:600;letter-spacing:0}
+.modal{position:fixed;inset:0;background:rgba(10,12,5,.6);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:20px 10px;overflow:auto}
+.modal.hidden{display:none}
+.modal .box{background:var(--paper);border-radius:16px;max-width:620px;width:100%;padding:16px;border-top:6px solid var(--scarlet)}
+.plist{list-style:none;padding:0;margin:8px 0 12px}
+.plist li{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:6px;background:#fff}
+.plist li.cur{border-color:var(--scarlet);background:#fbeeee}
+.plist .pn{flex:1;min-width:0}.plist .pn b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.plist .pn small{color:var(--muted)}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#1b1d12;color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;opacity:0;transition:opacity .3s;z-index:70;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+/* summary sheets */
+.sumtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.sheet{background:#fff;max-width:8.5in;margin:0 auto 20px;padding:.45in .5in;box-shadow:0 2px 10px rgba(0,0,0,.15);border-radius:4px;color:#111;font-size:13px}
+.sh-head{display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--olive);padding-bottom:8px;margin-bottom:10px;gap:10px}
+.sh-head .co{display:flex;gap:10px;align-items:center}.sh-head svg{width:52px;height:52px}
+.sh-head .cn{font-family:"Arial Black",Arial,sans-serif;font-size:20px;color:var(--olive-d);letter-spacing:.06em}
+.sh-head .ct{font-size:11.5px;color:#444;text-align:right;line-height:1.35}
+.sh-title{font-family:"Arial Black",Arial,sans-serif;font-size:16px;text-transform:uppercase;color:var(--scarlet);margin:4px 0 8px;letter-spacing:.04em}
+.sh-meta{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;font-size:12.5px;margin-bottom:10px}
+.sh-specs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #cfc4a4;border-radius:6px;overflow:hidden;margin-bottom:10px}
+.sh-specs div{padding:6px 8px;border-right:1px solid #e3dbc4;border-bottom:1px solid #e3dbc4}
+.sh-specs .k{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#666;font-weight:800}.sh-specs .v{font-size:14.5px;font-weight:800}
+.sh-img{width:100%;max-height:3.3in;object-fit:contain;border-radius:4px;display:block;margin:0 auto 4px}
+.sh-cap{font-size:10.5px;color:#666;text-align:center;margin-bottom:8px}
+.sh-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.sh-two img{width:100%;max-height:2.4in;object-fit:contain;border:1px solid #ddd;border-radius:4px;display:block}
+.sh-sec h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--olive-d);margin:8px 0 4px;border-bottom:2px solid #e3dbc4;padding-bottom:2px}
+.sh-sec ul{margin:0;padding-left:18px}.sh-sec li{margin-bottom:2px}
+.sh-price{display:flex;justify-content:space-between;align-items:center;background:#f4efe0;border:2px solid var(--olive);border-radius:6px;padding:8px 12px;margin:10px 0;font-size:15px;font-weight:800}
+.sh-price .amt{font-size:22px;color:var(--olive-d)}
+.sh-sign{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-top:16px;font-size:11.5px;color:#444}
+.sh-sign div{border-top:1px solid #333;padding-top:3px}
+.sh-tw{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.sh-foot{margin-top:10px;border-top:2px solid var(--gold);padding-top:6px;font-size:10.5px;color:#555;text-align:center}
+.sheet.internal-sheet{border-top:8px solid var(--scarlet)}
+.int-banner{background:var(--scarlet);color:#fff;font-weight:900;text-align:center;padding:4px;letter-spacing:.2em;font-size:12px;margin-bottom:8px}
+table.it{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:8px}
+table.it td,table.it th{border-bottom:1px solid #e3dbc4;padding:4px 6px;text-align:right}table.it td:first-child,table.it th:first-child{text-align:left}
+table.it tr.tot td{font-weight:900;border-top:2px solid #333}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.addgrid{grid-template-columns:1fr}}
+@media (max-width:520px){
+ body{font-size:15px}.b1{font-size:17px}.b2{font-size:10px;letter-spacing:.03em}.brand svg{width:38px;height:38px}
+ .top{padding:8px 10px}.steps{top:62px;padding:6px}.steps button{font-size:12.5px;padding:4px 8px;gap:5px;min-height:46px}.steps button b{width:22px;height:22px;font-size:12px}
+ .steps button span{display:none}.steps button.on span{display:inline}
+ main{padding:8px}.card{padding:12px}.shapes{grid-template-columns:repeat(5,1fr);gap:4px}.shapes button{font-size:11px;min-height:60px}.shapes svg{width:32px}
+ .slopes button{font-size:16px;min-height:58px}.row3{grid-template-columns:1fr 1fr 1fr;gap:6px}.pc{grid-template-columns:1fr}
+ .kpi .v{font-size:18px}.navbar .btn{min-width:96px;padding:8px 10px}.live{font-size:12.5px;gap:4px 12px;padding:6px 10px}.live b{font-size:14px}
+ .sheet{padding:.25in;font-size:12px}.sh-specs{grid-template-columns:repeat(2,1fr)}.sh-two{grid-template-columns:1fr}.sh-meta{grid-template-columns:1fr}
+ .projbtn{max-width:40vw;font-size:13px;padding:6px 8px}
+ #step-estimate .row3{grid-template-columns:1fr}.sh-head .co svg{width:40px;height:40px}.sh-head .cn{font-size:15px}
+}
+/* ===== clearing app additions ===== */
+.appsw{display:flex;align-items:center;gap:6px;background:#2a2e17;color:#e9e2c8;border:1px solid #6b7536;border-radius:10px;min-height:46px;padding:6px 10px;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}
+.appsw svg{flex:0 0 auto}
+.topr{display:flex;align-items:center;gap:8px;min-width:0}
+.dens{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.dens button{border:2px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;display:grid;grid-template-columns:56px 1fr;gap:8px;align-items:center;text-align:left;padding:8px;font-family:inherit;color:var(--ink);min-height:84px}
+.dens button svg{width:56px;height:44px}
+.dens button b{display:block;font-size:14.5px;color:var(--olive-d);text-transform:uppercase;letter-spacing:.02em}
+.dens button span{display:block;font-size:12.5px;color:var(--muted);line-height:1.3;margin-top:2px}
+.dens button.on{border-color:var(--scarlet);background:#fbeeee;box-shadow:inset 0 0 0 1px var(--scarlet)}
+.dens button em{font-style:normal;font-size:11.5px;font-weight:800;color:var(--scarlet-d)}
+.ctr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-bottom:1px solid #eee5cc;padding:6px 0}
+.ctr:last-child{border-bottom:0}
+.ctr .nm{font-weight:800;font-size:15px}.ctr .nm small{display:block;font-weight:600;color:var(--muted);font-size:12px}
+.step3{display:flex;align-items:center;gap:4px}
+.step3 button{width:48px;height:48px;border-radius:10px;border:2px solid var(--olive);background:#fff;color:var(--olive-d);font-size:24px;font-weight:900;cursor:pointer;line-height:1;font-family:inherit}
+.step3 button:active{background:var(--olive);color:#fff}
+.step3 input{width:72px!important;text-align:center;margin:0!important;font-weight:800}
+.factors{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.mapwrap{position:relative;background:#202214;border-radius:10px;overflow:hidden;min-height:260px}
+#mapCv{touch-action:none;cursor:crosshair;background:#202214}
+#mapEmpty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#e9e2c8;text-align:center;padding:20px;gap:10px}
+.zoomb{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}
+.zoomb button{width:44px;height:44px;border-radius:10px;border:0;background:rgba(27,29,18,.85);color:#fff;font-size:22px;font-weight:900;cursor:pointer;font-family:inherit}
+.modes4{display:grid;grid-template-columns:repeat(4,1fr);width:100%}
+.modes4 button{border-left:0!important;border-right:1px solid #b7b391}
+.areaout{font-size:15px}
+.mtab{width:100%;border-collapse:collapse;font-size:14px}
+.mtab th,.mtab td{border-bottom:1px solid #e3dbc4;padding:5px 6px;text-align:left;vertical-align:middle}
+.mtab thead th{background:var(--olive);color:#fff;font-size:12.5px}
+.mtab td input{min-height:40px;font-size:15px;padding:4px 8px;margin:0;width:92px}
+.mtab td.src{font-size:12px;color:var(--muted)}
+.tag{display:inline-block;border-radius:5px;font-size:10.5px;font-weight:800;padding:1px 5px;vertical-align:1px;white-space:nowrap}
+.tag.def{background:#fbeeee;color:var(--scarlet-d);border:1px solid #e3a9a4}
+.tag.ind{background:#edf5ec;color:#1f5e23;border:1px solid #b5d3b2}
+.tune{border:2px dashed var(--gold);background:#fffbf0}
+.methods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.meth{border:3px solid var(--line);border-radius:14px;padding:12px;background:#fff;cursor:pointer;position:relative}
+.meth.on{border-color:var(--scarlet);background:#fff8f6;box-shadow:0 0 0 2px rgba(165,28,36,.15)}
+.meth h3{font-size:15px;text-transform:uppercase;color:var(--olive-d);margin-bottom:6px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.meth .big{font-size:30px;font-weight:900;color:var(--ink);line-height:1.1}
+.meth .sub{font-size:13px;color:var(--muted);margin-bottom:6px}
+.meth table{width:100%;font-size:13.5px;border-collapse:collapse}.meth td{padding:3px 0;border-bottom:1px dashed #eee5cc}.meth td+td{text-align:right;font-weight:700;white-space:nowrap}
+.meth .pick{font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:#eee5cc;color:var(--olive-d)}
+.meth.on .pick{background:var(--scarlet);color:#fff}
+.profit{color:var(--ok)}.loss{color:var(--bad)}
+.daytab{width:100%;border-collapse:collapse;font-size:14px}.daytab td{padding:5px 4px;border-bottom:1px solid #eee5cc}.daytab td+td{text-align:right;white-space:nowrap}.daytab tr.tot td{font-weight:900;border-top:2px solid #333}
+.items .it4{display:grid;grid-template-columns:1fr 92px 70px 92px 48px;gap:6px;align-items:end;margin-bottom:8px}
+.items .it4 input{margin-top:2px;min-height:44px;font-size:15px;padding:6px 8px}
+.items .it4 label{font-size:12px;margin:0}
+.items .it input{margin-top:2px}
+.sh-scope li{margin-bottom:3px}
+.sh-terms{font-size:11px;color:#333}
+.sh-terms li{margin-bottom:2px}
+.sh-pay{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 8px}
+.sh-pay>div{border:1px solid #cfc4a4;border-radius:6px;padding:5px 8px;text-align:center}.sh-pay .k{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#666;font-weight:800}.sh-pay .v{font-size:15px;font-weight:900}
+@media (max-width:900px){.methods{grid-template-columns:1fr}}
+@media (max-width:520px){
+ .appsw span{display:none}.appsw{padding:6px 7px}.topr{gap:6px}.top{gap:6px}.projbtn{max-width:30vw!important}
+ .dens{grid-template-columns:1fr}.dens button{min-height:70px}
+ .factors{grid-template-columns:1fr}
+ .items .it4{grid-template-columns:1fr 1fr 1fr;}.items .it4 .d{grid-column:1/-1}
+ .meth .big{font-size:26px}.mtab{font-size:13px}.mtab td input{width:76px}
+ .sh-pay{grid-template-columns:1fr 1fr 1fr;gap:4px}.sh-pay .v{font-size:13px}
+ .modes4 button{font-size:12.5px;padding:6px 4px}
+}
+@media print{
+ @page{size:letter;margin:.4in}
+ body{background:#fff;padding:0}
+ .top,.steps,.live,.navbar,.noprint,#toast,.modal,.step:not(#step-estimate){display:none!important}
+ main{padding:0;max-width:none}#step-estimate{display:block!important}
+ .sheet{box-shadow:none;margin:0;padding:0;max-width:none;border-radius:0;font-size:11px}
+ body.pr-cust .internal-sheet{display:none!important} body.pr-int .cust-sheet{display:none!important}
+ body.pr-cust .cust-sheet,body.pr-int .internal-sheet{display:block!important}
+ .sh-head{padding-bottom:5px;margin-bottom:6px}.sh-specs .v{font-size:13px}.sh-specs div{padding:4px 7px}
+ .sh-img{max-height:1.9in}table.it td,table.it th{padding:2px 6px}.sh-foot{margin-top:5px}.sh-sign{margin-top:10px!important}.sh-head svg{width:44px;height:44px}.sh-sec h4{margin:4px 0 2px}.sh-terms{font-size:9.5px}.sh-terms li{margin-bottom:1px}.sh-scope li{margin-bottom:1px}.sh-pay{margin:4px 0 6px}.sh-meta{margin-bottom:6px}.sh-specs{margin-bottom:6px}.sh-price{margin:6px 0;padding:5px 10px}.sh-sign{margin-top:14px}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ #jls-copyright{padding:2px!important;font-size:8px!important}
+}
+.row2>label,.row3>label{display:flex;flex-direction:column;justify-content:flex-end}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="logo" viewBox="0 0 64 64"><path d="M32 3 L57 11 V30 C57 46 46 56 32 61 C18 56 7 46 7 30 V11 Z" fill="#4b5320" stroke="#d6a428" stroke-width="3"/><path d="M32 8 L52 14.5 V30 C52 43 43 51.5 32 56 C21 51.5 12 43 12 30 V14.5 Z" fill="none" stroke="#a51c24" stroke-width="1.6"/><text x="32" y="31" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="15" fill="#d6a428" letter-spacing="1">JLS</text><path d="M20 47 l5 -9 h-2.5 l4 -7 h-2 l3.5 -6 3.5 6 h-2 l4 7 h-2.5 l5 9z" fill="#8fbf5a" transform="translate(-9 3) scale(.9)"/><path d="M28 49 h8 v-6 h-8z M27 49 q-3 2 -6 2 M37 49 q3 2 6 2 M32 49 v3" fill="#c49a5a" stroke="#c49a5a" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="32" cy="43" rx="4" ry="1.4" fill="#e8cf9a"/><path d="M24 15 l2 4 4.4 .4 -3.3 2.9 1 4.3 -4.1 -2.3 -4.1 2.3 1 -4.3 -3.3 -2.9 4.4 -.4z" fill="#d6a428" transform="translate(8 -3) scale(.55)"/><path d="M24 15 l2 4 4.4 .4 -3.3 2.9 1 4.3 -4.1 -2.3 -4.1 2.3 1 -4.3 -3.3 -2.9 4.4 -.4z" fill="#d6a428" transform="translate(30 -3) scale(.55)"/></symbol>
+<symbol id="tree" viewBox="0 0 20 24"><path d="M10 1 l6 9 h-3 l5 7 h-16 l5 -7 h-3z" fill="#4f7a2a"/><rect x="8.6" y="17" width="2.8" height="6" fill="#6b4a26"/></symbol>
+<symbol id="oak" viewBox="0 0 24 24"><circle cx="8" cy="9" r="6" fill="#3f6a22"/><circle cx="16" cy="9" r="6" fill="#4f7a2a"/><circle cx="12" cy="5" r="5" fill="#5c8a33"/><rect x="10.5" y="13" width="3" height="10" fill="#6b4a26"/></symbol>
+<symbol id="palm" viewBox="0 0 24 16"><path d="M12 15 L2 6 M12 15 L5 3 M12 15 L10 1 M12 15 L15 1 M12 15 L19 3 M12 15 L22 6" stroke="#6f9a3a" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+<symbol id="pond" viewBox="0 0 24 24"><path d="M3 15 q4.5 -4 9 0 t9 0" fill="none" stroke="#7fc4d6" stroke-width="2.6" stroke-linecap="round"/><path d="M3 20 q4.5 -4 9 0 t9 0" fill="none" stroke="#7fc4d6" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7" r="3.2" fill="#d6a428"/></symbol>
+</defs></svg>
+
+<header class="top">
+  <div class="brand"><svg><use href="#logo"/></svg><div style="min-width:0"><div class="b1">JARHEADS</div><div class="b2">Land Clearing Estimator</div></div></div>
+  <div class="topr">
+   <a class="appsw" id="toPond" href="../" title="Open the Pond Excavation Developer"><svg width="22" height="22"><use href="#pond"/></svg><span>Pond app</span></a>
+   <button class="projbtn" id="btnProjects" aria-label="Projects"><svg width="20" height="20" viewBox="0 0 24 24" fill="#d6a428"><path d="M3 5h7l2 2h9v12H3z"/></svg><span id="projName">Job</span></button>
+  </div>
+</header>
+<nav class="steps" id="steps">
+  <button data-step="area"><b>1</b><span>Area</span></button>
+  <button data-step="veg"><b>2</b><span>Vegetation</span></button>
+  <button data-step="debris"><b>3</b><span>Debris</span></button>
+  <button data-step="extras"><b>4</b><span>Extras</span></button>
+  <button data-step="estimate"><b>5</b><span>Estimate</span></button>
+</nav>
+<div class="live" id="live"></div>
+
+<main>
+<!-- STEP 1 AREA -->
+<section class="step" id="step-area">
+ <div class="grid2">
+  <div class="col">
+   <div class="card">
+    <h2>Clearing area <small>how big is the job?</small></h2>
+    <div class="seg" id="amodeSeg" style="width:100%;margin-bottom:12px"><button data-amode="acres" style="flex:1">Enter acres</button><button data-amode="trace" style="flex:1">Trace on aerial</button></div>
+    <div id="acresBox">
+     <div class="row2">
+      <label>Total area (acres)<input type="number" inputmode="decimal" min="0" step="0.05" data-bind="area.acres"></label>
+      <label>Keep-trees zones (acres)<input type="number" inputmode="decimal" min="0" step="0.05" placeholder="0" data-bind="area.exclAcres"></label>
+     </div>
+     <p class="hint">Keep-trees zones are subtracted. 1 acre = 43,560 sq ft (about 209 &times; 209 ft).</p>
+     <div class="row2"><label>Or length (ft)<input type="number" inputmode="decimal" min="0" step="1" id="calcL" placeholder="ft"></label><label>&times; width (ft)<input type="number" inputmode="decimal" min="0" step="1" id="calcW" placeholder="ft"></label></div>
+     <button class="btn small" id="useLW">Use length &times; width</button>
+    </div>
+    <div id="traceBox" class="note">Acreage comes from the area you trace on the aerial / site picture (right). Keep-trees zones you draw are subtracted.</div>
+    <div class="kpis" id="areaKpis" style="margin-top:10px"></div>
+   </div>
+   <div class="card">
+    <h2>Job &amp; customer</h2>
+    <label>Job name<input type="text" data-bind="name" placeholder="e.g. Back 2 acres, homesite clearing"></label>
+    <label>Customer name<input type="text" data-bind="customer.name"></label>
+    <label>Site address<input type="text" data-bind="customer.address"></label>
+    <div class="row2"><label>Phone<input type="tel" data-bind="customer.phone"></label><label>Email<input type="email" data-bind="customer.email"></label></div>
+    <label>Area description (shows on customer sheet)<textarea data-bind="area.desc" placeholder="e.g. Homesite and drive area behind the existing pole barn, staked and flagged on site."></textarea></label>
+   </div>
+  </div>
+  <div class="col">
+   <div class="card" id="traceCard">
+    <h2>Trace the area <small>works offline, no map service</small></h2>
+    <div class="btns">
+      <label class="btn primary file" style="margin:0">Upload aerial / screenshot<input type="file" accept="image/*" id="mapIn"></label>
+      <button class="btn" id="sampleMap">Use sample site</button>
+      <button class="btn small danger" id="clearMap">Remove picture</button>
+    </div>
+    <div class="seg modes4" id="tmodeSeg"><button data-tmode="scale">1 &middot; Scale</button><button data-tmode="area">2 &middot; Boundary</button><button data-tmode="keep">Keep zone</button><button data-tmode="pan">Pan</button></div>
+    <div class="note" id="tHelp"></div>
+    <div id="scaleRow" class="row2"><label>Real length of your scale line (ft)<input type="number" inputmode="decimal" min="1" step="1" data-bind="area.scaleFt"></label><div class="hint" id="scaleInfo" style="align-self:center"></div></div>
+    <div class="btns" id="editBtns"><button class="btn small" id="undoPt">&#8630; Undo point</button><button class="btn small" id="newKeep">+ New keep zone</button><button class="btn small danger" id="delKeep">Delete keep zone</button><button class="btn small danger" id="clearBnd">Clear boundary</button></div>
+    <div class="mapwrap"><canvas id="mapCv"></canvas>
+     <div class="zoomb" id="zoomB"><button id="zIn" aria-label="Zoom in">+</button><button id="zOut" aria-label="Zoom out">&minus;</button><button id="zFit" aria-label="Fit" style="font-size:13px">FIT</button></div>
+     <div id="mapEmpty"><svg width="70" height="70"><use href="#logo"/></svg><b style="font-size:18px">Add an aerial or site picture</b><span>Screenshot the property from Google Earth, the county property appraiser map, or a drone photo, then upload it here. Draw a line along something you know the length of to set the scale, then tap around the area to clear.</span></div></div>
+    <div id="traceOut" class="areaout"></div>
+    <p class="hint">Tip: use a long known line (a property line from the survey or appraiser map, a fence you&rsquo;ve measured). A screenshot with a scale bar works too: draw along the bar. Straight-down aerials measure best. Angled photos don&rsquo;t.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 2 VEGETATION -->
+<section class="step" id="step-veg">
+ <div class="grid2">
+  <div class="col">
+   <div class="card">
+    <h2>Density <small>what&rsquo;s on the ground</small></h2>
+    <div class="dens" id="densBtns">
+     <button data-dens="light"><svg viewBox="0 0 56 44"><rect x="0" y="34" width="56" height="10" fill="#c9b27a"/><use href="#palm" x="2" y="22" width="20" height="14"/><use href="#palm" x="30" y="24" width="16" height="12"/><use href="#tree" x="20" y="18" width="10" height="17"/></svg><div><b>Light</b><span>Grass, weeds, scattered palmetto &amp; brush, few saplings.</span><em id="dr-light"></em></div></button>
+     <button data-dens="medium"><svg viewBox="0 0 56 44"><rect x="0" y="34" width="56" height="10" fill="#c9b27a"/><use href="#palm" x="0" y="24" width="18" height="12"/><use href="#tree" x="12" y="10" width="14" height="25"/><use href="#palm" x="22" y="24" width="16" height="12"/><use href="#tree" x="34" y="14" width="12" height="21"/><use href="#palm" x="40" y="25" width="16" height="11"/></svg><div><b>Medium</b><span>Thick brush, palmetto, vines, small trees, a few bigger ones.</span><em id="dr-medium"></em></div></button>
+     <button data-dens="heavy"><svg viewBox="0 0 56 44"><rect x="0" y="34" width="56" height="10" fill="#c9b27a"/><use href="#tree" x="-2" y="6" width="17" height="29"/><use href="#oak" x="10" y="4" width="22" height="31"/><use href="#tree" x="28" y="8" width="15" height="27"/><use href="#oak" x="38" y="6" width="20" height="29"/></svg><div><b>Heavy woods</b><span>Dense understory with many trees. Count the 6&quot;+ trees.</span><em id="dr-heavy"></em></div></button>
+     <button data-dens="vheavy"><svg viewBox="0 0 56 44"><rect x="0" y="34" width="56" height="10" fill="#c9b27a"/><use href="#oak" x="-4" y="0" width="26" height="35"/><use href="#oak" x="14" y="2" width="26" height="33"/><use href="#oak" x="32" y="0" width="26" height="35"/><use href="#palm" x="8" y="26" width="14" height="9"/><use href="#palm" x="34" y="26" width="14" height="9"/></svg><div><b>Very heavy / hammock</b><span>Hardwood hammock: oaks, vines, heavy roots &amp; stumps.</span><em id="dr-vheavy"></em></div></button>
+    </div>
+    <div class="note" id="densNote"></div>
+   </div>
+   <div class="card">
+    <h2>Site conditions <small>slow-down factors</small></h2>
+    <label class="sw"><input type="checkbox" data-bind="veg.palmetto"> Saw palmetto to grub (root mats) <span class="hint" id="fx-palm" style="margin:0"></span></label>
+    <div class="factors">
+     <label class="sw"><input type="checkbox" data-bind="veg.wet"> Wet / soft ground <span class="hint" id="fx-wet" style="margin:0"></span></label>
+     <label class="sw"><input type="checkbox" data-bind="veg.slope"> Slope <span class="hint" id="fx-slope" style="margin:0"></span></label>
+     <label class="sw"><input type="checkbox" data-bind="veg.tight"> Tight access <span class="hint" id="fx-tight" style="margin:0"></span></label>
+     <label class="sw"><input type="checkbox" data-bind="veg.struct"> Fences / structures nearby <span class="hint" id="fx-struct" style="margin:0"></span></label>
+    </div>
+    <p class="hint">Palmetto multiplies the area time. The other factors multiply all clearing time (area, trees, stumps). Change the multipliers under production assumptions.</p>
+   </div>
+  </div>
+  <div class="col">
+   <div class="card">
+    <h2>Trees to remove <small>count by trunk diameter (DBH, chest high)</small></h2>
+    <div id="treeCtrs"></div>
+    <p class="hint">Brush, palmetto and saplings are covered by the density rate. Count trees 6&quot; and up. Only count under-6&quot; trees when they&rsquo;re scattered in otherwise open ground.</p>
+    <label class="sw"><input type="checkbox" data-bind="veg.stumpsOn"> Existing stumps to grub</label>
+    <div id="stumpCtrs"></div>
+   </div>
+   <div class="kpis" id="vegKpis"></div>
+   <details class="card tune" id="ratesCard">
+    <summary>Production assumptions: tune these</summary>
+    <div class="note">These are <b>starting estimates for one 331G with grapple / root rake</b>. Replace them with your own numbers after a few jobs. Changes apply to this job. Use <b>Save as my defaults</b> to use them on every new job.</div>
+    <div class="tablewrap" id="ratesTab"></div>
+    <div class="btns"><button class="btn small dark" id="saveDefaults">Save as my defaults</button><button class="btn small" id="resetRates">Reset to app defaults</button></div>
+    <div class="hint" id="ratesSrc"></div>
+   </details>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 3 DEBRIS -->
+<section class="step" id="step-debris">
+ <div class="grid2">
+  <div class="col">
+   <div class="card">
+    <h2>What happens to the debris</h2>
+    <div class="slopes" id="methBtns" style="grid-template-columns:repeat(3,1fr)">
+     <button data-meth="burn" style="font-size:15px">&#128293; Pile &amp; burn<small>on site (usual)</small></button>
+     <button data-meth="haul" style="font-size:15px">&#128666; Haul off<small>16-yd dump trailer</small></button>
+     <button data-meth="windrow" style="font-size:15px">&#8779; Windrows<small>leave on site</small></button>
+    </div>
+    <div id="burnBox">
+     <div class="row3">
+      <label>Pile size (cu yd)<input type="number" inputmode="decimal" min="10" step="10" data-bind="debris.pileCy"></label>
+      <label>Piles burned / day<input type="number" inputmode="decimal" min="0.5" step="0.5" data-bind="debris.pilesPerDay"></label>
+      <label>Burn days (override)<input type="number" inputmode="decimal" min="0" step="0.5" data-bind="debris.burnDays" id="burnDaysIn"></label>
+     </div>
+     <p class="hint">Default pile is about 150 cu yd (roughly 30 ft across &times; 12 ft high). Burn days are machine days on site to feed, push in and restack the piles. Leave the override blank to use the calculated number.</p>
+     <label class="sw"><input type="checkbox" data-bind="debris.ashOn"> Ash &amp; cleanup: push in unburned ends, reburn, spread / bury ash</label>
+     <label id="ashWrap">Cleanup hours per pile<input type="number" inputmode="decimal" min="0" step="0.5" data-bind="debris.ashHrs"></label>
+     <div class="note bad" id="permitNote"><b>Burn authorization:</b> piles need a burn authorization from the <a href="https://www.fdacs.gov/Forest-Wildfire/Wildland-Fire/Burn-Authorizations" target="_blank" rel="noopener">Florida Forest Service</a> before you light. Setbacks (homes, roads, woods), burn hours, pile size, and county or city rules can change, and burn bans happen. <b>Check current FFS and county rules for this site before you light.</b></div>
+    </div>
+    <div id="haulBox">
+     <div class="row3">
+      <label>Swell / bulking factor<input type="number" inputmode="decimal" min="1" step="0.05" data-bind="debris.swell"></label>
+      <label>Trailer (cu yd)<input type="number" inputmode="decimal" min="1" step="1" data-bind="debris.trailer"></label>
+      <label>Load time (min)<input type="number" inputmode="decimal" min="0" step="5" data-bind="debris.loadMin"></label>
+      <label>Drive round trip (min)<input type="number" inputmode="decimal" min="0" step="5" placeholder="TBD" data-bind="debris.tripMin"></label>
+      <label>Dump / unload (min)<input type="number" inputmode="decimal" min="0" step="5" data-bind="debris.dumpMin"></label>
+      <label class="price">Dump fee ($ / load)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="debris.fee"></label>
+     </div>
+     <p class="hint">Loads = piled cu yd &times; swell &divide; trailer size. Haul time counts as your time (one-man: the machine sits while you drive). Dump fees are a pass-through cost with your markup. Check the facility&rsquo;s current yard-waste rate.</p>
+    </div>
+    <div id="windBox">
+     <label>Where the windrows go (for the customer sheet)<input type="text" data-bind="debris.windNote" placeholder="e.g. along the north and east tree line"></label>
+     <p class="hint">Windrows are pushed into place during clearing, so no extra days are added.</p>
+    </div>
+   </div>
+   <div class="card">
+    <h2>Final pass</h2>
+    <label class="sw"><input type="checkbox" data-bind="debris.finalOn"> Final root-rake pass: pick up roots &amp; sticks, leave the ground rough-graded</label>
+    <label id="finalWrap">Root-rake pass (acres / day)<input type="number" inputmode="decimal" min="0.1" step="0.25" data-bind="debris.finalAcDay"></label>
+   </div>
+  </div>
+  <div class="col">
+   <div class="kpis" id="debKpis"></div>
+   <div class="card" id="debFig"></div>
+   <details class="card tune">
+    <summary>Debris volume assumptions: tune these</summary>
+    <div class="tablewrap" id="debTab"></div>
+    <div class="hint">Default assumption: debris volume as piled after clearing (loose brush, trunks, root balls). It varies a lot with tree size and how tight you pile it. Check it against your real piles and trailer loads.</div>
+   </details>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 4 EXTRAS -->
+<section class="step" id="step-extras">
+ <div class="addgrid">
+  <div class="card addon" id="ex-grade">
+   <label class="sw"><input type="checkbox" data-bind="extras.gradeOn"> Fine grade / blade pass</label>
+   <div class="body">
+    <div class="row2"><label>Acres<input type="number" inputmode="decimal" min="0" step="0.05" data-bind="extras.gradeAc" id="gradeAcIn"></label>
+    <label>Acres / day (6-way blade)<input type="number" inputmode="decimal" min="0.1" step="0.25" data-bind="extras.gradeAcDay"></label></div>
+    <p class="hint">Leave acres blank to use the net cleared acres.</p>
+   </div>
+  </div>
+  <div class="card addon" id="ex-seed">
+   <label class="sw"><input type="checkbox" data-bind="extras.seedOn"> Seed &amp; straw</label>
+   <div class="body">
+    <div class="row3"><label>Acres<input type="number" inputmode="decimal" min="0" step="0.05" data-bind="extras.seedAc" id="seedAcIn"></label>
+    <label class="price">Material $ / acre<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="extras.seedMatAc"></label>
+    <label>Labor hrs / acre<input type="number" inputmode="decimal" min="0" step="0.5" data-bind="extras.seedHrsAc"></label></div>
+    <label>Seed type / notes<input type="text" data-bind="extras.seedNote" placeholder="e.g. Bahia, straw mulch on slopes"></label>
+    <p class="hint">Material (seed, straw, fertilizer) is your cost, with markup added. Get current prices from your supplier.</p>
+   </div>
+  </div>
+  <div class="card addon" id="ex-fence">
+   <label class="sw"><input type="checkbox" data-bind="extras.fenceOn"> Fence line clearing</label>
+   <div class="body">
+    <div class="row2"><label>Linear feet<input type="number" inputmode="decimal" min="0" step="10" data-bind="extras.fenceFt"></label>
+    <label>Feet / day<input type="number" inputmode="decimal" min="10" step="50" data-bind="extras.fenceFtDay"></label></div>
+    <label>Notes<input type="text" data-bind="extras.fenceNote" placeholder="e.g. 10 ft wide strip, both sides of the west fence"></label>
+    <div class="note" id="fenceTip"></div>
+   </div>
+  </div>
+  <div class="card addon on" id="ex-rent">
+   <label class="sw" style="pointer-events:none">Rentals</label>
+   <div class="body">
+    <div class="items" id="rentItems"></div>
+    <div class="btns"><button class="btn small" id="addRent">+ Add rental</button></div>
+    <p class="hint">Check the box to include a rental. Rates are blank until you get a quote. Rental cost gets your markup. If a rental (like a mulcher) speeds the job up, use <b>Days adjustment</b> in Step 5.</p>
+   </div>
+  </div>
+  <div class="card addon on">
+   <label class="sw" style="pointer-events:none">Mobilization</label>
+   <div class="body">
+    <label class="price">Mobilization fee ($, charged to customer)<input type="number" inputmode="decimal" step="any" placeholder="none" data-bind="extras.mob"></label>
+    <p class="hint">Hauling the 331G in and out on the F450 and trailer. Leave blank for no charge.</p>
+   </div>
+  </div>
+  <div class="card addon on">
+   <label class="sw" style="pointer-events:none">Other costs</label>
+   <div class="body">
+    <div class="items" id="otherItems"></div>
+    <button class="btn small" id="addItem">+ Add item</button>
+    <p class="hint">Your cost (silt fence, culvert, permit fee, etc.). Markup is added. The item name shows on the customer scope.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- STEP 5 ESTIMATE -->
+<section class="step" id="step-estimate">
+ <div class="grid2 noprint">
+  <div class="col">
+   <div class="card internal">
+    <h2>Pricing inputs <small>internal</small></h2>
+    <div class="row2">
+     <label class="price">Day rate ($)<input type="number" inputmode="decimal" step="25" min="0" data-bind="est.dayRate"></label>
+     <label>Markup on materials, rentals, disposal (%)<input type="number" inputmode="decimal" step="1" min="0" data-bind="est.markup"></label>
+     <label>Round days up to<select data-bind="est.roundDays"><option value="0.5">&frac12; day</option><option value="1">Full day</option><option value="0.25">&frac14; day</option><option value="0">No rounding</option></select></label>
+     <label>Days adjustment (+/&minus;)<input type="number" inputmode="decimal" step="0.5" placeholder="0" data-bind="est.adjDays"></label>
+     <label>Your $/acre (blank = implied)<input type="number" inputmode="decimal" step="50" min="0" placeholder="implied" data-bind="est.perAcre" id="perAcreIn"></label>
+     <label>Operating cost / machine day ($)<input type="number" inputmode="decimal" step="any" min="0" placeholder="optional" data-bind="est.opCost"></label>
+    </div>
+    <p class="hint">Operating cost is fuel, teeth, undercarriage wear, insurance. Fill it in to see real profit. Blank means profit is shown before machine costs.</p>
+    <label class="sw"><input type="checkbox" data-bind="est.helperOn"> Helper on this job</label>
+    <div class="row2" id="helperBox">
+     <label>Helper pay ($/hr)<input type="number" inputmode="decimal" step="1" min="0" data-bind="est.helperPay"></label>
+     <label>Helper billed ($/hr)<input type="number" inputmode="decimal" step="1" min="0" data-bind="est.helperBill"></label>
+     <label>Helper hrs / machine day<input type="number" inputmode="decimal" step="1" min="0" data-bind="est.helperHrsDay"></label>
+     <label>Helper hours (override)<input type="number" inputmode="decimal" step="1" min="0" data-bind="est.helperHrs" id="helperHrsIn"></label>
+    </div>
+   </div>
+   <div class="card"><h2>Machine days <small>331G + you</small></h2><div id="dayTab"></div></div>
+  </div>
+  <div class="col">
+   <div class="card">
+    <h2>Pick how to price it <small>tap one</small></h2>
+    <div class="methods" id="methods"></div>
+    <div id="tbdNote"></div>
+   </div>
+   <div class="card">
+    <h2>Customer sheet details</h2>
+    <div class="row3">
+     <label class="price">Lump sum (override)<input type="number" inputmode="decimal" step="any" placeholder="auto" data-bind="est.lump" id="lumpIn"></label>
+     <label>Round price to ($)<select data-bind="est.roundPrice"><option value="1">$1</option><option value="25">$25</option><option value="50">$50</option><option value="100">$100</option></select></label>
+     <label>Deposit (%)<input type="number" inputmode="decimal" step="5" min="0" max="100" data-bind="est.deposit"></label>
+    </div>
+    <div class="row2">
+     <label>Timeline<input type="text" data-bind="est.timeline" id="timelineIn"></label>
+     <label>Quote good for (days)<input type="number" inputmode="numeric" step="1" min="1" data-bind="est.valid"></label>
+     <label>Show pricing basis<select data-bind="est.showBasis"><option value="yes">Yes</option><option value="no">No, lump sum only</option></select></label>
+     <label>Show site sketch<select data-bind="est.showMap"><option value="yes">Yes (if traced)</option><option value="no">No</option></select></label>
+    </div>
+    <label>Notes for customer<textarea data-bind="est.notes" placeholder="e.g. Owner to mark trees to keep with ribbon before start. Gate access from the south drive."></textarea></label>
+   </div>
+  </div>
+ </div>
+ <div class="sumtools noprint">
+  <span class="seg" id="sumSeg"><button data-sum="cust">Customer sheet</button><button data-sum="int">Internal sheet</button></span>
+  <button class="btn primary" id="printCust">Print / Save PDF (customer)</button>
+  <button class="btn" id="printInt">Print internal</button>
+ </div>
+ <div id="sheets"></div>
+</section>
+</main>
+
+<div class="navbar">
+  <button class="btn" id="prev">&lsaquo; Back</button>
+  <div id="stepLbl"></div>
+  <button class="btn primary" id="next">Next &rsaquo;</button>
+</div>
+
+<div class="modal hidden" id="projModal">
+ <div class="box">
+  <h2 style="font-size:19px;color:var(--olive-d);margin-bottom:6px">Saved clearing jobs</h2>
+  <p class="hint">Jobs save automatically on this device (browser storage). Use Backup to move them to another device. Pond projects are kept separately in the Pond app.</p>
+  <ul class="plist" id="plist"></ul>
+  <div class="btns">
+   <button class="btn primary" id="pNew">+ New job</button>
+   <button class="btn" id="pDup">Duplicate current</button>
+   <button class="btn" id="pExport">Backup (.json)</button>
+   <label class="btn file" style="margin:0">Restore backup<input type="file" accept=".json,application/json" id="pImport"></label>
+   <button class="btn dark" id="pClose">Close</button>
+  </div>
+  <p class="hint" style="margin-top:10px"><a href="../" id="toPond2" style="color:var(--scarlet);font-weight:800">&rsaquo; Open the Pond Excavation Developer</a></p>
+ </div>
+</div>
+<div id="toast"></div>
+<script>/* ===== CORE ESTIMATING ENGINE (no DOM) ===== */
+var BINS=[['t6','Under 6"','saplings / small trees'],['t12','6\u201312"','small trees'],['t18','12\u201318"','medium trees'],['t24','18\u201324"','large trees'],['t99','Over 24"','very large / specimen']];
+var DENS={
+ light:{name:'Light brush / palmetto',short:'Light',desc:'Grass, weeds, scattered palmetto and brush, a few saplings. Mostly root-rake and pile.'},
+ medium:{name:'Medium brush + small trees',short:'Medium',desc:'Thick brush, palmetto, vines, saplings and small trees under 6", some scattered bigger trees.'},
+ heavy:{name:'Heavy woods',short:'Heavy',desc:'Wooded lot: dense understory with many trees. Count the 6"+ trees below.'},
+ vheavy:{name:'Very heavy / hammock',short:'Very heavy',desc:'Hardwood hammock: dense oaks, vines, big understory, heavy roots and stumps. Slow going.'}};
+var DENS_KEYS=['light','medium','heavy','vheavy'];
+/* Starting production assumptions for ONE John Deere 331G CTL with grapple / root rake. Mike tunes these. */
+var DEFAULT_RATES={
+ acDay:{light:1.0,medium:0.6,heavy:0.35,vheavy:0.2},      /* acres/day of brush, palmetto, vines, saplings <6" (counted 6"+ trees are extra) */
+ treeMin:{t6:1.5,t12:5,t18:12,t24:25,t99:45},             /* minutes per tree: push/pull over with root ball, shake out, carry to pile */
+ stumpMin:{t6:2,t12:6,t18:15,t24:30,t99:50},              /* minutes per existing stump to grub with root rake / grapple */
+ palm:1.25,wet:1.25,slope:1.15,tight:1.20,struct:1.15,    /* time multipliers */
+ hrsDay:8};
+var DEFAULT_DEBRIS={
+ cyAc:{light:75,medium:200,heavy:400,vheavy:600},        /* cu yd of debris per acre as piled (brush/understory) */
+ treeCy:{t6:0.25,t12:1.5,t18:4,t24:8,t99:15},            /* cu yd per counted tree incl. root ball */
+ stumpCy:{t6:0.2,t12:1,t18:2.5,t24:5,t99:10}};
+function nv(v,d){var x=parseFloat(v);return isFinite(x)?x:d;}
+function pv(v,d){return Math.max(0,nv(v,d));}
+function blank(v){return v===''||v===null||v===undefined||!isFinite(parseFloat(v));}
+function roundUp(x,step){if(!(step>0))return x;return Math.ceil(x/step-1e-9)*step;}
+function sumBins(o){var s=0;BINS.forEach(function(b){s+=pv(o&&o[b[0]],0);});return s;}
+
+/* P = project, traced = {gross,excl} acres from the tracing tool (or null) */
+function estimate(P,traced){
+ var A=P.area,V=P.veg,R=P.rates,D=P.debris,X=P.extras,E=P.est,r={tbd:[],warn:[]};
+ var useTrace=A.mode==='trace'&&traced&&traced.gross>0;
+ r.gross=useTrace?traced.gross:pv(A.acres,0);
+ r.excl=useTrace?traced.excl:pv(A.exclAcres,0);
+ r.acres=Math.max(0,r.gross-r.excl);r.useTrace=useTrace;
+ var dens=DENS[V.density]?V.density:'medium',hd=Math.max(1,nv(R.hrsDay,8));r.dens=dens;r.hd=hd;
+ var acDay=Math.max(0.01,nv(R.acDay[dens],DEFAULT_RATES.acDay[dens]));r.acDay=acDay;
+ r.areaHrs=r.acres/acDay*hd*(V.palmetto?Math.max(1,nv(R.palm,1)):1);
+ r.trees=sumBins(V.trees);r.stumps=V.stumpsOn?sumBins(V.stumps):0;
+ r.treeHrs=0;r.stumpHrs=0;
+ BINS.forEach(function(b){var k=b[0];r.treeHrs+=pv(V.trees[k],0)*pv(R.treeMin[k],DEFAULT_RATES.treeMin[k])/60;
+   if(V.stumpsOn)r.stumpHrs+=pv(V.stumps[k],0)*pv(R.stumpMin[k],DEFAULT_RATES.stumpMin[k])/60;});
+ var f=1,fl=[];[['wet','Wet / soft ground'],['slope','Slope'],['tight','Tight access'],['struct','Fences / structures nearby']].forEach(function(q){if(V[q[0]]){var m=Math.max(1,nv(R[q[0]],1));f*=m;fl.push(q[1]+' \u00d7'+m);}});
+ r.siteF=f;r.siteFl=fl;
+ r.clearHrs=(r.areaHrs+r.treeHrs+r.stumpHrs)*f;
+ /* debris */
+ var vol=r.acres*pv(D.cyAc[dens],DEFAULT_DEBRIS.cyAc[dens]);
+ BINS.forEach(function(b){var k=b[0];vol+=pv(V.trees[k],0)*pv(D.treeCy[k],DEFAULT_DEBRIS.treeCy[k]);if(V.stumpsOn)vol+=pv(V.stumps[k],0)*pv(D.stumpCy[k],DEFAULT_DEBRIS.stumpCy[k]);});
+ r.debrisCY=vol;r.method=D.method;r.piles=0;r.burnDays=0;r.cleanHrs=0;r.loads=0;r.haulHrs=0;r.dumpCost=0;r.looseCY=0;
+ if(D.method==='burn'){var pc=Math.max(1,nv(D.pileCy,150));r.piles=vol>0.5?Math.ceil(vol/pc-1e-9):0;
+   r.burnDaysCalc=r.piles/Math.max(0.1,nv(D.pilesPerDay,4));r.burnDays=blank(D.burnDays)?r.burnDaysCalc:pv(D.burnDays,0);
+   if(D.ashOn)r.cleanHrs=r.piles*pv(D.ashHrs,1);}
+ else if(D.method==='haul'){r.looseCY=vol*Math.max(1,nv(D.swell,1.25));r.loads=r.looseCY>0.5?Math.ceil(r.looseCY/Math.max(1,nv(D.trailer,16))-1e-9):0;
+   var trip=nv(D.tripMin,NaN);if(!isFinite(trip)){trip=0;if(r.loads)r.tbd.push('haul drive time');}
+   r.haulHrs=r.loads*(pv(D.loadMin,15)+trip+pv(D.dumpMin,10))/60;
+   var fee=nv(D.fee,NaN);if(isFinite(fee))r.dumpCost=r.loads*fee;else if(r.loads)r.tbd.push('dump fee per load');}
+ r.finalHrs=D.finalOn?r.acres/Math.max(0.05,nv(D.finalAcDay,2.5))*hd:0;
+ /* extras */
+ var gA=blank(X.gradeAc)?r.acres:pv(X.gradeAc,0),sA=blank(X.seedAc)?r.acres:pv(X.seedAc,0);r.gradeAc=gA;r.seedAc=sA;
+ r.gradeHrs=X.gradeOn?gA/Math.max(0.05,nv(X.gradeAcDay,1.5))*hd:0;
+ r.seedHrs=X.seedOn?sA*pv(X.seedHrsAc,3):0;r.seedMat=0;
+ if(X.seedOn){var sm=nv(X.seedMatAc,NaN);if(isFinite(sm))r.seedMat=sm*sA;else r.tbd.push('seed / straw material $ per acre');}
+ r.fenceFt=X.fenceOn?pv(X.fenceFt,0):0;r.fenceHrs=r.fenceFt/Math.max(1,nv(X.fenceFtDay,800))*hd;
+ r.rent=0;(X.rentals||[]).forEach(function(it){if(!it.on)return;var rd=nv(it.rate,NaN),dy=pv(it.days,0);if(isFinite(rd))r.rent+=rd*dy+pv(it.deliv,0);else r.tbd.push((it.desc||'rental')+' $/day');});
+ r.other=0;(X.other||[]).forEach(function(it){if(!it.desc&&blank(it.cost))return;var c=nv(it.cost,NaN);if(isFinite(c))r.other+=c;else r.tbd.push(it.desc||'other item');});
+ r.mob=pv(X.mob,0);
+ /* days */
+ r.d={clear:r.clearHrs/hd,burn:r.burnDays,clean:r.cleanHrs/hd,haul:r.haulHrs/hd,final:r.finalHrs/hd,grade:r.gradeHrs/hd,seed:r.seedHrs/hd,fence:r.fenceHrs/hd,adj:nv(E.adjDays,0)};
+ r.scopeRaw=r.d.clear+r.d.burn+r.d.clean+r.d.haul+r.d.final+r.d.adj;r.extraDays=r.d.grade+r.d.seed+r.d.fence;
+ r.rawDays=Math.max(0,r.scopeRaw+r.extraDays);
+ var step=nv(E.roundDays,0.5);r.billDays=r.rawDays>0?Math.max(step>0?step:0,roundUp(r.rawDays,step)):0;
+ r.scopeDays=Math.max(0,r.billDays-r.extraDays);
+ /* money */
+ var rate=pv(E.dayRate,1300),mk=pv(E.markup,15)/100;r.rate=rate;r.mk=mk;
+ r.helperOn=!!E.helperOn;r.helperHrs=0;
+ if(r.helperOn)r.helperHrs=blank(E.helperHrs)?r.billDays*pv(E.helperHrsDay,8):pv(E.helperHrs,0);
+ r.helperWage=r.helperHrs*pv(E.helperPay,20);r.helperBill=r.helperHrs*pv(E.helperBill,30);
+ r.machinePrice=r.billDays*rate;
+ r.passCost=r.dumpCost+r.rent+r.seedMat+r.other;r.passMarkup=r.passCost*mk;r.passPrice=r.passCost+r.passMarkup;
+ r.dayPrice=r.machinePrice+r.helperBill+r.passPrice+r.mob;
+ var share=r.billDays>0?r.scopeDays/r.billDays:1;
+ r.scopeLabor=r.scopeDays*rate+r.helperBill*share;            /* covered by a $/acre price */
+ r.addOns=r.dayPrice-r.scopeLabor;                             /* extras + pass-through costs + mobilization */
+ r.impliedAcre=r.acres>0?r.scopeLabor/r.acres:NaN;r.allInAcre=r.acres>0?r.dayPrice/r.acres:NaN;
+ var pa=nv(E.perAcre,NaN);r.perAcreSet=isFinite(pa);r.perAcre=isFinite(pa)?pa:r.impliedAcre;
+ r.acrePrice=(isFinite(pa)?pa*r.acres:r.scopeLabor)+r.addOns;
+ var op=nv(E.opCost,NaN);r.opSet=isFinite(op);r.opCost=isFinite(op)?op*r.billDays:0;
+ r.cost=r.helperWage+r.passCost+r.opCost;
+ r.profitDay=r.dayPrice-r.cost;r.profitAcre=r.acrePrice-r.cost;
+ var rs=Math.max(1,nv(E.roundPrice,50)),pick=E.method==='acre'?r.acrePrice:r.dayPrice;r.picked=E.method==='acre'?'acre':'day';
+ r.calcLump=Math.round(pick/rs)*rs;var lo=nv(E.lump,NaN);r.lumpOverride=isFinite(lo)&&lo>0;r.lump=r.lumpOverride?lo:r.calcLump;
+ r.profitLump=r.lump-r.cost;r.deposit=r.lump*pv(E.deposit,50)/100;r.balance=r.lump-r.deposit;
+ r.workDays=Math.max(1,Math.ceil(r.billDays-1e-9));
+ if(r.acres<=0)r.warn.push('No acreage yet: enter acres or trace the area in Step 1.');
+ return r;}
+if(typeof module!=='undefined')module.exports={estimate:estimate,BINS:BINS,DENS:DENS,DEFAULT_RATES:DEFAULT_RATES,DEFAULT_DEBRIS:DEFAULT_DEBRIS,roundUp:roundUp};
+/* ===== END CORE ===== */
+</script>
+<script>/* ===== APP ===== */
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s);},$$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s));};
+var LS_KEY='jlc.projects.v1',LS_CUR='jlc.current.v1',LS_PHOTO='jlc.photo.',LS_DEF='jlc.mydefaults.v1';
+var STEPS=['area','veg','debris','extras','estimate'],STEP_LBL={area:'1 · Area',veg:'2 · Vegetation',debris:'3 · Debris',extras:'4 · Extras',estimate:'5 · Estimate'};
+var CO={name:'Jarheads Land Service',phone:'352-538-7145',email:'jarheadslandservice@gmail.com',town:'Williston, FL'};
+var projects={},P=null,curStep='area',R=null,TR=null,memPhotos={},sumView='cust';
+var photo={img:null,w:0,h:0},tmode='area',view={z:1,ox:0,oy:0,base:1,cw:0,ch:0},selKeep=-1;
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function num(v,d){var n=parseFloat(v);return isFinite(n)?n:d;}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function fmt(n,d){if(n===''||n===null||n===undefined||!isFinite(n))return '—';d=d||0;return Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});}
+function money(n){if(n===''||n===null||n===undefined||!isFinite(n))return 'TBD';return (n<0?'-$':'$')+fmt(Math.round(Math.abs(n)),0);}
+function days(n){if(!isFinite(n))return '—';var q=Math.abs(n*4-Math.round(n*4))<0.01;return fmt(n,Math.abs(n-Math.round(n))<0.005?0:(q&&Math.abs(n*2-Math.round(n*2))>0.01?2:1));}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show');},2600);}
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function isObj(o){return o&&typeof o==='object'&&!Array.isArray(o);}
+function fill(def,o){Object.keys(def).forEach(function(k){if(o[k]===undefined)o[k]=def[k];else if(isObj(def[k])&&isObj(o[k]))fill(def[k],o[k]);});return o;}
+function getPath(o,p){return p.split('.').reduce(function(a,k){return a==null?a:a[k];},o);}
+function setPath(o,p,v){var k=p.split('.'),l=k.pop();k.reduce(function(a,x){return a[x];},o)[l]=v;}
+function zeroBins(){var o={};BINS.forEach(function(b){o[b[0]]=0;});return o;}
+
+function myDefaults(){try{return JSON.parse(localStorage.getItem(LS_DEF)||'null');}catch(e){return null;}}
+function defaultProject(){var p={v:1,id:uid(),name:'New Clearing Job',created:Date.now(),updated:Date.now(),
+ customer:{name:'',address:'',phone:'',email:''},
+ area:{mode:'acres',acres:2,exclAcres:'',desc:'',img:false,sample:false,scaleP:[],scaleFt:'',poly:[],closed:false,keep:[]},
+ veg:{density:'medium',trees:zeroBins(),stumpsOn:false,stumps:zeroBins(),palmetto:false,wet:false,slope:false,tight:false,struct:false},
+ rates:clone(DEFAULT_RATES),
+ debris:{method:'burn',pileCy:150,pilesPerDay:4,burnDays:'',ashOn:true,ashHrs:1,swell:1.25,trailer:16,loadMin:15,tripMin:'',dumpMin:10,fee:'',windNote:'',finalOn:true,finalAcDay:2.5,
+   cyAc:clone(DEFAULT_DEBRIS.cyAc),treeCy:clone(DEFAULT_DEBRIS.treeCy),stumpCy:clone(DEFAULT_DEBRIS.stumpCy)},
+ extras:{gradeOn:false,gradeAc:'',gradeAcDay:1.5,seedOn:false,seedAc:'',seedMatAc:'',seedHrsAc:3,seedNote:'',fenceOn:false,fenceFt:'',fenceFtDay:800,fenceNote:'',
+   rentals:[{on:false,desc:'Forestry mulcher head (CTL)',rate:'',days:1,deliv:''},{on:false,desc:'Excavator',rate:'',days:1,deliv:''}],mob:'',other:[]},
+ est:{dayRate:1300,markup:15,roundDays:'0.5',adjDays:'',perAcre:'',opCost:'',helperOn:false,helperPay:20,helperBill:30,helperHrsDay:8,helperHrs:'',
+   method:'day',lump:'',roundPrice:'50',deposit:50,timeline:'',valid:30,showBasis:'yes',showMap:'yes',notes:''}};
+ var d=myDefaults();if(d){if(d.rates)p.rates=fill(clone(DEFAULT_RATES),clone(d.rates));['cyAc','treeCy','stumpCy','pileCy','pilesPerDay','ashHrs','swell','trailer','loadMin','dumpMin','finalAcDay'].forEach(function(k){if(d.debris&&d.debris[k]!==undefined)p.debris[k]=clone(d.debris[k]);});
+   ['gradeAcDay','seedHrsAc','fenceFtDay'].forEach(function(k){if(d.extras&&d.extras[k]!==undefined)p.extras[k]=d.extras[k];});
+   ['dayRate','markup','helperPay','helperBill','helperHrsDay','opCost','deposit'].forEach(function(k){if(d.est&&d.est[k]!==undefined)p.est[k]=d.est[k];});}
+ return p;}
+
+/* ---------- storage ---------- */
+function load(){try{projects=JSON.parse(localStorage.getItem(LS_KEY)||'{}')||{};}catch(e){projects={};}
+  Object.keys(projects).forEach(function(id){fill(defaultProject(),projects[id]);});
+  var cur=null;try{cur=localStorage.getItem(LS_CUR);}catch(e){}
+  if(cur&&projects[cur])P=projects[cur];else{var ids=Object.keys(projects);if(ids.length)P=projects[ids[0]];else{P=defaultProject();projects[P.id]=P;}}}
+var saveT;function save(){clearTimeout(saveT);saveT=setTimeout(saveNow,350);}
+function saveNow(){P.updated=Date.now();projects[P.id]=P;try{localStorage.setItem(LS_KEY,JSON.stringify(projects));localStorage.setItem(LS_CUR,P.id);setSavedLbl('Saved');}catch(e){setSavedLbl('Not saved (storage full)');}}
+function setSavedLbl(t){var s=$('#stepLbl .saved');if(s)s.textContent=t;}
+function savePhotoData(id,data){memPhotos[id]=data;try{localStorage.setItem(LS_PHOTO+id,data);return true;}catch(e){toast('Picture is too big to keep after closing; it works for now.');return false;}}
+function getPhotoData(id){return memPhotos[id]||(function(){try{return localStorage.getItem(LS_PHOTO+id);}catch(e){return null;}})();}
+
+/* ---------- binding ---------- */
+function bindAll(){$$('[data-bind]').forEach(function(el){var v=getPath(P,el.dataset.bind);if(el.type==='checkbox')el.checked=!!v;else el.value=(v===null||v===undefined)?'':v;});}
+function onBind(e){var el=e.target;if(!el.dataset||!el.dataset.bind)return;var v,p=el.dataset.bind;
+  if(el.type==='checkbox')v=el.checked;else if(el.type==='number'||el.type==='range'){if(el.value===''){v='';}else{v=parseFloat(el.value);if(!isFinite(v))return;}}else v=el.value;
+  setPath(P,p,v);
+  if(p==='name')$('#projName').textContent=P.name||'Job';
+  save();refresh();}
+document.addEventListener('input',onBind);document.addEventListener('change',function(e){if(e.target.dataset&&e.target.dataset.bind&&(e.target.tagName==='SELECT'||e.target.type==='checkbox'))onBind(e);});
+
+/* ---------- steps ---------- */
+function setStep(s,noScroll){if(STEPS.indexOf(s)<0)s='area';curStep=s;
+  $$('.step').forEach(function(el){el.classList.toggle('on',el.id==='step-'+s);});
+  $$('#steps button').forEach(function(b){b.classList.toggle('on',b.dataset.step===s);if(b.dataset.step===s&&b.scrollIntoView)try{b.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}});
+  var i=STEPS.indexOf(s);$('#prev').style.visibility=i>0?'visible':'hidden';
+  $('#next').innerHTML=i<STEPS.length-1?'Next &rsaquo;':'Print';
+  $('#stepLbl').innerHTML=STEP_LBL[s]+'<span class="saved">Auto-saves on this device</span>';
+  try{history.replaceState(null,'','#'+s);}catch(e){}
+  if(!noScroll)window.scrollTo(0,0);refresh();}
+$$('#steps button').forEach(function(b){b.onclick=function(){setStep(b.dataset.step);};});
+$('#prev').onclick=function(){var i=STEPS.indexOf(curStep);if(i>0)setStep(STEPS[i-1]);};
+$('#next').onclick=function(){var i=STEPS.indexOf(curStep);if(i<STEPS.length-1)setStep(STEPS[i+1]);else doPrint(sumView);};
+
+/* ---------- master refresh ---------- */
+function compute(){TR=traced();R=estimate(P,TR);}
+function refresh(){compute();updateVis();renderLive();
+  if(curStep==='area')renderArea();else if(curStep==='veg')renderVeg();else if(curStep==='debris')renderDebris();else if(curStep==='extras')renderExtras();else if(curStep==='estimate')renderEstimate();}
+function updateVis(){var A=P.area,V=P.veg,D=P.debris,X=P.extras,E=P.est;
+  $$('#amodeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.amode===A.mode);});
+  $('#acresBox').style.display=A.mode==='acres'?'':'none';$('#traceBox').style.display=A.mode==='trace'?'':'none';
+  $$('#tmodeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.tmode===tmode);});
+  $$('#densBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.dens===V.density);});
+  $$('#methBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.meth===D.method);});
+  $('#burnBox').style.display=D.method==='burn'?'':'none';$('#haulBox').style.display=D.method==='haul'?'':'none';$('#windBox').style.display=D.method==='windrow'?'':'none';
+  $('#ashWrap').style.display=D.ashOn?'':'none';$('#finalWrap').style.display=D.finalOn?'':'none';
+  $('#stumpCtrs').style.display=V.stumpsOn?'':'none';
+  $('#ex-grade').classList.toggle('on',!!X.gradeOn);$('#ex-seed').classList.toggle('on',!!X.seedOn);$('#ex-fence').classList.toggle('on',!!X.fenceOn);
+  $('#helperBox').style.display=E.helperOn?'':'none';
+  $$('#sumSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.sum===sumView);});
+  $('#projName').textContent=P.name||'Job';}
+function renderLive(){var h='<div>Net <b>'+fmt(R.acres,2)+'</b> ac</div><div><b>'+DENS[R.dens].short+'</b>'+(R.trees?' · <b>'+fmt(R.trees)+'</b> trees':'')+'</div><div><b>'+days(R.billDays)+'</b> machine days</div><div>By day <b>'+money(R.dayPrice)+'</b></div><div>By acre <b>'+money(R.acrePrice)+'</b>'+(isFinite(R.perAcre)?' <span style="color:var(--muted)">('+money(R.perAcre)+'/ac)</span>':'')+'</div>';
+  if(R.tbd.length)h+='<div class="flag">&#9888; '+R.tbd.length+' item'+(R.tbd.length>1?'s':'')+' TBD</div>';$('#live').innerHTML=h;}
+
+/* ---------- canvas helpers ---------- */
+function setupCanvas(cv,w,h){var dpr=Math.min(window.devicePixelRatio||1,2.5);cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);cv.style.height=h+'px';var ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return ctx;}
+function cssW(cv){return cv.clientWidth||(cv.parentElement&&cv.parentElement.clientWidth)||640;}
+function label(ctx,t,x,y,opt){opt=opt||{};ctx.font=(opt.bold?'800 ':'600 ')+(opt.size||12)+'px -apple-system,Segoe UI,Roboto,Arial,sans-serif';ctx.textAlign=opt.align||'center';ctx.textBaseline='middle';
+  if(opt.bg){var w=ctx.measureText(t).width+10,h=(opt.size||12)+8,x0=opt.align==='left'?x-3:opt.align==='right'?x-w+3:x-w/2;ctx.fillStyle=opt.bg;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x0,y-h/2,w,h,4);else ctx.rect(x0,y-h/2,w,h);ctx.fill();}
+  ctx.fillStyle=opt.color||'#17180f';ctx.fillText(t,x,y);}
+function polyArea(p){var a=0;for(var i=0,n=p.length;i<n;i++){var q=p[i],r=p[(i+1)%n];a+=q[0]*r[1]-r[0]*q[1];}return Math.abs(a)/2;}
+function polyPerim(p,closed){var s=0,n=p.length;for(var i=0;i<(closed?n:n-1);i++){var q=p[i],r=p[(i+1)%n];s+=Math.hypot(r[0]-q[0],r[1]-q[1]);}return s;}
+function centroid(p){var a=0,cx=0,cy=0;for(var i=0,n=p.length;i<n;i++){var q=p[i],r=p[(i+1)%n],f=q[0]*r[1]-r[0]*q[1];a+=f;cx+=(q[0]+r[0])*f;cy+=(q[1]+r[1])*f;}if(Math.abs(a)<1e-9){var sx=0,sy=0;p.forEach(function(q){sx+=q[0];sy+=q[1];});return [sx/p.length,sy/p.length];}return [cx/(3*a),cy/(3*a)];}
+function pointInPoly(x,y,p){var c=false;for(var i=0,j=p.length-1;i<p.length;j=i++){var a=p[i],b=p[j];if(((a[1]>y)!==(b[1]>y))&&(x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0]))c=!c;}return c;}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ---------- tracing math ---------- */
+function ppf(){var A=P.area;if(A.scaleP.length===2&&num(A.scaleFt,0)>0){var a=A.scaleP[0],b=A.scaleP[1],d=Math.hypot(b[0]-a[0],b[1]-a[1]);if(d>2)return d/num(A.scaleFt,1);}return 0;}
+function keepInside(k,bnd){/* fraction of keep-zone area that falls inside the boundary (grid sampling) */
+  var xs=k.map(function(q){return q[0];}),ys=k.map(function(q){return q[1];}),x0=Math.min.apply(0,xs),x1=Math.max.apply(0,xs),y0=Math.min.apply(0,ys),y1=Math.max.apply(0,ys),N=70,inK=0,inB=0;
+  for(var i=0;i<N;i++)for(var j=0;j<N;j++){var x=x0+(i+0.5)*(x1-x0)/N,y=y0+(j+0.5)*(y1-y0)/N;if(pointInPoly(x,y,k)){inK++;if(pointInPoly(x,y,bnd))inB++;}}return inK?inB/inK:0;}
+function traced(){var A=P.area,s=ppf(),o={gross:0,excl:0,perim:0,scale:s,ok:false,keepN:0};
+  if(!(s>0)||!A.closed||A.poly.length<3)return o;var f=s*s*43560;
+  o.gross=polyArea(A.poly)/f;o.perim=polyPerim(A.poly,true)/s;o.ok=true;
+  A.keep.forEach(function(k){if(k.closed&&k.pts.length>=3){o.excl+=polyArea(k.pts)/f*keepInside(k.pts,A.poly);o.keepN++;}});
+  o.excl=Math.min(o.excl,o.gross);return o;}
+
+/* ---------- step 1: area ---------- */
+$$('#amodeSeg button').forEach(function(b){b.onclick=function(){P.area.mode=b.dataset.amode;if(b.dataset.amode==='trace'&&!photo.img)toast('Upload an aerial or tap "Use sample site"');save();refresh();};});
+$('#useLW').onclick=function(){var l=num($('#calcL').value,0),w=num($('#calcW').value,0);if(!(l>0&&w>0)){toast('Enter length and width in feet');return;}P.area.acres=Math.round(l*w/43560*1000)/1000;bindAll();save();refresh();toast(fmt(l*w)+' sq ft = '+fmt(l*w/43560,3)+' acres');};
+var THELP={scale:'<b>Set the scale:</b> drag a line along something you know the length of (a surveyed property line, a measured fence, the map&rsquo;s scale bar). Then type its real length below. Drag the ends to fine-tune.',
+ area:'<b>Trace the boundary:</b> tap around the area to clear, one corner at a time. Tap the first point (gold) to close it. Drag any point to move it. Drag empty space to pan; pinch or use + / &minus; to zoom.',
+ keep:'<b>Keep-trees zone:</b> tap around trees or areas to leave alone, then tap the first point to close. They&rsquo;re subtracted from the acreage. Tap &ldquo;+ New keep zone&rdquo; for another one.',
+ pan:'<b>View / pan:</b> drag to move around, pinch or use + / &minus; to zoom. Taps don&rsquo;t add points in this mode.'};
+function renderArea(){var A=P.area,o=TR;
+  var k='<div class="kpi"><div class="k">Net acres to clear</div><div class="v">'+fmt(R.acres,2)+'</div><div class="u">'+(R.useTrace?'from tracing':'entered')+'</div></div>'
+   +'<div class="kpi"><div class="k">Square feet</div><div class="v">'+fmt(R.acres*43560)+'</div><div class="u">gross '+fmt(R.gross,2)+' ac − keep '+fmt(R.excl,2)+' ac</div></div>';
+  if(A.mode==='trace'&&!o.ok)k+='<div class="kpi flag" style="grid-column:1/-1"><div class="k">Tracing not finished</div><div class="u">'+(!photo.img?'Upload a picture first.':!(o.scale>0)?'Set the scale (step 1 on the picture).':'Close the boundary (tap the first point).')+' Until then the acres entered by hand are used.</div></div>';
+  $('#areaKpis').innerHTML=k;
+  $('#tHelp').innerHTML=THELP[tmode];$('#scaleRow').style.display=tmode==='scale'?'':'none';
+  $('#scaleInfo').innerHTML=o.scale>0?'Scale set: '+fmt(o.scale,2)+' px per ft':(A.scaleP.length===2?'Type the real length.':'No scale yet.');
+  $('#newKeep').style.display=$('#delKeep').style.display=tmode==='keep'?'':'none';$('#clearBnd').style.display=tmode==='area'?'':'none';$('#undoPt').style.display=(tmode==='area'||tmode==='keep')?'':'none';
+  $('#editBtns').style.display=tmode==='scale'||tmode==='pan'?'none':'';
+  $('#mapEmpty').style.display=photo.img?'none':'flex';$('#zoomB').style.display=photo.img?'':'none';
+  drawMap($('#mapCv'));
+  var t='';if(photo.img){if(o.ok)t='<div class="kpis" style="margin-top:10px"><div class="kpi okk"><div class="k">Traced boundary</div><div class="v">'+fmt(o.gross,2)+' ac</div><div class="u">'+fmt(o.gross*43560)+' sq ft · perimeter '+fmt(o.perim)+' ft</div></div><div class="kpi"><div class="k">Keep zones ('+o.keepN+')</div><div class="v">− '+fmt(o.excl,2)+' ac</div><div class="u">net '+fmt(Math.max(0,o.gross-o.excl),2)+' ac</div></div></div>'
+     +(A.mode!=='trace'?'<button class="btn primary" id="useTrace" style="margin-top:8px">Use traced acres ('+fmt(Math.max(0,o.gross-o.excl),2)+' ac)</button>':'<p class="hint">Traced acreage is being used for the estimate.</p>');
+    else t='<p class="hint" style="margin-top:8px">'+(!(o.scale>0)?'Step 1: set the scale.':A.poly.length<3?'Step 2: tap around the area to clear.':'Tap the first point to close the boundary.')+'</p>';}
+  $('#traceOut').innerHTML=t;var ut=$('#useTrace');if(ut)ut.onclick=function(){P.area.mode='trace';save();refresh();toast('Using traced acres');};}
+/* view transform: image px -> screen px */
+function fitView(cw){var mh=Math.max(260,Math.min(640,(window.innerHeight||800)*0.62));view.base=Math.min(cw/photo.w,mh/photo.h);view.cw=cw;view.ch=Math.round(Math.max(240,photo.h*view.base));if(photo.w*view.base<cw)view.base=Math.min(cw/photo.w,view.ch/photo.h);}
+function S(){return view.base*view.z;}
+function T(p){var s=S();return [(p[0]-view.ox)*s,(p[1]-view.oy)*s];}
+function inv(x,y){var s=S();return [x/s+view.ox,y/s+view.oy];}
+function clampView(){var s=S(),vw=view.cw/s,vh=view.ch/s;view.ox=photo.w<=vw?(photo.w-vw)/2:clamp(view.ox,0,photo.w-vw);view.oy=photo.h<=vh?(photo.h-vh)/2:clamp(view.oy,0,photo.h-vh);}
+function drawMap(cv,exp){if(!photo.img){var c0=setupCanvas(cv,cssW(cv),260);c0.fillStyle='#202214';c0.fillRect(0,0,cssW(cv),260);return;}
+  var saveV=null;if(exp){saveV=clone(view);view.z=1;view.ox=0;view.oy=0;view.base=exp/photo.w;view.cw=exp;view.ch=Math.round(photo.h*view.base);}
+  else{var cw=cssW(cv);if(Math.abs(cw-view.cw)>1||!view.ch)fitView(cw);clampView();}
+  var w=view.cw,h=view.ch,ctx=setupCanvas(cv,w,h),s=S(),A=P.area,sc=ppf();
+  ctx.fillStyle='#202214';ctx.fillRect(0,0,w,h);ctx.imageSmoothingQuality='high';
+  var o0=T([0,0]);ctx.drawImage(photo.img,o0[0],o0[1],photo.w*s,photo.h*s);
+  var path=function(pts,close){ctx.beginPath();pts.forEach(function(p,i){var q=T(p);if(i)ctx.lineTo(q[0],q[1]);else ctx.moveTo(q[0],q[1]);});if(close)ctx.closePath();};
+  var edgeLbls=function(pts,close,col){if(!(sc>0))return;var n=pts.length;for(var i=0;i<(close?n:n-1);i++){var a=pts[i],b=pts[(i+1)%n],L=Math.hypot(b[0]-a[0],b[1]-a[1])/sc,qa=T(a),qb=T(b);if(Math.hypot(qb[0]-qa[0],qb[1]-qa[1])<56)continue;label(ctx,fmt(L)+"'",(qa[0]+qb[0])/2,(qa[1]+qb[1])/2,{bold:true,size:11.5,color:'#fff',bg:col});}};
+  var dots=function(pts,col,first){pts.forEach(function(p,i){var q=T(p);ctx.beginPath();ctx.arc(q[0],q[1],exp?4:(i===0&&first?11:8),0,7);ctx.fillStyle=i===0&&first?'#d6a428':col;ctx.fill();ctx.lineWidth=2;ctx.strokeStyle='#111';ctx.stroke();});};
+  /* boundary */
+  if(A.poly.length){path(A.poly,A.closed);if(A.closed){ctx.fillStyle='rgba(214,164,40,.30)';ctx.fill();}
+    ctx.lineWidth=5;ctx.strokeStyle='rgba(0,0,0,.6)';ctx.stroke();ctx.lineWidth=2.6;ctx.strokeStyle='#ffd34d';if(!A.closed)ctx.setLineDash([8,5]);ctx.stroke();ctx.setLineDash([]);
+    edgeLbls(A.poly,A.closed,'rgba(127,20,26,.85)');if(!exp||!A.closed)dots(A.poly,'#fff',!A.closed&&tmode==='area');}
+  /* keep zones */
+  A.keep.forEach(function(k,ki){if(!k.pts.length)return;path(k.pts,k.closed);if(k.closed){ctx.fillStyle='rgba(46,125,50,.45)';ctx.fill();}
+    ctx.lineWidth=4;ctx.strokeStyle='rgba(0,0,0,.55)';ctx.stroke();ctx.lineWidth=2.2;ctx.strokeStyle=ki===selKeep&&!exp?'#b9f6ca':'#69d36f';if(!k.closed)ctx.setLineDash([6,4]);ctx.stroke();ctx.setLineDash([]);
+    if(k.closed&&k.pts.length>=3){var c=T(centroid(k.pts)),aa=sc>0?polyArea(k.pts)/(sc*sc*43560):0;label(ctx,'KEEP'+(aa?' '+fmt(aa,2)+' ac':''),c[0],c[1],{bold:true,size:12,color:'#fff',bg:'rgba(27,94,32,.9)'});}
+    if(!exp&&tmode==='keep')dots(k.pts,'#c8f7c5',!k.closed);});
+  if(A.closed&&A.poly.length>=3&&TR&&TR.ok){var c0=centroid(A.poly),c=T(c0),kb=A.keep.filter(function(k){return k.closed&&k.pts.length>=3;}).map(function(k){var q=k.pts.map(T),xs=q.map(function(v){return v[0];}),ys=q.map(function(v){return v[1];});return [Math.min.apply(0,xs)-70,Math.min.apply(0,ys)-16,Math.max.apply(0,xs)+70,Math.max.apply(0,ys)+16];});
+    var hit=function(y){return kb.some(function(b){return c[0]>b[0]&&c[0]<b[2]&&y>b[1]&&y<b[3];});},cy=c[1];if(hit(cy)){var tries=[];for(var dy=20;dy<240;dy+=20){tries.push(c[1]-dy,c[1]+dy);}for(var ti=0;ti<tries.length;ti++){if(!hit(tries[ti])&&pointInPoly.apply(null,inv(c[0],tries[ti]).concat([A.poly]))){cy=tries[ti];break;}}}
+    label(ctx,fmt(TR.gross-TR.excl,2)+' ac to clear',c[0],cy,{bold:true,size:exp?16:15,color:'#17180f',bg:'rgba(255,211,77,.95)'});}
+  /* scale line */
+  if(A.scaleP.length===2&&!exp&&(tmode==='scale'||!(num(A.scaleFt,0)>0))){var a=T(A.scaleP[0]),b=T(A.scaleP[1]);ctx.lineWidth=5;ctx.strokeStyle='rgba(0,0,0,.6)';ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();ctx.lineWidth=3;ctx.strokeStyle='#ff3b30';ctx.stroke();
+    [a,b].forEach(function(q){ctx.beginPath();ctx.arc(q[0],q[1],tmode==='scale'&&!exp?9:4,0,7);ctx.fillStyle='#ff3b30';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();});
+    label(ctx,num(A.scaleFt,0)>0?'scale '+A.scaleFt+' ft':'enter length',(a[0]+b[0])/2,(a[1]+b[1])/2-18,{bold:true,size:12.5,color:'#fff',bg:'rgba(165,28,36,.92)'});}
+  /* scale bar + north-less note */
+  if(sc>0){var bars=[25,50,100,200,250,500,1000],bf=bars.find(function(g){return g*sc*s>=70;})||2000,bw=bf*sc*s;ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillRect(8,h-26,bw+56,20);ctx.fillStyle='#17180f';ctx.fillRect(12,h-19,bw,6);ctx.fillStyle='#d6a428';ctx.fillRect(12,h-19,bw/2,6);label(ctx,bf+' ft',16+bw,h-16,{align:'left',size:11,bold:true});}
+  if(exp)view=saveV;}
+/* pointer handling: 1 finger = mode action (or pan on empty drag), 2 fingers = pinch zoom */
+var ptrs={},gest=null;
+function evPt(e){var r=$('#mapCv').getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
+function hitVertex(sp){var A=P.area,best=null,bd=24;var test=function(pts,kind,ki){pts.forEach(function(p,i){var q=T(p),d=Math.hypot(q[0]-sp[0],q[1]-sp[1]);if(d<bd){bd=d;best={kind:kind,i:i,k:ki};}});};
+  if(tmode==='scale'){if(A.scaleP.length===2)test(A.scaleP,'sp');return best;}
+  if(tmode==='area')test(A.poly,'b');if(tmode==='keep')A.keep.forEach(function(k,ki){test(k.pts,'k',ki);});return best;}
+var cvm=$('#mapCv');
+cvm.addEventListener('pointerdown',function(e){if(!photo.img)return;e.preventDefault();cvm.setPointerCapture(e.pointerId);var sp=evPt(e);ptrs[e.pointerId]=sp;var ids=Object.keys(ptrs);
+  if(ids.length===2){var a=ptrs[ids[0]],b=ptrs[ids[1]];gest={t:'pinch',d0:Math.hypot(b[0]-a[0],b[1]-a[1]),z0:view.z,mid:inv((a[0]+b[0])/2,(a[1]+b[1])/2)};return;}
+  var h=hitVertex(sp);if(h){gest={t:'drag',h:h,s0:sp,moved:false};if(h.kind==='k')selKeep=h.k;return;}
+  if(tmode==='scale'){var ip=inv(sp[0],sp[1]);P.area.scaleP=[ip,ip.slice()];gest={t:'drag',h:{kind:'sp',i:1},fresh:true};return;}
+  gest={t:'tap',s0:sp,o0:[view.ox,view.oy],moved:false};});
+cvm.addEventListener('pointermove',function(e){if(!ptrs[e.pointerId]||!gest)return;var sp=evPt(e);ptrs[e.pointerId]=sp;var A=P.area;
+  if(gest.t==='pinch'){var ids=Object.keys(ptrs);if(ids.length<2)return;var a=ptrs[ids[0]],b=ptrs[ids[1]],d=Math.hypot(b[0]-a[0],b[1]-a[1]);view.z=clamp(gest.z0*d/Math.max(10,gest.d0),1,10);var s=S(),m=[(a[0]+b[0])/2,(a[1]+b[1])/2];view.ox=gest.mid[0]-m[0]/s;view.oy=gest.mid[1]-m[1]/s;reqDraw();return;}
+  if(gest.t==='drag'){if(gest.s0&&!gest.moved){if(Math.hypot(sp[0]-gest.s0[0],sp[1]-gest.s0[1])<7)return;gest.moved=true;}var ip=inv(sp[0],sp[1]);ip=[clamp(ip[0],0,photo.w),clamp(ip[1],0,photo.h)];var h=gest.h;if(h.kind==='sp')A.scaleP[h.i]=ip;else if(h.kind==='b')A.poly[h.i]=ip;else if(h.kind==='k')A.keep[h.k].pts[h.i]=ip;reqDraw();return;}
+  if(gest.t==='tap'){var dx=sp[0]-gest.s0[0],dy=sp[1]-gest.s0[1];if(!gest.moved&&Math.hypot(dx,dy)>8)gest.moved=true;if(gest.moved){var s2=S();view.ox=gest.o0[0]-dx/s2;view.oy=gest.o0[1]-dy/s2;reqDraw();}}});
+function endPtr(e){var had=!!ptrs[e.pointerId];delete ptrs[e.pointerId];if(!had||!gest)return;var A=P.area,g=gest;
+  if(g.t==='pinch'){if(!Object.keys(ptrs).length)gest=null;else gest={t:'none'};return;}
+  gest=Object.keys(ptrs).length?{t:'none'}:null;
+  if(g.t==='drag'&&g.s0&&!g.moved&&e.type==='pointerup'){/* tap on a point: tapping the first point of an open outline closes it */var hh=g.h;
+    if(hh.kind==='b'&&hh.i===0&&!A.closed&&A.poly.length>=3){A.closed=true;save();refresh();toast('Boundary closed');return;}
+    if(hh.kind==='k'&&hh.i===0&&!A.keep[hh.k].closed&&A.keep[hh.k].pts.length>=3){A.keep[hh.k].closed=true;save();refresh();toast('Keep zone closed');return;}
+    refresh();return;}
+  if(g.t==='drag'){if(g.h.kind==='sp'){var a=T(A.scaleP[0]),b=T(A.scaleP[1]);if(Math.hypot(b[0]-a[0],b[1]-a[1])<6){A.scaleP=[];}else if(g.fresh&&!(num(A.scaleFt,0)>0)){setTimeout(function(){var i=$('#scaleRow input');if(i)i.focus();},50);}}save();refresh();return;}
+  if(g.t==='tap'&&!g.moved&&e.type==='pointerup'){var ip=inv(g.s0[0],g.s0[1]);if(ip[0]<0||ip[1]<0||ip[0]>photo.w||ip[1]>photo.h)return;
+    if(tmode==='area'){if(A.closed){toast('Boundary is closed. Drag points to adjust, or Undo to reopen.');return;}
+      if(A.poly.length>=3){var f=T(A.poly[0]);if(Math.hypot(f[0]-g.s0[0],f[1]-g.s0[1])<26){A.closed=true;save();refresh();toast('Boundary closed');return;}}
+      A.poly.push(ip);save();refresh();}
+    else if(tmode==='keep'){var k=A.keep[A.keep.length-1];if(!k||k.closed){k={pts:[],closed:false};A.keep.push(k);}selKeep=A.keep.length-1;
+      if(k.pts.length>=3){var f2=T(k.pts[0]);if(Math.hypot(f2[0]-g.s0[0],f2[1]-g.s0[1])<26){k.closed=true;save();refresh();toast('Keep zone closed');return;}}
+      k.pts.push(ip);save();refresh();}}
+  else if(g.t==='tap'&&g.moved)drawMap(cvm);}
+cvm.addEventListener('pointerup',endPtr);cvm.addEventListener('pointercancel',endPtr);
+var rq=0;function reqDraw(){if(rq)return;rq=requestAnimationFrame(function(){rq=0;drawMap(cvm);});}
+function zoomBy(f){var c=[view.cw/2,view.ch/2],m=inv(c[0],c[1]);view.z=clamp(view.z*f,1,10);var s=S();view.ox=m[0]-c[0]/s;view.oy=m[1]-c[1]/s;drawMap(cvm);}
+$('#zIn').onclick=function(){zoomBy(1.5);};$('#zOut').onclick=function(){zoomBy(1/1.5);};$('#zFit').onclick=function(){view.z=1;view.ox=view.oy=0;drawMap(cvm);};
+cvm.addEventListener('wheel',function(e){if(!photo.img)return;e.preventDefault();zoomBy(e.deltaY<0?1.2:1/1.2);},{passive:false});
+$$('#tmodeSeg button').forEach(function(b){b.onclick=function(){tmode=b.dataset.tmode;refresh();};});
+$('#undoPt').onclick=function(){var A=P.area;if(tmode==='keep'){var k=A.keep[A.keep.length-1];if(!k){return;}if(k.closed)k.closed=false;else{k.pts.pop();if(!k.pts.length)A.keep.pop();}}else{if(A.closed)A.closed=false;else A.poly.pop();}save();refresh();};
+$('#clearBnd').onclick=function(){if(P.area.poly.length&&!confirm('Clear the traced boundary?'))return;P.area.poly=[];P.area.closed=false;save();refresh();};
+$('#newKeep').onclick=function(){var A=P.area,k=A.keep[A.keep.length-1];if(k&&!k.closed&&k.pts.length<3){toast('Finish this keep zone first (3+ points)');return;}if(k&&!k.closed)k.closed=true;A.keep.push({pts:[],closed:false});selKeep=A.keep.length-1;tmode='keep';save();refresh();toast('Tap around the trees to keep');};
+$('#delKeep').onclick=function(){var A=P.area;if(!A.keep.length){toast('No keep zones');return;}var i=selKeep>=0&&selKeep<A.keep.length?selKeep:A.keep.length-1;A.keep.splice(i,1);selKeep=-1;save();refresh();};
+function setImage(c,isSample){photo.img=c;photo.w=c.width;photo.h=c.height;view.z=1;view.ox=view.oy=0;view.cw=0;}
+function loadPhotoForProject(){photo.img=null;photo.w=photo.h=0;var A=P.area;
+  if(A.sample){setImage(sampleSite(),true);return;}
+  if(!A.img)return;var d=getPhotoData(P.id);if(!d){A.img=false;return;}var im=new Image();im.onload=function(){var c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);setImage(c);refresh();};im.src=d;}
+$('#mapIn').onchange=function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var im=new Image();im.onload=function(){var mx=1600,sc=Math.min(1,mx/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*sc);c.height=Math.round(im.naturalHeight*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  var A=P.area,keepOld=photo.img&&(A.poly.length||A.scaleP.length)&&confirm('Keep the current scale line and tracing on the new picture?\n(Only if it is the same view.)');
+  savePhotoData(P.id,c.toDataURL('image/jpeg',0.82));A.img=true;A.sample=false;if(!keepOld){A.scaleP=[];A.scaleFt='';A.poly=[];A.closed=false;A.keep=[];}
+  setImage(c);tmode='scale';if(A.mode!=='trace')A.mode='trace';bindAll();save();refresh();toast('Picture loaded. Next: draw a scale line.');};im.onerror=function(){toast('Could not read that image');};im.src=rd.result;};rd.readAsDataURL(f);e.target.value='';};
+$('#sampleMap').onclick=function(){var A=P.area;if((A.poly.length||A.img)&&!confirm('Replace the current picture and tracing with the sample site?'))return;
+  try{localStorage.removeItem(LS_PHOTO+P.id);}catch(e){}delete memPhotos[P.id];A.img=false;A.sample=true;A.poly=[];A.closed=false;A.keep=[];A.scaleP=[[160,936],[760,936]];A.scaleFt=300;A.mode='trace';
+  setImage(sampleSite(),true);tmode='area';bindAll();save();refresh();toast('Sample site: scale is set (300 ft line). Tap around the area to clear.');};
+$('#clearMap').onclick=function(){var A=P.area;if(!photo.img)return;if(!confirm('Remove the picture and the tracing?'))return;try{localStorage.removeItem(LS_PHOTO+P.id);}catch(e){}delete memPhotos[P.id];
+  A.img=false;A.sample=false;A.poly=[];A.closed=false;A.keep=[];A.scaleP=[];A.scaleFt='';A.mode='acres';photo.img=null;bindAll();save();refresh();};
+/* procedural sample aerial: 1400 x 1000 px at 2 px per ft (700 x 500 ft) */
+function sampleSite(){var W=1400,H=1000,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d'),rnd=mulberry32(7);
+  x.fillStyle='#9aa25e';x.fillRect(0,0,W,H);
+  for(var i=0;i<9000;i++){x.fillStyle=['#8f9a55','#a8ad6a','#b5b07a','#8b9450'][i%4];x.globalAlpha=.35;x.fillRect(rnd()*W,rnd()*H,3+rnd()*7,2+rnd()*5);}x.globalAlpha=1;
+  /* woods block */
+  var woods=[[520,40],[1360,40],[1380,600],[1080,820],[640,760],[470,420]];x.beginPath();woods.forEach(function(p,i){if(i)x.lineTo(p[0],p[1]);else x.moveTo(p[0],p[1]);});x.closePath();x.fillStyle='#4d5e2c';x.fill();
+  for(i=0;i<2600;i++){var px=470+rnd()*930,py=30+rnd()*800;if(!pointInPoly(px,py,woods))continue;var r=7+rnd()*20;x.beginPath();x.arc(px,py,r,0,7);x.fillStyle=['#2f4a1c','#3d5a22','#4f6e2a','#5e7d33','#36521f'][Math.floor(rnd()*5)];x.globalAlpha=.85;x.fill();}
+  x.globalAlpha=1;for(i=0;i<240;i++){px=470+rnd()*930;py=30+rnd()*800;if(!pointInPoly(px,py,woods))continue;x.beginPath();x.arc(px,py,26+rnd()*22,0,7);x.fillStyle=rnd()<.5?'#2c4419':'#3a5420';x.globalAlpha=.7;x.fill();}x.globalAlpha=1;
+  /* palmetto speckle in open area */
+  for(i=0;i<500;i++){px=60+rnd()*420;py=80+rnd()*700;x.beginPath();x.arc(px,py,3+rnd()*5,0,7);x.fillStyle='#6f8740';x.globalAlpha=.7;x.fill();}x.globalAlpha=1;
+  /* road + drive + house + barn */
+  x.fillStyle='#8c8a83';x.fillRect(0,900,W,60);x.fillStyle='#d8d2b8';x.fillRect(0,928,W,3);
+  x.fillStyle='#c9bb94';x.beginPath();x.moveTo(250,900);x.lineTo(272,900);x.lineTo(300,520);x.lineTo(278,520);x.closePath();x.fill();
+  x.fillStyle='#7b3f32';x.fillRect(180,430,170,100);x.fillStyle='#5b2f25';x.fillRect(180,478,170,4);
+  x.fillStyle='#9ea3a8';x.fillRect(80,220,120,80);
+  /* fence */
+  x.strokeStyle='rgba(240,236,220,.8)';x.setLineDash([6,6]);x.lineWidth=2;x.strokeRect(30,30,1340,850);x.setLineDash([]);
+  /* survey line along the road edge */
+  x.strokeStyle='#fff';x.lineWidth=3;x.beginPath();x.moveTo(160,936);x.lineTo(760,936);x.stroke();[160,760].forEach(function(q){x.beginPath();x.moveTo(q,926);x.lineTo(q,946);x.stroke();});
+  x.font='bold 22px Arial';x.fillStyle='#fff';x.textAlign='center';x.fillText('300 ft (survey)',460,976);
+  x.font='bold 18px Arial';x.fillStyle='rgba(255,255,255,.9)';x.fillText('SAMPLE SITE',120,880);
+  return c;}
+
+/* ---------- static tables (built once so typing never loses focus) ---------- */
+var SRC_IND='<span class="tag ind">industry-based</span>',SRC_DEF='<span class="tag def">default assumption</span>';
+function numIn(path,step){return '<input type="number" inputmode="decimal" step="'+(step||'any')+'" min="0" data-bind="'+path+'">';}
+function buildStatic(){
+  var ctr=function(base,b){return '<div class="ctr"><div class="nm">'+b[1]+'<small>'+b[2]+'</small></div><div class="step3"><button data-inc="'+base+'.'+b[0]+'" data-d="-1" aria-label="minus">&minus;</button><input type="number" inputmode="numeric" min="0" step="1" data-bind="'+base+'.'+b[0]+'"><button data-inc="'+base+'.'+b[0]+'" data-d="1" aria-label="plus">+</button></div></div>';};
+  $('#treeCtrs').innerHTML=BINS.map(function(b){return ctr('veg.trees',b);}).join('');
+  $('#stumpCtrs').innerHTML='<div class="hint" style="margin:0">Stumps already in the ground (cut trees, old clearing). Pushed-over trees come out with the root ball, so don&rsquo;t count them twice.</div>'+BINS.map(function(b){return ctr('veg.stumps',b);}).join('');
+  var h='<table class="mtab"><thead><tr><th>Assumption</th><th>Value</th><th>Source</th></tr></thead><tbody>';
+  DENS_KEYS.forEach(function(k,i){h+='<tr><td>'+DENS[k].short+' &mdash; acres / day<br><small style="color:var(--muted)">brush, palmetto, saplings &lt;6&quot;</small></td><td>'+numIn('rates.acDay.'+k,'0.05')+'</td><td class="src">'+SRC_IND+(i===0?' see note below':'')+'</td></tr>';});
+  BINS.forEach(function(b){h+='<tr><td>Tree '+b[1]+' &mdash; min / tree</td><td>'+numIn('rates.treeMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  BINS.forEach(function(b){h+='<tr><td>Stump '+b[1]+' &mdash; min / stump</td><td>'+numIn('rates.stumpMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  [['palm','Saw palmetto (area time &times;)'],['wet','Wet / soft ground &times;'],['slope','Slope &times;'],['tight','Tight access &times;'],['struct','Fences / structures &times;']].forEach(function(q){h+='<tr><td>'+q[1]+'</td><td>'+numIn('rates.'+q[0],'0.05')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  h+='<tr><td>Working hours per machine day</td><td>'+numIn('rates.hrsDay','0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr></tbody></table>';
+  $('#ratesTab').innerHTML=h;
+  $('#ratesSrc').innerHTML='<b>Where the acres/day came from:</b> published contractor guides put an <i>excavator or loader with grapple</i> at about 0.5&ndash;1 acre/day in light brush and about 0.25 acre/day in heavy (Cut Brush, &ldquo;How Long Does Land Clearing Take Per Acre in NC?&rdquo;, cutbrush.com), with traditional push-pile-burn on mature hardwoods running 1&ndash;2 weeks per acre. MulchDeck&rsquo;s productivity calculator (mulchdeck.com) scales vegetation as light 1.00 / medium 0.65 / heavy 0.40 / dense hardwood 0.25. The defaults here (1.0 / 0.6 / 0.35 / 0.2 ac/day) follow those ratios and sit at the high end because trees 6&quot; and up are timed separately. Those guides cover other regions and crews, so they&rsquo;re only a starting point. Everything marked <b>default assumption</b> is a starting guess from this app, not a published figure. Tune them all to your own jobs.';
+  var d='<table class="mtab"><thead><tr><th>Debris source</th><th>cu yd</th><th>Source</th></tr></thead><tbody>';
+  DENS_KEYS.forEach(function(k){d+='<tr><td>'+DENS[k].short+' &mdash; per acre</td><td>'+numIn('debris.cyAc.'+k,'5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  BINS.forEach(function(b){d+='<tr><td>Tree '+b[1]+' &mdash; each</td><td>'+numIn('debris.treeCy.'+b[0],'0.25')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  BINS.forEach(function(b){d+='<tr><td>Stump '+b[1]+' &mdash; each</td><td>'+numIn('debris.stumpCy.'+b[0],'0.25')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  $('#debTab').innerHTML=d+'</tbody></table>';}
+buildStatic();
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-inc]');if(!b)return;var p=b.dataset.inc,v=Math.max(0,Math.round(num(getPath(P,p),0)+(+b.dataset.d)));setPath(P,p,v);var inp=b.parentNode.querySelector('input');if(inp)inp.value=v;save();refresh();});
+$('#saveDefaults').onclick=function(){var d={rates:clone(P.rates),debris:{},extras:{},est:{}};['cyAc','treeCy','stumpCy','pileCy','pilesPerDay','ashHrs','swell','trailer','loadMin','dumpMin','finalAcDay'].forEach(function(k){d.debris[k]=clone(P.debris[k]);});
+  ['gradeAcDay','seedHrsAc','fenceFtDay'].forEach(function(k){d.extras[k]=P.extras[k];});['dayRate','markup','helperPay','helperBill','helperHrsDay','opCost','deposit'].forEach(function(k){d.est[k]=P.est[k];});
+  try{localStorage.setItem(LS_DEF,JSON.stringify(d));toast('Saved: new jobs will start with your rates');}catch(err){toast('Could not save defaults');}};
+$('#resetRates').onclick=function(){if(!confirm('Reset production and debris assumptions on this job to the app defaults?'))return;P.rates=clone(DEFAULT_RATES);P.debris.cyAc=clone(DEFAULT_DEBRIS.cyAc);P.debris.treeCy=clone(DEFAULT_DEBRIS.treeCy);P.debris.stumpCy=clone(DEFAULT_DEBRIS.stumpCy);
+  try{localStorage.removeItem(LS_DEF);}catch(err){}bindAll();save();refresh();toast('Back to app defaults');};
+
+/* ---------- step 2: vegetation ---------- */
+$$('#densBtns button').forEach(function(b){b.onclick=function(){P.veg.density=b.dataset.dens;save();refresh();};});
+function renderVeg(){var V=P.veg,Rt=P.rates;
+  DENS_KEYS.forEach(function(k){$('#dr-'+k).textContent='≈ '+fmt(num(Rt.acDay[k],0),2)+' ac/day';});
+  var d=DENS[R.dens];$('#densNote').innerHTML='<b>'+d.name+':</b> '+d.desc+'<br>At <b>'+fmt(R.acDay,2)+' ac/day</b>, '+fmt(R.acres,2)+' ac of brush and understory &asymp; <b>'+days(R.areaHrs/R.hd)+' machine days</b>'+(V.palmetto?' (palmetto included)':'')+', before trees, stumps and site factors.';
+  ['palm','wet','slope','tight','struct'].forEach(function(k){$('#fx-'+k).textContent='×'+fmt(num(Rt[k],1),2);});
+  var k='<div class="kpi"><div class="k">Brush / area</div><div class="v">'+fmt(R.areaHrs,1)+' h</div><div class="u">'+fmt(R.acres,2)+' ac @ '+fmt(R.acDay,2)+' ac/day</div></div>'
+   +'<div class="kpi"><div class="k">Trees ('+fmt(R.trees)+')</div><div class="v">'+fmt(R.treeHrs,1)+' h</div><div class="u">push over, shake out, pile</div></div>'
+   +'<div class="kpi"><div class="k">Stumps ('+fmt(R.stumps)+')</div><div class="v">'+fmt(R.stumpHrs,1)+' h</div><div class="u">'+(V.stumpsOn?'grub with root rake':'off')+'</div></div>'
+   +'<div class="kpi'+(R.siteF>1?' flag':'')+'"><div class="k">Site factor</div><div class="v">×'+fmt(R.siteF,2)+'</div><div class="u">'+(R.siteFl.length?esc(R.siteFl.join(', ')):'no slow-downs')+'</div></div>'
+   +'<div class="kpi okk" style="grid-column:1/-1"><div class="k">Clearing time (before debris)</div><div class="v">'+days(R.d.clear)+' machine days</div><div class="u">'+fmt(R.clearHrs,1)+' hours at '+fmt(R.hd)+' h/day · starting estimate, tune the rates below</div></div>';
+  $('#vegKpis').innerHTML=k;}
+
+/* ---------- step 3: debris ---------- */
+$$('#methBtns button').forEach(function(b){b.onclick=function(){P.debris.method=b.dataset.meth;save();refresh();};});
+function pileSvg(n){var shown=Math.min(n,24),w=340,cols=Math.min(shown,8)||1,rows=Math.ceil(shown/cols)||1,cw=w/cols,ch=46,h=rows*ch+30,s='<svg viewBox="0 0 '+w+' '+h+'" style="width:100%;max-width:460px;display:block;margin:0 auto">';
+  for(var i=0;i<shown;i++){var cx=(i%cols)*cw+cw/2,cy=Math.floor(i/cols)*ch+40,r=Math.min(cw*0.42,26);
+    s+='<path d="M'+(cx-r)+' '+cy+' Q'+(cx-r*0.5)+' '+(cy-r*1.25)+' '+cx+' '+(cy-r*1.1)+' Q'+(cx+r*0.6)+' '+(cy-r*1.2)+' '+(cx+r)+' '+cy+'Z" fill="#7a5c2e" stroke="#3b2a12" stroke-width="1.5"/>';
+    s+='<path d="M'+(cx-r*0.6)+' '+(cy-r*0.4)+' l'+(r*1.1)+' '+(-r*0.3)+' M'+(cx-r*0.3)+' '+(cy-r*0.8)+' l'+(r*0.8)+' '+(r*0.35)+'" stroke="#b08850" stroke-width="2"/>';
+    if(P.debris.method==='burn')s+='<path d="M'+(cx-5)+' '+(cy-r*1.05)+' q-4 -10 5 -18 q-1 8 5 10 q3 -5 1 -9 q8 6 1 17z" fill="#f08a24" opacity=".9"/>';}
+  if(n>shown)s+='<text x="'+(w-4)+'" y="'+(h-6)+'" text-anchor="end" font-size="12" font-weight="800" fill="#5d5f4e">+'+(n-shown)+' more</text>';
+  return s+'</svg>';}
+function truckSvg(n){var shown=Math.min(n,12),w=340,cols=Math.min(shown,4)||1,rows=Math.ceil(shown/cols)||1,cw=w/cols,ch=44,h=rows*ch+16,s='<svg viewBox="0 0 '+w+' '+h+'" style="width:100%;max-width:460px;display:block;margin:0 auto">';
+  for(var i=0;i<shown;i++){var x=(i%cols)*cw+6,y=Math.floor(i/cols)*ch+6,sc=Math.min(1,(cw-10)/76);
+    s+='<g transform="translate('+x+' '+y+') scale('+sc+')"><rect x="0" y="8" width="22" height="18" rx="3" fill="#2f3414"/><rect x="3" y="11" width="10" height="7" fill="#9cc7d6"/><rect x="24" y="4" width="50" height="22" fill="#a51c24"/><path d="M26 4 q10 -10 22 -3 q10 -6 24 1z" fill="#6b8a33"/><circle cx="9" cy="30" r="5" fill="#111"/><circle cx="40" cy="30" r="5" fill="#111"/><circle cx="62" cy="30" r="5" fill="#111"/><text x="49" y="20" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">'+(i+1)+'</text></g>';}
+  if(n>shown)s+='<text x="'+(w-4)+'" y="'+(h-2)+'" text-anchor="end" font-size="12" font-weight="800" fill="#5d5f4e">+'+(n-shown)+' more loads</text>';
+  return s+'</svg>';}
+function renderDebris(){var D=P.debris;$('#burnDaysIn').placeholder=fmt(R.burnDaysCalc||0,1)+' (calc)';
+  var k='<div class="kpi"><div class="k">Debris volume</div><div class="v">'+fmt(R.debrisCY)+' cu yd</div><div class="u">as piled · '+fmt(R.acres,2)+' ac + '+fmt(R.trees)+' trees'+(R.stumps?' + '+fmt(R.stumps)+' stumps':'')+'</div></div>';
+  if(D.method==='burn')k+='<div class="kpi"><div class="k">Burn piles</div><div class="v">'+fmt(R.piles)+'</div><div class="u">@ '+fmt(num(D.pileCy,150))+' cu yd each</div></div><div class="kpi"><div class="k">Burn days</div><div class="v">'+days(R.burnDays)+'</div><div class="u">'+(String(D.burnDays)===''?fmt(num(D.pilesPerDay,4),1)+' piles/day':'override')+'</div></div><div class="kpi"><div class="k">Ash &amp; cleanup</div><div class="v">'+fmt(R.cleanHrs,1)+' h</div><div class="u">'+(D.ashOn?fmt(num(D.ashHrs,0),1)+' h/pile':'off')+'</div></div>';
+  else if(D.method==='haul')k+='<div class="kpi"><div class="k">Loose volume</div><div class="v">'+fmt(R.looseCY)+' cu yd</div><div class="u">× '+fmt(num(D.swell,1.25),2)+' swell</div></div><div class="kpi"><div class="k">Trailer loads</div><div class="v">'+fmt(R.loads)+'</div><div class="u">'+fmt(num(D.trailer,16))+' cu yd dump trailer</div></div><div class="kpi'+(String(D.tripMin)===''?' flag':'')+'"><div class="k">Haul time</div><div class="v">'+fmt(R.haulHrs,1)+' h</div><div class="u">'+(String(D.tripMin)===''?'drive time TBD':days(R.d.haul)+' days')+'</div></div><div class="kpi'+(String(D.fee)===''?' flag':'')+'"><div class="k">Dump fees</div><div class="v">'+(String(D.fee)===''?'TBD':money(R.dumpCost))+'</div><div class="u">'+(String(D.fee)===''?'enter $/load':fmt(R.loads)+' × '+money(num(D.fee,0)))+'</div></div>';
+  else k+='<div class="kpi"><div class="k">Windrows</div><div class="v">0 days</div><div class="u">pushed during clearing</div></div>';
+  if(D.finalOn)k+='<div class="kpi" style="grid-column:1/-1"><div class="k">Final root-rake pass</div><div class="v">'+fmt(R.finalHrs,1)+' h</div><div class="u">'+fmt(R.acres,2)+' ac @ '+fmt(num(D.finalAcDay,2.5),2)+' ac/day</div></div>';
+  $('#debKpis').innerHTML=k;
+  var f='';if(D.method==='burn')f='<h2>Burn plan <small>'+fmt(R.piles)+' pile'+(R.piles==1?'':'s')+'</small></h2>'+(R.piles?pileSvg(R.piles):'<p class="hint">No debris yet.</p>')+'<p class="hint">Pile away from the clearing edge and anything that can burn, with room for the machine to work all the way around each pile. Keep piles clean of dirt so they burn hot. Shake out root balls with the grapple.</p>';
+  else if(D.method==='haul')f='<h2>Haul plan <small>'+fmt(R.loads)+' load'+(R.loads==1?'':'s')+'</small></h2>'+(R.loads?truckSvg(R.loads):'<p class="hint">No debris yet.</p>')+'<p class="hint">F450 + '+fmt(num(D.trailer,16))+' cu yd hydraulic dump trailer. Per load: '+fmt(num(D.loadMin,15))+' min loading + '+(String(D.tripMin)===''?'? min driving':fmt(num(D.tripMin,0))+' min driving')+' + '+fmt(num(D.dumpMin,10))+' min dumping.</p>';
+  else f='<h2>Windrows</h2><svg viewBox="0 0 340 90" style="width:100%;max-width:460px;display:block;margin:0 auto"><rect x="0" y="0" width="340" height="90" rx="8" fill="#e9dfc2"/><path d="M14 22 Q170 6 326 22 L326 32 Q170 18 14 32Z" fill="#7a5c2e"/><path d="M14 70 Q170 54 326 70 L326 80 Q170 66 14 80Z" fill="#7a5c2e"/><text x="170" y="52" text-anchor="middle" font-size="13" font-weight="800" fill="#4b5320">cleared area</text></svg><p class="hint">Debris pushed into long rows at the edge of the clearing'+(D.windNote?': '+esc(D.windNote):'')+'.</p>';
+  $('#debFig').innerHTML=f;}
+
+/* ---------- step 4: extras ---------- */
+function renderExtras(){var X=P.extras;$('#gradeAcIn').placeholder=fmt(R.acres,2)+' (net)';$('#seedAcIn').placeholder=fmt(R.acres,2)+' (net)';
+  $('#fenceTip').innerHTML=num(X.fenceFt,0)>0?'≈ <b>'+days(R.d.fence)+' days</b> at '+fmt(num(X.fenceFtDay,800))+' ft/day (default assumption, tune it).':'Enter linear feet for a time estimate.';
+  renderRentals();renderOther();}
+function renderRentals(){var h='';P.extras.rentals.forEach(function(it,i){h+='<div class="it4"><label class="d" style="display:flex;align-items:center;gap:8px"><input type="checkbox" data-ri="'+i+'" data-rf="on"'+(it.on?' checked':'')+' style="width:26px;height:26px;accent-color:var(--scarlet);margin:0;flex:0 0 auto"><input type="text" data-ri="'+i+'" data-rf="desc" value="'+esc(it.desc)+'" placeholder="Rental item"></label>'
+   +'<label class="price">$ / day<input type="number" inputmode="decimal" step="any" data-ri="'+i+'" data-rf="rate" value="'+esc(it.rate)+'" placeholder="TBD"></label><label>Days<input type="number" inputmode="decimal" step="0.5" min="0" data-ri="'+i+'" data-rf="days" value="'+esc(it.days)+'"></label><label>Delivery $<input type="number" inputmode="decimal" step="any" data-ri="'+i+'" data-rf="deliv" value="'+esc(it.deliv)+'" placeholder="0"></label><button class="btn small danger" data-rdel="'+i+'" aria-label="Remove">&times;</button></div>';});
+  $('#rentItems').innerHTML=h||'<p class="hint">No rentals.</p>';
+  $$('[data-rdel]').forEach(function(b){b.onclick=function(){P.extras.rentals.splice(+b.dataset.rdel,1);save();refresh();};});}
+function renderOther(){var h='';P.extras.other.forEach(function(it,i){h+='<div class="it"><label style="margin:0">Item<input type="text" data-oi="'+i+'" data-of="desc" value="'+esc(it.desc)+'" placeholder="e.g. Silt fence, culvert pipe"></label><label style="margin:0" class="price">Cost $<input type="number" inputmode="decimal" step="any" data-oi="'+i+'" data-of="cost" value="'+esc(it.cost)+'" placeholder="TBD"></label><button class="btn small danger" data-odel="'+i+'" aria-label="Remove">&times;</button></div>';});
+  $('#otherItems').innerHTML=h||'<p class="hint">None.</p>';
+  $$('[data-odel]').forEach(function(b){b.onclick=function(){P.extras.other.splice(+b.dataset.odel,1);save();refresh();};});}
+function quiet(){save();compute();renderLive();}
+$('#rentItems').addEventListener('input',function(e){var el=e.target;if(el.dataset.ri===undefined)return;var it=P.extras.rentals[+el.dataset.ri],f=el.dataset.rf;
+  if(f==='on'){it.on=el.checked;save();refresh();return;}it[f]=(f==='desc')?el.value:(el.value===''?'':parseFloat(el.value));quiet();});
+$('#rentItems').addEventListener('change',function(e){if(e.target.dataset.rf==='on'){P.extras.rentals[+e.target.dataset.ri].on=e.target.checked;save();refresh();}});
+$('#addRent').onclick=function(){P.extras.rentals.push({on:true,desc:'',rate:'',days:1,deliv:''});save();refresh();var ins=$$('#rentItems input[data-rf=desc]');if(ins.length)ins[ins.length-1].focus();};
+$('#otherItems').addEventListener('input',function(e){var el=e.target;if(el.dataset.oi===undefined)return;var it=P.extras.other[+el.dataset.oi];it[el.dataset.of]=el.dataset.of==='cost'?(el.value===''?'':parseFloat(el.value)):el.value;quiet();});
+$('#addItem').onclick=function(){P.extras.other.push({desc:'',cost:''});save();refresh();var ins=$$('#otherItems input[data-of=desc]');if(ins.length)ins[ins.length-1].focus();};
+
+/* ---------- step 5: estimate ---------- */
+var METH_NAME={burn:'Pile & burn on site',haul:'Haul off site',windrow:'Windrows on site'};
+function autoTimeline(){var n=R.workDays;return 'About '+n+' working day'+(n==1?'':'s')+' on site'+(P.debris.method==='burn'?', weather and burn conditions permitting':', weather permitting');}
+function dayRows(){var D=P.debris,rows=[['Clearing: brush, trees'+(R.stumps?', stumps':''),R.d.clear]];
+  if(D.method==='burn'){rows.push(['Burning: feed, push in, restack ('+fmt(R.piles)+' piles)',R.d.burn]);if(D.ashOn)rows.push(['Ash &amp; cleanup',R.d.clean]);}
+  if(D.method==='haul')rows.push(['Hauling: '+fmt(R.loads)+' loads'+(String(D.tripMin)===''?' (drive time TBD)':''),R.d.haul]);
+  if(D.finalOn)rows.push(['Final root-rake pass',R.d.final]);
+  if(P.extras.gradeOn)rows.push(['Fine grade / blade pass',R.d.grade]);if(P.extras.seedOn)rows.push(['Seed &amp; straw',R.d.seed]);if(P.extras.fenceOn&&R.fenceFt)rows.push(['Fence line clearing',R.d.fence]);
+  if(R.d.adj)rows.push(['Days adjustment',R.d.adj]);return rows;}
+function renderEstimate(){var E=P.est;
+  $('#perAcreIn').placeholder=isFinite(R.impliedAcre)?fmt(Math.round(R.impliedAcre))+' implied':'implied';
+  $('#helperHrsIn').placeholder=fmt(R.billDays*num(E.helperHrsDay,8))+' (auto)';$('#lumpIn').placeholder=money(R.calcLump)+' (auto)';$('#timelineIn').placeholder=autoTimeline();
+  var t='<table class="daytab">'+dayRows().map(function(r){return '<tr><td>'+r[0]+'</td><td>'+days(r[1])+' d</td></tr>';}).join('')
+   +'<tr><td>Calculated</td><td>'+days(R.rawDays)+' d</td></tr><tr class="tot"><td>Billed machine days'+(num(E.roundDays,0)>0?' (rounded up)':'')+'</td><td>'+days(R.billDays)+' d</td></tr>'
+   +(R.helperOn?'<tr><td>Helper hours</td><td>'+fmt(R.helperHrs,1)+' h</td></tr>':'')+'</table><p class="hint">'+fmt(R.hd)+'-hour days. These are starting estimates from your production assumptions (Step 2 / Step 3). Tune them as you log real jobs.</p>';
+  $('#dayTab').innerHTML=t;
+  var pr=function(v){return '<span class="'+(v>=0?'profit':'loss')+'">'+money(v)+'</span>';},opn=R.opSet?'':' <small style="color:var(--muted)">(before machine costs)</small>';
+  var mk=fmt(R.mk*100)+'%';
+  var day='<div class="meth'+(R.picked==='day'?' on':'')+'" data-pick="day"><h3>By the day <span class="pick">'+(R.picked==='day'?'Presenting':'Tap to use')+'</span></h3><div class="big">'+money(R.dayPrice)+'</div><div class="sub">'+days(R.billDays)+' days × '+money(R.rate)+(isFinite(R.allInAcre)?' · '+money(R.allInAcre)+'/ac all-in':'')+'</div><table>'
+   +'<tr><td>Machine + operator</td><td>'+money(R.machinePrice)+'</td></tr>'+(R.helperOn?'<tr><td>Helper '+fmt(R.helperHrs,1)+' h × '+money(num(E.helperBill,30))+'</td><td>'+money(R.helperBill)+'</td></tr>':'')
+   +(R.passCost?'<tr><td>Disposal / rentals / materials + '+mk+'</td><td>'+money(R.passPrice)+'</td></tr>':'')+(R.mob?'<tr><td>Mobilization</td><td>'+money(R.mob)+'</td></tr>':'')
+   +'<tr><td>Job costs</td><td>−'+money(R.cost)+'</td></tr><tr><td><b>Profit</b>'+opn+'</td><td>'+pr(R.profitDay)+'</td></tr></table></div>';
+  var acre='<div class="meth'+(R.picked==='acre'?' on':'')+'" data-pick="acre"><h3>By the acre <span class="pick">'+(R.picked==='acre'?'Presenting':'Tap to use')+'</span></h3><div class="big">'+money(R.acrePrice)+'</div><div class="sub">'+fmt(R.acres,2)+' ac × '+money(R.perAcre)+'/ac '+(R.perAcreSet?'(your rate)':'(implied from day price)')+'</div><table>'
+   +'<tr><td>Clearing @ '+money(R.perAcre)+'/ac</td><td>'+money(R.acrePrice-R.addOns)+'</td></tr><tr><td>Extras, disposal, rentals, mobilization</td><td>'+money(R.addOns)+'</td></tr>'
+   +'<tr><td>Implied $/acre from days</td><td>'+money(R.impliedAcre)+'</td></tr>'
+   +'<tr><td>Job costs</td><td>−'+money(R.cost)+'</td></tr><tr><td><b>Profit</b>'+opn+'</td><td>'+pr(R.profitAcre)+'</td></tr></table>'
+   +(R.perAcreSet?'<div class="hint" style="margin:6px 0 0">vs. by the day: '+(R.acrePrice>=R.dayPrice?'+':'')+money(R.acrePrice-R.dayPrice)+'</div>':'<div class="hint" style="margin:6px 0 0">Enter <b>Your $/acre</b> under Pricing inputs to use your own rate.</div>')+'</div>';
+  $('#methods').innerHTML=day+acre;
+  $$('[data-pick]').forEach(function(el){el.onclick=function(){P.est.method=el.dataset.pick;save();refresh();};});
+  var n='<div class="note" style="margin-top:12px">Customer price: <b>'+money(R.lump)+'</b> '+(R.lumpOverride?'(your override)':'(by the '+R.picked+', rounded to $'+esc(E.roundPrice)+')')+' · deposit '+fmt(num(E.deposit,50))+'% = <b>'+money(R.deposit)+'</b> · profit <b>'+money(R.profitLump)+'</b>'+(R.opSet?'':' before machine costs')+'</div>';
+  if(R.tbd.length)n+='<div class="note bad">Not counted yet (blank = TBD): '+esc(R.tbd.join(', '))+'. Fill these in before you send the price.</div>';
+  R.warn.forEach(function(w){n+='<div class="note bad">'+esc(w)+'</div>';});
+  $('#tbdNote').innerHTML=n;renderSheets();}
+function sheetHead(){return '<div class="sh-head"><div class="co"><svg><use href="#logo"/></svg><div><div class="cn">JARHEADS LAND SERVICE</div><div style="font-size:11px;color:#555;letter-spacing:.08em">VETERAN-OWNED · LAND CLEARING · SITE PREP · EXCAVATION</div></div></div><div class="ct">'+CO.town+'<br>'+CO.phone+'<br>'+CO.email+'</div></div>';}
+function treeText(o){var p=[];BINS.forEach(function(b){var c=num(o[b[0]],0);if(c>0)p.push(fmt(c)+' × '+b[1]);});return p.join(', ');}
+function scopeLines(){var V=P.veg,D=P.debris,X=P.extras,A=P.area,L=[];
+  L.push('Clear approximately <b>'+fmt(R.acres,2)+' acres</b>'+(A.desc?' ('+esc(A.desc)+')':'')+' of '+DENS[R.dens].name.toLowerCase()+', using a compact track loader with grapple and root rake.');
+  if(R.trees)L.push('Remove <b>'+fmt(R.trees)+' trees</b> with root balls ('+treeText(V.trees)+' trunk diameter).');
+  if(R.stumps)L.push('Grub <b>'+fmt(R.stumps)+' existing stumps</b> ('+treeText(V.stumps)+').');
+  if(V.palmetto)L.push('Grub saw palmetto and root mats.');
+  if(R.excl>0)L.push('Leave and protect the keep-tree area'+(R.useTrace&&TR.keepN>1?'s':'')+' (about '+fmt(R.excl,2)+' acres) as marked on site.');
+  if(D.method==='burn')L.push('Pile debris on site and burn under a Florida Forest Service burn authorization'+(D.ashOn?'. Push in and reburn unburned material, then spread or bury the ash':'')+'.');
+  else if(D.method==='haul')L.push('Load and haul debris off site to an approved facility (about '+fmt(R.loads)+' trailer loads).');
+  else L.push('Push debris into windrows on site'+(D.windNote?' '+esc(D.windNote):'')+'.');
+  if(D.finalOn)L.push('Final root-rake pass to pick up roots and sticks; ground left rough-graded.');
+  if(X.gradeOn)L.push('Fine grade / blade pass, about '+fmt(R.gradeAc,2)+' acres.');
+  if(X.seedOn)L.push('Seed and straw, about '+fmt(R.seedAc,2)+' acres'+(X.seedNote?' ('+esc(X.seedNote)+')':'')+'.');
+  if(X.fenceOn&&R.fenceFt)L.push('Clear fence line, about '+fmt(R.fenceFt)+' linear feet'+(X.fenceNote?' ('+esc(X.fenceNote)+')':'')+'.');
+  X.rentals.forEach(function(it){if(it.on&&it.desc)L.push('Includes '+esc(it.desc).toLowerCase()+' as needed.');});
+  X.other.forEach(function(it){if(it.desc)L.push(esc(it.desc)+'.');});
+  if(R.mob)L.push('Mobilization: delivery and pickup of equipment.');
+  return L;}
+function mapImg(){if(!photo.img||P.est.showMap==='no'||!(TR&&TR.ok))return null;try{var c=document.createElement('canvas');c.style.cssText='position:absolute;left:-9999px;width:900px';document.body.appendChild(c);drawMap(c,900);var u=c.toDataURL('image/jpeg',0.85);c.remove();return u;}catch(e){return null;}}
+function renderSheets(){var E=P.est,cu=P.customer,D=P.debris,date=new Date(),ds=date.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),vd=new Date(date.getTime()+num(E.valid,30)*864e5).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var spec=function(k,v){return '<div><div class="k">'+k+'</div><div class="v">'+v+'</div></div>';},img=mapImg();
+  var basis='';if(E.showBasis!=='no'){if(R.lumpOverride)basis='Estimated '+R.workDays+' working day'+(R.workDays==1?'':'s')+' on site.';
+    else if(R.picked==='acre')basis=fmt(R.acres,2)+' acres at '+money(R.perAcre)+' per acre'+(R.addOns>0.5?' plus '+money(R.addOns)+' for the listed extras, disposal and mobilization':'')+'.';
+    else basis='Based on about '+days(R.billDays)+' machine days at '+money(R.rate)+' per day'+(R.helperOn?', plus a ground helper':'')+(R.passCost+R.mob>0.5?', plus listed materials, disposal and mobilization':'')+'.';}
+  var terms=['Customer marks property lines and trees to keep before work begins.','Underground utilities are located through Sunshine 811 before grubbing. Private lines (well, septic, irrigation, private electric) must be pointed out by the owner.'];
+  if(D.method==='burn')terms.push('Jarheads Land Service gets the Florida Forest Service burn authorization before any burning. Burn days depend on weather, wind and burn bans.');
+  terms.push('Not included unless listed above: hauling off site, stump grinding, finish grading, sod, landscaping, permits other than the burn authorization, and removal of buried trash, concrete or rock found during clearing.');
+  terms.push('Timber or firewood value is not credited unless agreed in writing.');
+  var c='<div class="sheet cust-sheet"'+(sumView==='cust'?'':' style="display:none"')+'>'+sheetHead()+'<div class="sh-title">Land Clearing Estimate &amp; Proposal</div>'
+   +'<div class="sh-meta"><div><b>Job:</b> '+esc(P.name||'Land clearing')+'</div><div><b>Date:</b> '+ds+'</div><div><b>Customer:</b> '+esc(cu.name||'—')+'</div><div><b>Site:</b> '+esc(cu.address||'—')+'</div>'+(cu.phone||cu.email?'<div><b>Contact:</b> '+esc([cu.phone,cu.email].filter(Boolean).join(' · '))+'</div>':'')+'<div><b>Valid through:</b> '+vd+'</div></div>'
+   +'<div class="sh-specs">'+spec('Area to clear',fmt(R.acres,2)+' ac')+spec('Vegetation',DENS[R.dens].short)+spec('Trees removed',R.trees?fmt(R.trees):'Brush only')+spec('Debris',METH_NAME[D.method])+'</div>'
+   +(img?'<img class="sh-img" src="'+img+'" alt="Site sketch"><div class="sh-cap">Site sketch: clearing area (gold) and keep-tree zones (green), traced from an aerial picture. Approximate. Final limits are set on site.</div>':'')
+   +'<div class="sh-sec sh-scope"><h4>Scope of work</h4><ul>'+scopeLines().map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul></div>'
+   +'<div class="sh-price"><span>Lump-sum price</span><span class="amt">'+money(R.lump)+'</span></div>'+(basis?'<div style="font-size:11.5px;color:#444;margin:-4px 0 8px">'+basis+'</div>':'')
+   +'<div class="sh-pay"><div><div class="k">Deposit ('+fmt(num(E.deposit,50))+'%) to schedule</div><div class="v">'+money(R.deposit)+'</div></div><div><div class="k">Balance on completion</div><div class="v">'+money(R.balance)+'</div></div><div><div class="k">Timeline</div><div class="v" style="font-size:12px">'+esc(E.timeline||autoTimeline())+'</div></div></div>'
+   +'<div class="sh-sec"><div class="sh-tw"><div><h4>Warranty</h4><div>12-month workmanship warranty from the date of completion on the work described above.</div></div><div><h4>Equipment</h4><div>John Deere compact track loader with grapple, root rake and 6-way blade; F450 with 16 cu yd dump trailer.</div></div></div>'
+   +(E.notes?'<h4>Notes</h4><div style="white-space:pre-wrap">'+esc(E.notes)+'</div>':'')+'<h4>Terms</h4><ul class="sh-terms">'+terms.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'
+   +'<div class="sh-sign"><div>Accepted by (customer signature)</div><div>Date</div></div>'
+   +'<div class="sh-foot">Jarheads Land Service · Veteran-owned · '+CO.town+' · '+CO.phone+' · '+CO.email+'</div></div>';
+  var tr=function(k,v){return '<tr><td>'+k+'</td><td>'+v+'</td></tr>';},rt=P.rates;
+  var it='<div class="sheet internal-sheet"'+(sumView==='int'?'':' style="display:none"')+'><div class="int-banner">INTERNAL · NOT FOR CUSTOMER</div>'+sheetHead()+'<div class="sh-title" style="color:var(--olive-d)">Internal Job Sheet: '+esc(P.name||'Land clearing')+'</div>'
+   +'<div class="sh-meta"><div><b>Customer:</b> '+esc(cu.name||'—')+'</div><div><b>Site:</b> '+esc(cu.address||'—')+'</div><div><b>Area:</b> '+fmt(R.gross,2)+' ac gross − '+fmt(R.excl,2)+' keep = <b>'+fmt(R.acres,2)+' ac</b> ('+(R.useTrace?'traced':'entered')+')</div><div><b>Vegetation:</b> '+DENS[R.dens].name+(P.veg.palmetto?' + palmetto':'')+'</div></div>'
+   +'<div class="sh-two"><div><h4 style="margin:0 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Production</h4><table class="it">'
+   +tr('Brush / area @ '+fmt(R.acDay,2)+' ac/day',fmt(R.areaHrs,1)+' h')+tr('Trees: '+(R.trees?esc(treeText(P.veg.trees)):'none'),fmt(R.treeHrs,1)+' h')+tr('Stumps: '+(R.stumps?esc(treeText(P.veg.stumps)):'none'),fmt(R.stumpHrs,1)+' h')
+   +tr('Site factor'+(R.siteFl.length?' ('+esc(R.siteFl.join(', '))+')':''),'× '+fmt(R.siteF,2))+tr('<b>Clearing</b>','<b>'+fmt(R.clearHrs,1)+' h</b>')
+   +tr('Debris as piled',fmt(R.debrisCY)+' cu yd')
+   +(D.method==='burn'?tr('Burn piles @ '+fmt(num(D.pileCy,150))+' cu yd',fmt(R.piles))+tr('Burn days',days(R.burnDays))+tr('Ash &amp; cleanup',fmt(R.cleanHrs,1)+' h'):'')
+   +(D.method==='haul'?tr('Loose cu yd (× '+fmt(num(D.swell,1.25),2)+')',fmt(R.looseCY))+tr('Loads ('+fmt(num(D.trailer,16))+' cu yd)',fmt(R.loads))+tr('Haul time',fmt(R.haulHrs,1)+' h'+(String(D.tripMin)===''?' + drive TBD':'')):'')
+   +(D.finalOn?tr('Final root-rake pass',fmt(R.finalHrs,1)+' h'):'')+'</table></div><div><h4 style="margin:0 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Machine days</h4><table class="it">'
+   +dayRows().map(function(r){return tr(r[0],days(r[1]));}).join('')+tr('Calculated',days(R.rawDays))+'<tr class="tot"><td>Billed days</td><td>'+days(R.billDays)+'</td></tr>'+(R.helperOn?tr('Helper hours',fmt(R.helperHrs,1)):'')+'</table></div></div>'
+   +'<h4 style="margin:6px 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Pricing, both methods</h4><table class="it"><tr><th>Line</th><th>By the day</th><th>By the acre</th></tr>'
+   +'<tr><td>Machine + operator ('+days(R.billDays)+' d × '+money(R.rate)+')</td><td>'+money(R.machinePrice)+'</td><td rowspan="2" style="vertical-align:middle">'+fmt(R.acres,2)+' ac × '+money(R.perAcre)+' = '+money(R.acrePrice-R.addOns)+'<br><small>(clearing scope)</small></td></tr>'
+   +'<tr><td>Helper billed ('+fmt(R.helperHrs,1)+' h × '+money(num(E.helperBill,30))+')</td><td>'+money(R.helperBill)+'</td></tr>'
+   +'<tr><td>Dump fees'+(D.method==='haul'?' ('+fmt(R.loads)+' loads)':'')+'</td><td colspan="2">'+(R.tbd.indexOf('dump fee per load')>=0?'TBD':money(R.dumpCost))+'</td></tr>'
+   +'<tr><td>Rentals</td><td colspan="2">'+money(R.rent)+'</td></tr><tr><td>Seed / straw material</td><td colspan="2">'+(R.tbd.indexOf('seed / straw material $ per acre')>=0?'TBD':money(R.seedMat))+'</td></tr><tr><td>Other costs</td><td colspan="2">'+money(R.other)+'</td></tr>'
+   +'<tr><td>Markup on the above ('+fmt(R.mk*100)+'%)</td><td colspan="2">'+money(R.passMarkup)+'</td></tr><tr><td>Mobilization</td><td colspan="2">'+money(R.mob)+'</td></tr>'
+   +'<tr><td>Extras labor (grade / seed / fence days)</td><td>incl. above</td><td>'+money(R.extraDays*R.rate+R.helperBill*(R.billDays>0?R.extraDays/R.billDays:0))+'</td></tr>'
+   +'<tr class="tot"><td>Price</td><td>'+money(R.dayPrice)+'</td><td>'+money(R.acrePrice)+'</td></tr>'
+   +'<tr><td>Helper wages ('+money(num(E.helperPay,20))+'/h)</td><td colspan="2">−'+money(R.helperWage)+'</td></tr><tr><td>Pass-through costs</td><td colspan="2">−'+money(R.passCost)+'</td></tr><tr><td>Machine operating cost'+(R.opSet?' ('+money(num(E.opCost,0))+'/day)':' (not entered)')+'</td><td colspan="2">−'+money(R.opCost)+'</td></tr>'
+   +'<tr class="tot"><td>Profit'+(R.opSet?'':' before machine costs')+'</td><td>'+money(R.profitDay)+'</td><td>'+money(R.profitAcre)+'</td></tr>'
+   +'<tr><td>Implied $/acre (clearing) · all-in $/acre</td><td colspan="2">'+money(R.impliedAcre)+' · '+money(R.allInAcre)+'</td></tr>'
+   +'<tr class="tot"><td>Quoted to customer ('+(R.lumpOverride?'override':'by the '+R.picked)+')</td><td colspan="2">'+money(R.lump)+' · profit '+money(R.profitLump)+' · deposit '+money(R.deposit)+'</td></tr></table>'
+   +(R.tbd.length?'<div class="note bad" style="font-size:12px">Not counted yet: '+esc(R.tbd.join(', '))+'.</div>':'')
+   +'<div style="font-size:10.5px;color:#555">Assumptions: '+DENS_KEYS.map(function(k){return DENS[k].short+' '+fmt(num(rt.acDay[k],0),2);}).join(' / ')+' ac/day; tree min '+BINS.map(function(b){return fmt(num(rt.treeMin[b[0]],0),1);}).join('/')+'; '+fmt(R.hd)+' h/day. Starting estimates, tune to your jobs.</div>'
+   +'<div class="sh-foot">Internal only. Estimates come from your production assumptions; check them against the site and supplier quotes.</div></div>';
+  $('#sheets').innerHTML=c+it;}
+$$('#sumSeg button').forEach(function(b){b.onclick=function(){sumView=b.dataset.sum;refresh();};});
+function doPrint(which){sumView=which;if(curStep!=='estimate')setStep('estimate');else refresh();document.body.classList.remove('pr-cust','pr-int');document.body.classList.add(which==='int'?'pr-int':'pr-cust');setTimeout(function(){window.print();},250);}
+window.addEventListener('afterprint',function(){document.body.classList.remove('pr-cust','pr-int');});
+$('#printCust').onclick=function(){doPrint('cust');};$('#printInt').onclick=function(){doPrint('int');};
+
+/* ---------- projects ---------- */
+function openProjects(){var ids=Object.keys(projects).sort(function(a,b){return (projects[b].updated||0)-(projects[a].updated||0);});
+  $('#plist').innerHTML=ids.map(function(id){var p=projects[id];return '<li class="'+(id===P.id?'cur':'')+'"><div class="pn"><b>'+esc(p.name||'Untitled')+'</b><small>'+esc([p.customer&&p.customer.name,p.customer&&p.customer.address].filter(Boolean).join(' · ')||'No customer yet')+' · '+new Date(p.updated||Date.now()).toLocaleDateString('en-US')+'</small></div>'
+    +(id===P.id?'<span class="hint" style="margin:0 6px">Open</span>':'<button class="btn small dark" data-open="'+id+'">Open</button>')+'<button class="btn small danger" data-del="'+id+'">Delete</button></li>';}).join('');
+  $$('[data-open]').forEach(function(b){b.onclick=function(){switchTo(b.dataset.open);closeProjects();};});
+  $$('[data-del]').forEach(function(b){b.onclick=function(){var p=projects[b.dataset.del];if(!confirm('Delete "'+(p.name||'Untitled')+'"? This cannot be undone.'))return;delete projects[b.dataset.del];try{localStorage.removeItem(LS_PHOTO+b.dataset.del);}catch(e){}
+    if(b.dataset.del===P.id){var rest=Object.keys(projects);if(rest.length)P=projects[rest[0]];else{P=defaultProject();projects[P.id]=P;}switchTo(P.id);}saveNow();openProjects();};});
+  $('#projModal').classList.remove('hidden');}
+function closeProjects(){$('#projModal').classList.add('hidden');}
+function switchTo(id){saveNow();P=projects[id];fill(defaultProject(),P);selKeep=-1;loadPhotoForProject();bindAll();saveNow();refresh();}
+$('#btnProjects').onclick=openProjects;$('#pClose').onclick=closeProjects;$('#projModal').onclick=function(e){if(e.target.id==='projModal')closeProjects();};
+$('#pNew').onclick=function(){var p=defaultProject();projects[p.id]=p;switchTo(p.id);closeProjects();setStep('area');toast('New job started');};
+$('#pDup').onclick=function(){var p=clone(P);p.id=uid();p.name=(P.name||'Job')+' (copy)';p.created=p.updated=Date.now();projects[p.id]=p;var d=getPhotoData(P.id);if(d)savePhotoData(p.id,d);switchTo(p.id);closeProjects();toast('Duplicated');};
+$('#pExport').onclick=function(){saveNow();var photos={};Object.keys(projects).forEach(function(id){var d=getPhotoData(id);if(d)photos[id]=d;});
+  var blob=new Blob([JSON.stringify({app:'Jarheads Land Clearing Estimator',version:1,exported:new Date().toISOString(),projects:projects,photos:photos,mydefaults:myDefaults()})],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download='Jarheads-Clearing-Jobs-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},3000);};
+$('#pImport').onchange=function(e){var f=e.target.files&&e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result),n=0;
+    if(d.app&&d.app!=='Jarheads Land Clearing Estimator'){toast('That backup is from the '+d.app.replace('Jarheads ','')+', not the Clearing Estimator');return;}
+    Object.keys(d.projects||{}).forEach(function(id){projects[id]=fill(defaultProject(),d.projects[id]);n++;});
+    Object.keys(d.photos||{}).forEach(function(id){savePhotoData(id,d.photos[id]);});if(d.mydefaults&&!myDefaults()){try{localStorage.setItem(LS_DEF,JSON.stringify(d.mydefaults));}catch(err){}}
+    saveNow();openProjects();toast('Restored '+n+' job(s)');}catch(err){toast('That file is not a valid backup');}};rd.readAsText(f);e.target.value='';};
+
+/* ---------- init ---------- */
+if(location.protocol==='file:'){$$('#toPond,#toPond2').forEach(function(a){a.href='https://jarheadslandservice-png.github.io/jarheads-pond/';});}
+var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){view.cw=0;refresh();},150);});
+load();fill(defaultProject(),P);loadPhotoForProject();bindAll();
+setStep((location.hash||'').replace('#','')||'area',true);
+window.JLC={get P(){return P;},bind:bindAll,save:saveNow,refresh:refresh,setStep:setStep,setTmode:function(m){tmode=m;refresh();},R:function(){return R;},traced:function(){return TR;},sample:function(){$('#sampleMap').click();},sumView:function(v){sumView=v;refresh();},toScreen:function(x,y){return T([x,y]);},newJob:function(){var p=defaultProject();projects[p.id]=p;switchTo(p.id);}};
+})();
+</script>
+<div id="jls-copyright" style="text-align:center;font-size:11px;color:#888;padding:10px 8px 70px">© 2026 Jarheads Land Service. All rights reserved. No part of this app may be copied, modified, or reused without written permission.</div>
+</body>
+</html>
