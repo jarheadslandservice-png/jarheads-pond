@@ -346,15 +346,22 @@ table.it tr.tot td{font-weight:900;border-top:2px solid #333}
   <div class="col">
    <div class="card">
     <h2>Trees to remove <small>count by trunk diameter (DBH, chest high)</small></h2>
+    <div class="hint" style="margin:0 0 6px;font-weight:700;color:#33351f">Method for trees</div>
+    <div class="slopes" id="tmethBtns" style="grid-template-columns:repeat(3,1fr)">
+     <button data-tmeth="puller" style="font-size:15px">Tree puller<small>pulls roots too</small></button>
+     <button data-tmeth="grapple" style="font-size:15px">Grapple<small>push / pull over</small></button>
+     <button data-tmeth="rootrake" style="font-size:15px">Root rake<small>push &amp; dig out</small></button>
+    </div>
+    <div class="note" id="tmethNote"></div>
     <div id="treeCtrs"></div>
     <p class="hint">Brush, palmetto and saplings are covered by the density rate. Count trees 6&quot; and up. Only count under-6&quot; trees when they&rsquo;re scattered in otherwise open ground.</p>
-    <label class="sw"><input type="checkbox" data-bind="veg.stumpsOn"> Existing stumps to grub</label>
+    <label class="sw"><input type="checkbox" data-bind="veg.stumpsOn"> Existing stumps to grub (old cut stumps, no trunk to pull)</label>
     <div id="stumpCtrs"></div>
    </div>
    <div class="kpis" id="vegKpis"></div>
    <details class="card tune" id="ratesCard">
     <summary>Production assumptions: tune these</summary>
-    <div class="note">These are <b>starting estimates for one 331G with grapple / root rake</b>. Replace them with your own numbers after a few jobs. Changes apply to this job. Use <b>Save as my defaults</b> to use them on every new job.</div>
+    <div class="note">These are <b>starting estimates for one 331G with tree puller, grapple and root rake</b>. Replace them with your own numbers after a few jobs. Changes apply to this job. Use <b>Save as my defaults</b> to use them on every new job.</div>
     <div class="tablewrap" id="ratesTab"></div>
     <div class="btns"><button class="btn small dark" id="saveDefaults">Save as my defaults</button><button class="btn small" id="resetRates">Reset to app defaults</button></div>
     <div class="hint" id="ratesSrc"></div>
@@ -562,10 +569,17 @@ var DENS={
  heavy:{name:'Heavy woods',short:'Heavy',desc:'Wooded lot: dense understory with many trees. Count the 6"+ trees below.'},
  vheavy:{name:'Very heavy / hammock',short:'Very heavy',desc:'Hardwood hammock: dense oaks, vines, big understory, heavy roots and stumps. Slow going.'}};
 var DENS_KEYS=['light','medium','heavy','vheavy'];
+var TREE_METH={puller:{name:'Tree puller',short:'puller',desc:'Grabs the trunk low and pulls the tree out with its roots in one piece, so there is usually no stump left to grub. Best on small to medium trees.'},
+ grapple:{name:'Grapple',short:'grapple',desc:'Push or pull the tree over with the grapple and shake out the root ball. Some stumps and roots are left to grub.'},
+ rootrake:{name:'Root rake',short:'root rake',desc:'Push the tree over and dig out the roots with the root rake. Some root clean-up is left after.'}};
+var TMETH_KEYS=['puller','grapple','rootrake'];
 /* Starting production assumptions for ONE John Deere 331G CTL with grapple / root rake. Mike tunes these. */
 var DEFAULT_RATES={
  acDay:{light:1.0,medium:0.6,heavy:0.35,vheavy:0.2},      /* acres/day of brush, palmetto, vines, saplings <6" (counted 6"+ trees are extra) */
- treeMin:{t6:1.5,t12:5,t18:12,t24:25,t99:45},             /* minutes per tree: push/pull over with root ball, shake out, carry to pile */
+ pullerMin:{t6:1,t12:3,t18:6,t24:'',t99:''},              /* tree puller min/tree incl. carry to pile; blank = puller not used for that size (falls back to grapple) */
+ treeMin:{t6:1.5,t12:5,t18:12,t24:25,t99:45},             /* grapple min/tree: push/pull over with root ball, shake out, carry to pile */
+ rakeMin:{t6:1.5,t12:6,t18:14,t24:28,t99:50},             /* root rake min/tree: push over, dig out roots, carry to pile */
+ grubPct:{puller:0,grapple:30,rootrake:20},               /* % of removed trees that still need separate stump/root grubbing (uses stump minutes) */
  stumpMin:{t6:2,t12:6,t18:15,t24:30,t99:50},              /* minutes per existing stump to grub with root rake / grapple */
  palm:1.25,wet:1.25,slope:1.15,tight:1.20,struct:1.15,    /* time multipliers */
  hrsDay:8};
@@ -591,11 +605,17 @@ function estimate(P,traced){
  r.areaHrs=r.acres/acDay*hd*(V.palmetto?Math.max(1,nv(R.palm,1)):1);
  r.trees=sumBins(V.trees);r.stumps=V.stumpsOn?sumBins(V.stumps):0;
  r.treeHrs=0;r.stumpHrs=0;
- BINS.forEach(function(b){var k=b[0];r.treeHrs+=pv(V.trees[k],0)*pv(R.treeMin[k],DEFAULT_RATES.treeMin[k])/60;
-   if(V.stumpsOn)r.stumpHrs+=pv(V.stumps[k],0)*pv(R.stumpMin[k],DEFAULT_RATES.stumpMin[k])/60;});
+ var meth=TREE_METH[V.treeMethod]?V.treeMethod:'puller',gpD=DEFAULT_RATES.grubPct;r.treeMethod=meth;r.treeRows=[];r.grubHrs=0;r.fallbackTrees=0;r.pulledTrees=0;
+ BINS.forEach(function(b){var k=b[0],cnt=pv(V.trees[k],0),m=meth,mins,sm=pv(R.stumpMin[k],DEFAULT_RATES.stumpMin[k]);
+   if(meth==='puller'){var pm=nv(R.pullerMin&&R.pullerMin[k],NaN);if(isFinite(pm)&&pm>0)mins=pm;else{m='grapple';mins=pv(R.treeMin[k],DEFAULT_RATES.treeMin[k]);}}
+   else if(meth==='rootrake')mins=pv(R.rakeMin&&R.rakeMin[k],DEFAULT_RATES.rakeMin[k]);else mins=pv(R.treeMin[k],DEFAULT_RATES.treeMin[k]);
+   var gp=Math.min(100,pv(R.grubPct&&R.grubPct[m],gpD[m]))/100;
+   r.treeHrs+=cnt*mins/60;r.grubHrs+=cnt*gp*sm/60;if(m!==meth)r.fallbackTrees+=cnt;else if(meth==='puller')r.pulledTrees+=cnt;
+   r.treeRows.push({k:k,label:b[1],cnt:cnt,m:m,mins:mins,gp:gp,grub:gp*sm});
+   if(V.stumpsOn)r.stumpHrs+=pv(V.stumps[k],0)*sm/60;});
  var f=1,fl=[];[['wet','Wet / soft ground'],['slope','Slope'],['tight','Tight access'],['struct','Fences / structures nearby']].forEach(function(q){if(V[q[0]]){var m=Math.max(1,nv(R[q[0]],1));f*=m;fl.push(q[1]+' \u00d7'+m);}});
  r.siteF=f;r.siteFl=fl;
- r.clearHrs=(r.areaHrs+r.treeHrs+r.stumpHrs)*f;
+ r.clearHrs=(r.areaHrs+r.treeHrs+r.grubHrs+r.stumpHrs)*f;
  /* debris */
  var vol=r.acres*pv(D.cyAc[dens],DEFAULT_DEBRIS.cyAc[dens]);
  BINS.forEach(function(b){var k=b[0];vol+=pv(V.trees[k],0)*pv(D.treeCy[k],DEFAULT_DEBRIS.treeCy[k]);if(V.stumpsOn)vol+=pv(V.stumps[k],0)*pv(D.stumpCy[k],DEFAULT_DEBRIS.stumpCy[k]);});
@@ -646,7 +666,7 @@ function estimate(P,traced){
  r.workDays=Math.max(1,Math.ceil(r.billDays-1e-9));
  if(r.acres<=0)r.warn.push('No acreage yet: enter acres or trace the area in Step 1.');
  return r;}
-if(typeof module!=='undefined')module.exports={estimate:estimate,BINS:BINS,DENS:DENS,DEFAULT_RATES:DEFAULT_RATES,DEFAULT_DEBRIS:DEFAULT_DEBRIS,roundUp:roundUp};
+if(typeof module!=='undefined')module.exports={estimate:estimate,BINS:BINS,TREE_METH:TREE_METH,DENS:DENS,DEFAULT_RATES:DEFAULT_RATES,DEFAULT_DEBRIS:DEFAULT_DEBRIS,roundUp:roundUp};
 /* ===== END CORE ===== */
 </script>
 <script>/* ===== APP ===== */
@@ -678,7 +698,7 @@ function myDefaults(){try{return JSON.parse(localStorage.getItem(LS_DEF)||'null'
 function defaultProject(){var p={v:1,id:uid(),name:'New Clearing Job',created:Date.now(),updated:Date.now(),
  customer:{name:'',address:'',phone:'',email:''},
  area:{mode:'acres',acres:2,exclAcres:'',desc:'',img:false,sample:false,scaleP:[],scaleFt:'',poly:[],closed:false,keep:[]},
- veg:{density:'medium',trees:zeroBins(),stumpsOn:false,stumps:zeroBins(),palmetto:false,wet:false,slope:false,tight:false,struct:false},
+ veg:{density:'medium',treeMethod:'puller',trees:zeroBins(),stumpsOn:false,stumps:zeroBins(),palmetto:false,wet:false,slope:false,tight:false,struct:false},
  rates:clone(DEFAULT_RATES),
  debris:{method:'burn',pileCy:150,pilesPerDay:4,burnDays:'',ashOn:true,ashHrs:1,swell:1.25,trailer:16,loadMin:15,tripMin:'',dumpMin:10,fee:'',windNote:'',finalOn:true,finalAcDay:2.5,
    cyAc:clone(DEFAULT_DEBRIS.cyAc),treeCy:clone(DEFAULT_DEBRIS.treeCy),stumpCy:clone(DEFAULT_DEBRIS.stumpCy)},
@@ -733,6 +753,7 @@ function updateVis(){var A=P.area,V=P.veg,D=P.debris,X=P.extras,E=P.est;
   $('#acresBox').style.display=A.mode==='acres'?'':'none';$('#traceBox').style.display=A.mode==='trace'?'':'none';
   $$('#tmodeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.tmode===tmode);});
   $$('#densBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.dens===V.density);});
+  $$('#tmethBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.tmeth===(V.treeMethod||'puller'));});
   $$('#methBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.meth===D.method);});
   $('#burnBox').style.display=D.method==='burn'?'':'none';$('#haulBox').style.display=D.method==='haul'?'':'none';$('#windBox').style.display=D.method==='windrow'?'':'none';
   $('#ashWrap').style.display=D.ashOn?'':'none';$('#finalWrap').style.display=D.finalOn?'':'none';
@@ -905,17 +926,24 @@ function sampleSite(){var W=1400,H=1000,c=document.createElement('canvas');c.wid
 var SRC_IND='<span class="tag ind">industry-based</span>',SRC_DEF='<span class="tag def">default assumption</span>';
 function numIn(path,step){return '<input type="number" inputmode="decimal" step="'+(step||'any')+'" min="0" data-bind="'+path+'">';}
 function buildStatic(){
-  var ctr=function(base,b){return '<div class="ctr"><div class="nm">'+b[1]+'<small>'+b[2]+'</small></div><div class="step3"><button data-inc="'+base+'.'+b[0]+'" data-d="-1" aria-label="minus">&minus;</button><input type="number" inputmode="numeric" min="0" step="1" data-bind="'+base+'.'+b[0]+'"><button data-inc="'+base+'.'+b[0]+'" data-d="1" aria-label="plus">+</button></div></div>';};
+  var ctr=function(base,b){return '<div class="ctr"><div class="nm">'+b[1]+'<small>'+b[2]+(base==='veg.trees'?' · <span id="tm-'+b[0]+'"></span>':'')+'</small></div><div class="step3"><button data-inc="'+base+'.'+b[0]+'" data-d="-1" aria-label="minus">&minus;</button><input type="number" inputmode="numeric" min="0" step="1" data-bind="'+base+'.'+b[0]+'"><button data-inc="'+base+'.'+b[0]+'" data-d="1" aria-label="plus">+</button></div></div>';};
   $('#treeCtrs').innerHTML=BINS.map(function(b){return ctr('veg.trees',b);}).join('');
   $('#stumpCtrs').innerHTML='<div class="hint" style="margin:0">Stumps already in the ground (cut trees, old clearing). Pushed-over trees come out with the root ball, so don&rsquo;t count them twice.</div>'+BINS.map(function(b){return ctr('veg.stumps',b);}).join('');
   var h='<table class="mtab"><thead><tr><th>Assumption</th><th>Value</th><th>Source</th></tr></thead><tbody>';
   DENS_KEYS.forEach(function(k,i){h+='<tr><td>'+DENS[k].short+' &mdash; acres / day<br><small style="color:var(--muted)">brush, palmetto, saplings &lt;6&quot;</small></td><td>'+numIn('rates.acDay.'+k,'0.05')+'</td><td class="src">'+SRC_IND+(i===0?' see note below':'')+'</td></tr>';});
-  BINS.forEach(function(b){h+='<tr><td>Tree '+b[1]+' &mdash; min / tree</td><td>'+numIn('rates.treeMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
-  BINS.forEach(function(b){h+='<tr><td>Stump '+b[1]+' &mdash; min / stump</td><td>'+numIn('rates.stumpMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  h+='<tr><td colspan="3" style="background:var(--tan);font-weight:900;color:var(--olive-d)">TREE PULLER (blank = too big for the puller; uses grapple time)</td></tr>';
+  BINS.forEach(function(b){h+='<tr><td>Puller: tree '+b[1]+' &mdash; min / tree</td><td><input type="number" inputmode="decimal" step="0.5" min="0" placeholder="grapple" data-bind="rates.pullerMin.'+b[0]+'"></td><td class="src">'+SRC_DEF+'</td></tr>';});
+  h+='<tr><td colspan="3" style="background:var(--tan);font-weight:900;color:var(--olive-d)">GRAPPLE</td></tr>';
+  BINS.forEach(function(b){h+='<tr><td>Grapple: tree '+b[1]+' &mdash; min / tree</td><td>'+numIn('rates.treeMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  h+='<tr><td colspan="3" style="background:var(--tan);font-weight:900;color:var(--olive-d)">ROOT RAKE</td></tr>';
+  BINS.forEach(function(b){h+='<tr><td>Root rake: tree '+b[1]+' &mdash; min / tree</td><td>'+numIn('rates.rakeMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  h+='<tr><td colspan="3" style="background:var(--tan);font-weight:900;color:var(--olive-d)">STUMP / ROOT GRUBBING</td></tr>';
+  TMETH_KEYS.forEach(function(m){h+='<tr><td>After '+TREE_METH[m].short+': % of trees needing stump / root grubbing</td><td>'+numIn('rates.grubPct.'+m,'5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
+  BINS.forEach(function(b){h+='<tr><td>Grub stump '+b[1]+' &mdash; min / stump</td><td>'+numIn('rates.stumpMin.'+b[0],'0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
   [['palm','Saw palmetto (area time &times;)'],['wet','Wet / soft ground &times;'],['slope','Slope &times;'],['tight','Tight access &times;'],['struct','Fences / structures &times;']].forEach(function(q){h+='<tr><td>'+q[1]+'</td><td>'+numIn('rates.'+q[0],'0.05')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
   h+='<tr><td>Working hours per machine day</td><td>'+numIn('rates.hrsDay','0.5')+'</td><td class="src">'+SRC_DEF+'</td></tr></tbody></table>';
   $('#ratesTab').innerHTML=h;
-  $('#ratesSrc').innerHTML='<b>Where the acres/day came from:</b> published contractor guides put an <i>excavator or loader with grapple</i> at about 0.5&ndash;1 acre/day in light brush and about 0.25 acre/day in heavy (Cut Brush, &ldquo;How Long Does Land Clearing Take Per Acre in NC?&rdquo;, cutbrush.com), with traditional push-pile-burn on mature hardwoods running 1&ndash;2 weeks per acre. MulchDeck&rsquo;s productivity calculator (mulchdeck.com) scales vegetation as light 1.00 / medium 0.65 / heavy 0.40 / dense hardwood 0.25. The defaults here (1.0 / 0.6 / 0.35 / 0.2 ac/day) follow those ratios and sit at the high end because trees 6&quot; and up are timed separately. Those guides cover other regions and crews, so they&rsquo;re only a starting point. Everything marked <b>default assumption</b> is a starting guess from this app, not a published figure. Tune them all to your own jobs.';
+  $('#ratesSrc').innerHTML='<b>Where the acres/day came from:</b> published contractor guides put an <i>excavator or loader with grapple</i> at about 0.5&ndash;1 acre/day in light brush and about 0.25 acre/day in heavy (Cut Brush, &ldquo;How Long Does Land Clearing Take Per Acre in NC?&rdquo;, cutbrush.com), with traditional push-pile-burn on mature hardwoods running 1&ndash;2 weeks per acre. MulchDeck&rsquo;s productivity calculator (mulchdeck.com) scales vegetation as light 1.00 / medium 0.65 / heavy 0.40 / dense hardwood 0.25. The defaults here (1.0 / 0.6 / 0.35 / 0.2 ac/day) follow those ratios and sit at the high end because trees 6&quot; and up are timed separately. Those guides cover other regions and crews, so they&rsquo;re only a starting point. Everything marked <b>default assumption</b> is a starting guess from this app, not a published figure. <b>Tree puller:</b> minutes are only filled in up to 18&quot;, since a CTL puller works best on small to medium trees. 18&ndash;24&quot; and over 24&quot; are blank, so those use grapple time plus grapple stump grubbing until you enter your own puller times. Puller, grapple and root-rake minutes and the grub % are all default assumptions. Tune them all to your own jobs.';
   var d='<table class="mtab"><thead><tr><th>Debris source</th><th>cu yd</th><th>Source</th></tr></thead><tbody>';
   DENS_KEYS.forEach(function(k){d+='<tr><td>'+DENS[k].short+' &mdash; per acre</td><td>'+numIn('debris.cyAc.'+k,'5')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
   BINS.forEach(function(b){d+='<tr><td>Tree '+b[1]+' &mdash; each</td><td>'+numIn('debris.treeCy.'+b[0],'0.25')+'</td><td class="src">'+SRC_DEF+'</td></tr>';});
@@ -931,13 +959,17 @@ $('#resetRates').onclick=function(){if(!confirm('Reset production and debris ass
 
 /* ---------- step 2: vegetation ---------- */
 $$('#densBtns button').forEach(function(b){b.onclick=function(){P.veg.density=b.dataset.dens;save();refresh();};});
+$$('#tmethBtns button').forEach(function(b){b.onclick=function(){P.veg.treeMethod=b.dataset.tmeth;save();refresh();};});
 function renderVeg(){var V=P.veg,Rt=P.rates;
   DENS_KEYS.forEach(function(k){$('#dr-'+k).textContent='≈ '+fmt(num(Rt.acDay[k],0),2)+' ac/day';});
   var d=DENS[R.dens];$('#densNote').innerHTML='<b>'+d.name+':</b> '+d.desc+'<br>At <b>'+fmt(R.acDay,2)+' ac/day</b>, '+fmt(R.acres,2)+' ac of brush and understory &asymp; <b>'+days(R.areaHrs/R.hd)+' machine days</b>'+(V.palmetto?' (palmetto included)':'')+', before trees, stumps and site factors.';
+  var tm=TREE_METH[R.treeMethod],big=R.treeRows.filter(function(t){return t.m!==R.treeMethod;}).map(function(t){return t.label;});
+  $('#tmethNote').innerHTML='<b>'+tm.name+':</b> '+tm.desc+(R.treeMethod==='puller'?(big.length?' Sizes too big for the puller ('+big.join(', ')+') use grapple time and grapple stump grubbing. Change that under production assumptions.':' All sizes set to the puller.')+' Pulled trees: <b>'+fmt(num(V.treeMethod==='puller'?Rt.grubPct.puller:0,0))+'%</b> separate stump grubbing.':' About <b>'+fmt(num(Rt.grubPct[R.treeMethod],0))+'%</b> of trees still need stump / root grubbing afterwards.');
+  R.treeRows.forEach(function(t){var el=$('#tm-'+t.k);if(el)el.textContent=TREE_METH[t.m].short+' '+fmt(t.mins,1)+' min'+(t.gp>0?' + grub '+fmt(t.gp*100)+'%':'');});
   ['palm','wet','slope','tight','struct'].forEach(function(k){$('#fx-'+k).textContent='×'+fmt(num(Rt[k],1),2);});
   var k='<div class="kpi"><div class="k">Brush / area</div><div class="v">'+fmt(R.areaHrs,1)+' h</div><div class="u">'+fmt(R.acres,2)+' ac @ '+fmt(R.acDay,2)+' ac/day</div></div>'
-   +'<div class="kpi"><div class="k">Trees ('+fmt(R.trees)+')</div><div class="v">'+fmt(R.treeHrs,1)+' h</div><div class="u">push over, shake out, pile</div></div>'
-   +'<div class="kpi"><div class="k">Stumps ('+fmt(R.stumps)+')</div><div class="v">'+fmt(R.stumpHrs,1)+' h</div><div class="u">'+(V.stumpsOn?'grub with root rake':'off')+'</div></div>'
+   +'<div class="kpi"><div class="k">Trees ('+fmt(R.trees)+')</div><div class="v">'+fmt(R.treeHrs+R.grubHrs,1)+' h</div><div class="u">'+TREE_METH[R.treeMethod].short+(R.fallbackTrees?' ('+fmt(R.fallbackTrees)+' big ones by grapple)':'')+(R.grubHrs>0.05?' · '+fmt(R.grubHrs,1)+' h root grub':' · no stump grub')+'</div></div>'
+   +'<div class="kpi"><div class="k">Stumps ('+fmt(R.stumps)+')</div><div class="v">'+fmt(R.stumpHrs,1)+' h</div><div class="u">'+(V.stumpsOn?'existing stumps, root rake':'off')+'</div></div>'
    +'<div class="kpi'+(R.siteF>1?' flag':'')+'"><div class="k">Site factor</div><div class="v">×'+fmt(R.siteF,2)+'</div><div class="u">'+(R.siteFl.length?esc(R.siteFl.join(', ')):'no slow-downs')+'</div></div>'
    +'<div class="kpi okk" style="grid-column:1/-1"><div class="k">Clearing time (before debris)</div><div class="v">'+days(R.d.clear)+' machine days</div><div class="u">'+fmt(R.clearHrs,1)+' hours at '+fmt(R.hd)+' h/day · starting estimate, tune the rates below</div></div>';
   $('#vegKpis').innerHTML=k;}
@@ -1023,8 +1055,12 @@ function renderEstimate(){var E=P.est;
 function sheetHead(){return '<div class="sh-head"><div class="co"><svg><use href="#logo"/></svg><div><div class="cn">JARHEADS LAND SERVICE</div><div style="font-size:11px;color:#555;letter-spacing:.08em">VETERAN-OWNED · LAND CLEARING · SITE PREP · EXCAVATION</div></div></div><div class="ct">'+CO.town+'<br>'+CO.phone+'<br>'+CO.email+'</div></div>';}
 function treeText(o){var p=[];BINS.forEach(function(b){var c=num(o[b[0]],0);if(c>0)p.push(fmt(c)+' × '+b[1]);});return p.join(', ');}
 function scopeLines(){var V=P.veg,D=P.debris,X=P.extras,A=P.area,L=[];
-  L.push('Clear approximately <b>'+fmt(R.acres,2)+' acres</b>'+(A.desc?' ('+esc(A.desc)+')':'')+' of '+DENS[R.dens].name.toLowerCase()+', using a compact track loader with grapple and root rake.');
-  if(R.trees)L.push('Remove <b>'+fmt(R.trees)+' trees</b> with root balls ('+treeText(V.trees)+' trunk diameter).');
+  L.push('Clear approximately <b>'+fmt(R.acres,2)+' acres</b>'+(A.desc?' ('+esc(A.desc)+')':'')+' of '+DENS[R.dens].name.toLowerCase()+', using a compact track loader with tree puller, grapple and root rake.');
+  if(R.trees){var tt=treeText(V.trees)+' trunk diameter';
+    if(R.treeMethod==='puller'){if(R.pulledTrees)L.push('Remove <b>'+fmt(R.pulledTrees+R.fallbackTrees)+' trees</b> ('+tt+'). Trees are pulled out roots and all with a tree puller, so in most cases no stump is left to grub'+(R.fallbackTrees?'. Larger trees ('+fmt(R.fallbackTrees)+') are pushed over with the grapple, root balls removed and any remaining stump or roots grubbed out':'')+'.');
+      else L.push('Remove <b>'+fmt(R.trees)+' trees</b> ('+tt+') with the grapple, root balls included, grubbing out any remaining stumps and roots.');}
+    else if(R.treeMethod==='rootrake')L.push('Push over and remove <b>'+fmt(R.trees)+' trees</b> ('+tt+') with the root rake, digging out the root balls and grubbing any remaining roots.');
+    else L.push('Remove <b>'+fmt(R.trees)+' trees</b> ('+tt+') with the grapple, root balls included, grubbing out any remaining stumps and roots.');}
   if(R.stumps)L.push('Grub <b>'+fmt(R.stumps)+' existing stumps</b> ('+treeText(V.stumps)+').');
   if(V.palmetto)L.push('Grub saw palmetto and root mats.');
   if(R.excl>0)L.push('Leave and protect the keep-tree area'+(R.useTrace&&TR.keepN>1?'s':'')+' (about '+fmt(R.excl,2)+' acres) as marked on site.');
@@ -1056,7 +1092,7 @@ function renderSheets(){var E=P.est,cu=P.customer,D=P.debris,date=new Date(),ds=
    +'<div class="sh-sec sh-scope"><h4>Scope of work</h4><ul>'+scopeLines().map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul></div>'
    +'<div class="sh-price"><span>Lump-sum price</span><span class="amt">'+money(R.lump)+'</span></div>'+(basis?'<div style="font-size:11.5px;color:#444;margin:-4px 0 8px">'+basis+'</div>':'')
    +'<div class="sh-pay"><div><div class="k">Deposit ('+fmt(num(E.deposit,50))+'%) to schedule</div><div class="v">'+money(R.deposit)+'</div></div><div><div class="k">Balance on completion</div><div class="v">'+money(R.balance)+'</div></div><div><div class="k">Timeline</div><div class="v" style="font-size:12px">'+esc(E.timeline||autoTimeline())+'</div></div></div>'
-   +'<div class="sh-sec"><div class="sh-tw"><div><h4>Warranty</h4><div>12-month workmanship warranty from the date of completion on the work described above.</div></div><div><h4>Equipment</h4><div>John Deere compact track loader with grapple, root rake and 6-way blade; F450 with 16 cu yd dump trailer.</div></div></div>'
+   +'<div class="sh-sec"><div class="sh-tw"><div><h4>Warranty</h4><div>12-month workmanship warranty from the date of completion on the work described above.</div></div><div><h4>Equipment</h4><div>John Deere compact track loader with tree puller, grapple, root rake and 6-way blade; F450 with 16 cu yd dump trailer.</div></div></div>'
    +(E.notes?'<h4>Notes</h4><div style="white-space:pre-wrap">'+esc(E.notes)+'</div>':'')+'<h4>Terms</h4><ul class="sh-terms">'+terms.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'
    +'<div class="sh-sign"><div>Accepted by (customer signature)</div><div>Date</div></div>'
    +'<div class="sh-foot">Jarheads Land Service · Veteran-owned · '+CO.town+' · '+CO.phone+' · '+CO.email+'</div></div>';
@@ -1064,7 +1100,7 @@ function renderSheets(){var E=P.est,cu=P.customer,D=P.debris,date=new Date(),ds=
   var it='<div class="sheet internal-sheet"'+(sumView==='int'?'':' style="display:none"')+'><div class="int-banner">INTERNAL · NOT FOR CUSTOMER</div>'+sheetHead()+'<div class="sh-title" style="color:var(--olive-d)">Internal Job Sheet: '+esc(P.name||'Land clearing')+'</div>'
    +'<div class="sh-meta"><div><b>Customer:</b> '+esc(cu.name||'—')+'</div><div><b>Site:</b> '+esc(cu.address||'—')+'</div><div><b>Area:</b> '+fmt(R.gross,2)+' ac gross − '+fmt(R.excl,2)+' keep = <b>'+fmt(R.acres,2)+' ac</b> ('+(R.useTrace?'traced':'entered')+')</div><div><b>Vegetation:</b> '+DENS[R.dens].name+(P.veg.palmetto?' + palmetto':'')+'</div></div>'
    +'<div class="sh-two"><div><h4 style="margin:0 0 4px;font-size:12px;text-transform:uppercase;color:var(--olive-d)">Production</h4><table class="it">'
-   +tr('Brush / area @ '+fmt(R.acDay,2)+' ac/day',fmt(R.areaHrs,1)+' h')+tr('Trees: '+(R.trees?esc(treeText(P.veg.trees)):'none'),fmt(R.treeHrs,1)+' h')+tr('Stumps: '+(R.stumps?esc(treeText(P.veg.stumps)):'none'),fmt(R.stumpHrs,1)+' h')
+   +tr('Brush / area @ '+fmt(R.acDay,2)+' ac/day',fmt(R.areaHrs,1)+' h')+tr('Trees ('+TREE_METH[R.treeMethod].name.toLowerCase()+'): '+(R.trees?fmt(R.trees):'none'),fmt(R.treeHrs,1)+' h')+R.treeRows.filter(function(t){return t.cnt>0;}).map(function(t){return tr('&nbsp;&nbsp;'+t.label+': '+fmt(t.cnt)+' × '+fmt(t.mins,1)+' min '+TREE_METH[t.m].short+(t.gp>0?' + '+fmt(t.gp*100)+'% grub':''),fmt(t.cnt*(t.mins+t.grub)/60,1)+' h');}).join('')+tr('Stump / root grub after trees',fmt(R.grubHrs,1)+' h')+tr('Stumps: '+(R.stumps?esc(treeText(P.veg.stumps)):'none'),fmt(R.stumpHrs,1)+' h')
    +tr('Site factor'+(R.siteFl.length?' ('+esc(R.siteFl.join(', '))+')':''),'× '+fmt(R.siteF,2))+tr('<b>Clearing</b>','<b>'+fmt(R.clearHrs,1)+' h</b>')
    +tr('Debris as piled',fmt(R.debrisCY)+' cu yd')
    +(D.method==='burn'?tr('Burn piles @ '+fmt(num(D.pileCy,150))+' cu yd',fmt(R.piles))+tr('Burn days',days(R.burnDays))+tr('Ash &amp; cleanup',fmt(R.cleanHrs,1)+' h'):'')
@@ -1084,7 +1120,7 @@ function renderSheets(){var E=P.est,cu=P.customer,D=P.debris,date=new Date(),ds=
    +'<tr><td>Implied $/acre (clearing) · all-in $/acre</td><td colspan="2">'+money(R.impliedAcre)+' · '+money(R.allInAcre)+'</td></tr>'
    +'<tr class="tot"><td>Quoted to customer ('+(R.lumpOverride?'override':'by the '+R.picked)+')</td><td colspan="2">'+money(R.lump)+' · profit '+money(R.profitLump)+' · deposit '+money(R.deposit)+'</td></tr></table>'
    +(R.tbd.length?'<div class="note bad" style="font-size:12px">Not counted yet: '+esc(R.tbd.join(', '))+'.</div>':'')
-   +'<div style="font-size:10.5px;color:#555">Assumptions: '+DENS_KEYS.map(function(k){return DENS[k].short+' '+fmt(num(rt.acDay[k],0),2);}).join(' / ')+' ac/day; tree min '+BINS.map(function(b){return fmt(num(rt.treeMin[b[0]],0),1);}).join('/')+'; '+fmt(R.hd)+' h/day. Starting estimates, tune to your jobs.</div>'
+   +'<div style="font-size:10.5px;color:#555">Assumptions: '+DENS_KEYS.map(function(k){return DENS[k].short+' '+fmt(num(rt.acDay[k],0),2);}).join(' / ')+' ac/day; tree method '+TREE_METH[R.treeMethod].name+'; puller min '+BINS.map(function(b){return rt.pullerMin&&String(rt.pullerMin[b[0]])!==''?fmt(num(rt.pullerMin[b[0]],0),1):'–';}).join('/')+'; grapple min '+BINS.map(function(b){return fmt(num(rt.treeMin[b[0]],0),1);}).join('/')+'; grub % '+TMETH_KEYS.map(function(m){return fmt(num(rt.grubPct[m],0));}).join('/')+'; '+fmt(R.hd)+' h/day. Starting estimates, tune to your jobs.</div>'
    +'<div class="sh-foot">Internal only. Estimates come from your production assumptions; check them against the site and supplier quotes.</div></div>';
   $('#sheets').innerHTML=c+it;}
 $$('#sumSeg button').forEach(function(b){b.onclick=function(){sumView=b.dataset.sum;refresh();};});
