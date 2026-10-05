@@ -673,7 +673,7 @@ function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clea
 
 function defaultProject(){return {v:2,id:uid(),name:'Training demo pond',created:Date.now(),updated:Date.now(),
  customer:{name:'',address:'',phone:'',email:''},
- shape:{type:'rect',L:85,W:47,D:8,cornerR:10,shelfOn:false,shelfD:2,shelfW:4,pts:null},
+ shape:{type:'rect',L:85,W:55,D:8,cornerR:10,shelfOn:false,shelfD:2,shelfW:4,pts:null},
  slope:{choice:'3',custom:3.5,swell:1.25,trailer:16,fb:1,anchor:4,overlap:1},
  photo:{has:false,sample:false,px:null,py:null,rot:0,size:100,tilt:45,edge:'rock',water:'natural',night:false,dims:false,scaleP:[],scaleFt:'',persp:{on:false,pts:[],w:'',d:''},wf:null,diff:null},
  addons:{light:{on:false,count:6,type:'underwater',notes:'',price:''},wf:{on:false,height:2,width:24,price:''},aer:{on:true,diffusers:2,model:'Airmax PS20 class',price:''},ftn:{on:false,size:'',pattern:'',price:''},flt:{type:'none',uv:false,price:''},other:[]},
@@ -700,7 +700,7 @@ function savePhotoData(id,data){memPhotos[id]=data;try{localStorage.setItem(LS_P
 function getPhotoData(id){return memPhotos[id]||(function(){try{return localStorage.getItem(LS_PHOTO+id);}catch(e){return null;}})();}
 
 /* ---------- derived values ---------- */
-function curShape(){var s=P.shape,L=clamp(num(s.L,85),3,3000),W=s.type==='round'?L:clamp(num(s.W,47),3,3000);return {type:s.type,L:L,W:W,D:clamp(num(s.D,8),0.5,80),cornerR:Math.max(0,num(s.cornerR,0)),pts:s.pts};}
+function curShape(){var s=P.shape,L=clamp(num(s.L,85),3,3000),W=s.type==='round'?L:clamp(num(s.W,55),3,3000);return {type:s.type,L:L,W:W,D:clamp(num(s.D,8),0.5,80),cornerR:Math.max(0,num(s.cornerR,0)),pts:s.pts};}
 function shelf(){var s=P.shape;return {on:!!s.shelfOn,d:num(s.shelfD,0),w:Math.max(0,num(s.shelfW,0))};}
 function slopeVal(c){c=c||P.slope.choice;return c==='custom'?clamp(num(P.slope.custom,3),0.5,20):+c;}
 function slopeLbl(s){return (Math.round(s*100)/100)+':1';}
