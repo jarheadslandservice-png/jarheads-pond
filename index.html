@@ -102,6 +102,18 @@ table.cmp{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
 .addon .sw{font-family:"Arial Black",Arial,sans-serif;text-transform:uppercase;font-size:15px;color:var(--olive-d)}
 .addon .body{margin-top:6px}
 .addon:not(.on) .body{display:none}
+.plant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:8px 0}
+.plant-card{display:flex;flex-direction:column;gap:4px;border:2px solid var(--line);border-radius:12px;padding:0 0 8px;background:#fff;cursor:pointer;overflow:hidden;position:relative;min-height:0}
+.plant-card.on{border-color:var(--olive-l);background:#fbfaf2;box-shadow:0 0 0 1px var(--olive-l)}
+.plant-card input{position:absolute;top:8px;left:8px;width:20px;height:20px;z-index:2;accent-color:var(--olive)}
+.plant-card img{width:100%;aspect-ratio:8/5;object-fit:cover;display:block;background:#e8e2d0}
+.plant-card .pn{padding:0 8px;font-size:13px;line-height:1.25}.plant-card .pn b{display:block;color:var(--olive-d)}.plant-card .pn i{font-size:11px;color:#666;font-style:italic}
+.plant-card .pd{padding:0 8px;font-size:12px;color:#444;line-height:1.35}
+.plant-card .pz{padding:0 8px;font-size:11px;font-weight:700;color:var(--olive-d);line-height:1.3}
+#plantZoneNote{font-size:13px;line-height:1.4}
+#ad-plants .body{display:block}
+#ad-plants:not(.on) .body{display:none}
+
 .addgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
 .internal{border:3px dashed var(--scarlet);background:#fff8f6}
 .internal h2{color:var(--scarlet)}
@@ -426,6 +438,15 @@ ul.gchk{columns:2;margin:0;padding-left:0;list-style:none;font-size:14px}ul.gchk
     <label class="price">Price / cost ($)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="addons.ftn.price"></label>
    </div>
   </div>
+  <div class="card addon" id="ad-plants">
+   <label class="sw"><input type="checkbox" data-bind="addons.plants.on"> Aquatic plants</label>
+   <div class="body">
+    <p class="hint">Florida-friendly natives for North-Central FL fishing ponds (Williston / Dunnellon area). Pick any mix. Avoid invasives like water hyacinth, hydrilla, and torpedo grass.</p>
+    <div class="note" id="plantZoneNote"></div>
+    <div class="plant-grid" id="plantGrid"></div>
+    <div class="note" id="plantPrice"></div>
+   </div>
+  </div>
   <div class="card addon on" id="ad-flt">
    <label class="sw" style="pointer-events:none">Filtration</label>
    <div class="body">
@@ -436,6 +457,7 @@ ul.gchk{columns:2;margin:0;padding-left:0;list-style:none;font-size:14px}ul.gchk
       <option value="pressure">Pressurized filter</option>
     </select></label>
     <label class="sw"><input type="checkbox" data-bind="addons.flt.uv"> UV clarifier (optional)</label>
+    <div class="note bad" id="uvPumpNote" style="display:none"></div>
     <div class="hint" id="fltDesc"></div>
     <label class="price">Price / cost ($)<input type="number" inputmode="decimal" step="any" placeholder="TBD" data-bind="addons.flt.price"></label>
    </div>
@@ -680,7 +702,7 @@ function defaultProject(){return {v:2,id:uid(),name:'Training demo pond',created
  shape:{type:'rect',L:85,W:55,D:8,cornerR:10,shelfOn:false,shelfD:2,shelfW:4,pts:null},
  slope:{choice:'3',custom:3.5,swell:1.25,trailer:16,fb:1,anchor:4,overlap:1},
  photo:{has:false,sample:false,px:null,py:null,rot:0,size:100,tilt:45,edge:'rock',water:'natural',night:false,dims:false,scaleP:[],scaleFt:'',persp:{on:false,pts:[],w:'',d:''},wf:null,diff:null},
- addons:{light:{on:false,count:6,type:'underwater',notes:'',price:''},wf:{on:false,height:2,width:24,price:''},aer:{on:true,diffusers:2,model:'Airmax PS20 class',price:''},ftn:{on:false,size:'',pattern:'',price:''},flt:{type:'none',uv:false,price:''},other:[]},
+ addons:{light:{on:false,count:6,type:'underwater',notes:'',price:''},wf:{on:false,height:2,width:24,price:''},aer:{on:true,diffusers:2,model:'Airmax PS20 class',price:''},ftn:{on:false,size:'',pattern:'',price:''},plants:{on:false,selected:[]},flt:{type:'none',uv:false,price:''},other:[]},
  internal:{dayRate:1300,days:'',markup:15,linerRate:'',haulRate:'',otherCost:''},
  summary:{lump:'',timeline:'',drawings:'yes',notes:''},
  guide:{liner:'rpe',underlay:true,coverIn:6,sta:10,os:10,trenchBack:2,trenchW:1,trenchD:2,rodBM:5,bmAbove:'',pumpDist:100,fillDist:100,wfPipe:25,lightW:10,topsoil:6,seedRate:8,setbacks:{well:'',septic:'',prop:'30 S / 25 W',house:'',power:''},mat:{}}};}
@@ -755,7 +777,7 @@ function updateVis(){var s=P.shape;
   $$('[data-sec]').forEach(function(b){b.classList.toggle('on',b.dataset.sec===secAxis);});
   $$('#modeBtns button').forEach(function(b){b.classList.toggle('on',b.dataset.mode===mode);});
   $$('#sumSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.sum===sumView);});
-  ['light','wf','aer','ftn'].forEach(function(k){var map={light:'ad-light',wf:'ad-wf',aer:'ad-aer',ftn:'ad-ftn'};$('#'+map[k]).classList.toggle('on',!!P.addons[k].on);});
+  ['light','wf','aer','ftn','plants'].forEach(function(k){var map={light:'ad-light',wf:'ad-wf',aer:'ad-aer',ftn:'ad-ftn',plants:'ad-plants'};$('#'+map[k]).classList.toggle('on',!!P.addons[k].on);});
   $('#projName').textContent=P.name||'Project';}
 function renderLive(){var sh=curShape();var h='<div>Surface <b>'+fmt(M.surf)+'</b> sq ft</div><div>Water <b>'+fmt(Math.round(M.gal/100)*100)+'</b> gal</div><div>Dig <b>'+fmt(M.exCY)+'</b> cu yd</div><div><b>'+M.loads+'</b> loads</div><div><b>'+ft(sh.D)+'</b> deep @ <b>'+slopeLbl(slopeVal())+'</b></div>';
   if(!M.ok)h+='<div class="flag">&#9888; Max depth not reachable: ~'+ft(M.actMax)+'</div>';$('#live').innerHTML=h;}
@@ -1037,26 +1059,68 @@ var FLT={none:'No mechanical filter. Bottom aeration keeps oxygen up, aquatic pl
  skimbio:'A skimmer pulls leaves and debris off the surface. Water returns through a biofalls (biological filter at the waterfall). Typical for small ornamental and koi ponds.',
  pressure:'A pressurized filter is compact, can sit hidden or buried, and backwashes easily. Suited to small ornamental and koi ponds.'};
 var FLT_NAME={none:'No mechanical filter (natural balance)',skimbio:'Skimmer + biofalls',pressure:'Pressurized filter'};
-function renderAddons(){var ad=P.addons,w=num(ad.wf.width,0),D=curShape().D;
+var PLANT_CAT=[
+ {id:'pickerelweed',name:'Pickerelweed',latin:'Pontederia cordata',img:'pickerelweed.jpg',
+  desc:'Native purple flower spikes along the shoreline. Good cover for baitfish and fry.',
+  zone:'Shallow shelf / wet edge (about 0–18 in).'},
+ {id:'arrowhead',name:'Duck potato / Arrowhead',latin:'Sagittaria latifolia',img:'arrowhead.jpg',
+  desc:'White blooms and arrow-shaped leaves on a shallow shelf. Wildlife food and fish cover.',
+  zone:'Shallow shelf / wet edge (about 0–18 in).'},
+ {id:'softrush',name:'Softstem rush',latin:'Juncus effusus',img:'softrush.jpg',
+  desc:'Evergreen upright clumps that hold the bank and give year-round vertical accent.',
+  zone:'Shallow shelf / wet edge (about 0–18 in).'},
+ {id:'blueflag',name:'Blue flag iris',latin:'Iris virginica',img:'blueflag.jpg',
+  desc:'Native spring bloom on the wet edge. Florida-friendly and non-invasive.',
+  zone:'Shallow shelf / wet edge (about 0–18 in).'},
+ {id:'spatterdock',name:'Spatterdock',latin:'Nuphar advena',img:'spatterdock.jpg',
+  desc:'Yellow pond lily with floating pads in deeper water. Shade and cover for fish — not for the deep 8\' center.',
+  zone:'Deeper pocket / mid-slope (about 1–4 ft), not the deep flat bottom.'}
+];
+function plantImgBase(){return location.protocol==='file:'?'https://jarheadslandservice-png.github.io/jarheads-pond/plants/':'plants/';}
+function ensurePlants(){var pl=P.addons.plants;if(!pl){pl=P.addons.plants={on:false,selected:[]};}if(!Array.isArray(pl.selected))pl.selected=[];return pl;}
+function plantPrice(n){n=Math.max(0,n|0);if(!n)return 0;return 50+35*(n-1);}
+function selectedPlants(){var pl=ensurePlants(),set={};pl.selected.forEach(function(id){set[id]=1;});return PLANT_CAT.filter(function(p){return set[p.id];});}
+function renderAddons(){var ad=P.addons,w=num(ad.wf.width,0),D=curShape().D,pl=ensurePlants();
   $('#wfInfo').innerHTML=w>0?'<b>Pump estimate:</b> '+fmt(w)+'" spillway × 100–150 GPH per inch ≈ <b>'+fmt(w*100)+'–'+fmt(w*150)+' GPH</b>. Pick the pump from its curve at total head ('+ft(num(ad.wf.height,0))+' lift plus pipe friction).':'Enter spillway width for a pump estimate.';
   $('#aerWarn').innerHTML=(!ad.aer.on&&D>6)?'<div class="note bad">Max depth is '+ft(D)+'. Bottom diffuser aeration is recommended for ponds over about 6 ft deep.</div>':'';
   var big=M.gal>=20000||M.surf>=2500;
   $('#fltRec').innerHTML=big?'<b>Recommendation:</b> at about '+fmt(Math.round(M.gal/1000)*1000)+' gal this is a large pond. A mechanical filter usually isn\u2019t needed: aeration, plants and beneficial bacteria do the work.'
     :'<b>Recommendation:</b> at about '+fmt(Math.round(M.gal/100)*100)+' gal this is a small ornamental-size pond. A skimmer + biofalls or a pressurized filter is typical, especially with fish. A UV clarifier is optional for green water.';
   $('#fltDesc').innerHTML=FLT[ad.flt.type]+(ad.flt.uv?'<br><b>UV clarifier:</b> optional. Clears green water (free-floating algae) in smaller ponds; it does not remove string algae or muck.':'');
-  var h='';ad.other.forEach(function(it,i){h+='<div class="it"><label style="margin:0">Item<input type="text" data-oi="'+i+'" data-of="desc" value="'+esc(it.desc)+'" placeholder="e.g. Fish stocking, dock, rip-rap"></label><label style="margin:0" class="price">Cost $<input type="number" inputmode="decimal" step="any" data-oi="'+i+'" data-of="price" value="'+esc(it.price)+'" placeholder="TBD"></label><button class="btn small danger" data-odel="'+i+'" aria-label="Remove">&times;</button></div>';});
-  $('#otherItems').innerHTML=h||'<p class="hint">None yet.</p>';
+  var uvEl=$('#uvPumpNote');
+  if(ad.flt.uv){uvEl.style.display='';uvEl.innerHTML='<b>Pump required:</b> a UV clarifier needs a pump / circulation system to push water through the unit. Size the pump and UV to this pond (pond-size dependent). Exact pump model is chosen on site from the pond volume and plumbing head — not a fixed SKU.';}
+  else{uvEl.style.display='none';uvEl.innerHTML='';}
+  var shOn=!!P.shape.shelfOn,zone=$('#plantZoneNote');
+  zone.innerHTML='<b>These plants need a special area — not the deep 8\' flat bottom.</b> Shoreline plants (pickerelweed, arrowhead, soft rush, blue flag) want shallow water about <b>0–18 in</b>, usually a plant shelf or the wet top of the bank. Spatterdock / yellow pond lily goes in deeper water about <b>1–4 ft</b> (a mid-slope pocket), not the deep center.'
+    +(shOn?' Your design has a shallow shelf on — good for the shoreline species.':' <b>No shelf is on yet.</b> You can still plant in pots set on the slope, or turn on the shallow shelf in Step 1 (Shape).');
+  var base=plantImgBase(),sel={},h='';pl.selected.forEach(function(id){sel[id]=1;});
+  PLANT_CAT.forEach(function(p){var on=!!sel[p.id];
+    h+='<label class="plant-card'+(on?' on':'')+'"><input type="checkbox" data-plant="'+p.id+'"'+(on?' checked':'')+'>'
+     +'<img src="'+base+p.img+'" alt="'+esc(p.name)+'" loading="lazy" width="640" height="400">'
+     +'<span class="pn"><b>'+esc(p.name)+'</b> <i>'+esc(p.latin)+'</i></span>'
+     +'<span class="pd">'+esc(p.desc)+'</span>'
+     +'<span class="pz">'+esc(p.zone)+'</span></label>';});
+  $('#plantGrid').innerHTML=h;
+  $$('#plantGrid [data-plant]').forEach(function(cb){cb.onchange=function(){var id=cb.dataset.plant,ix=pl.selected.indexOf(id);
+    if(cb.checked&&ix<0)pl.selected.push(id);if(!cb.checked&&ix>=0)pl.selected.splice(ix,1);
+    if(pl.selected.length&&!pl.on){pl.on=true;bindAll();}
+    save();renderAddons();};});
+  var n=pl.on?pl.selected.length:0,tot=plantPrice(n);
+  $('#plantPrice').innerHTML=n?('<b>Plant package:</b> '+fmt(n)+' selected · <b>'+money(tot)+'</b> ($50 first plant, $35 each additional).'):'Select one or more plants. Pricing: <b>$50</b> for the first, <b>$35</b> each additional.';
+  var h2='';ad.other.forEach(function(it,i){h2+='<div class="it"><label style="margin:0">Item<input type="text" data-oi="'+i+'" data-of="desc" value="'+esc(it.desc)+'" placeholder="e.g. Fish stocking, dock, rip-rap"></label><label style="margin:0" class="price">Cost $<input type="number" inputmode="decimal" step="any" data-oi="'+i+'" data-of="price" value="'+esc(it.price)+'" placeholder="TBD"></label><button class="btn small danger" data-odel="'+i+'" aria-label="Remove">&times;</button></div>';});
+  $('#otherItems').innerHTML=h2||'<p class="hint">None yet.</p>';
   $$('[data-odel]').forEach(function(b){b.onclick=function(){ad.other.splice(+b.dataset.odel,1);save();renderAddons();};});}
 $('#otherItems').addEventListener('input',function(e){var el=e.target;if(el.dataset.oi===undefined)return;var it=P.addons.other[+el.dataset.oi];it[el.dataset.of]=el.dataset.of==='price'?(el.value===''?'':parseFloat(el.value)):el.value;save();});
 $('#addItem').onclick=function(){P.addons.other.push({desc:'',price:''});save();renderAddons();var ins=$$('#otherItems input[data-of=desc]');if(ins.length)ins[ins.length-1].focus();};
 
 /* ---------- step 5: summary ---------- */
-function addonLines(){var ad=P.addons,L=[];
+function addonLines(){var ad=P.addons,L=[],pl=ensurePlants();
   if(ad.aer.on)L.push('Bottom diffuser aeration: '+esc(ad.aer.model||'compressor')+', '+fmt(num(ad.aer.diffusers,2))+' diffuser'+(num(ad.aer.diffusers,2)==1?'':'s'));
   if(ad.light.on)L.push(fmt(num(ad.light.count,0))+' '+({underwater:'LED underwater',landscape:'LED landscape',both:'LED underwater + landscape'}[ad.light.type])+' lights'+(ad.light.notes?' ('+esc(ad.light.notes)+')':''));
   if(ad.wf.on)L.push('Waterfall: about '+ft(num(ad.wf.height,0))+' high with a '+fmt(num(ad.wf.width,0))+'" spillway');
   if(ad.ftn.on)L.push('Fountain'+(ad.ftn.size?': '+esc(ad.ftn.size):'')+(ad.ftn.pattern?', '+esc(ad.ftn.pattern)+' pattern':''));
-  L.push('Filtration: '+FLT_NAME[ad.flt.type]+(ad.flt.uv?' + UV clarifier':''));
+  if(pl.on&&pl.selected.length){var names=selectedPlants().map(function(p){return p.name;});L.push('Aquatic plants ('+fmt(pl.selected.length)+'): '+esc(names.join(', '))+' — $50 first / $35 each additional');}
+  L.push('Filtration: '+FLT_NAME[ad.flt.type]+(ad.flt.uv?' + UV clarifier (pump/circulation required, pond-size dependent)':''));
   ad.other.forEach(function(it){if(it.desc)L.push(esc(it.desc));});return L;}
 function mockData(){if(!photo.img)return null;try{return renderExport(true).toDataURL('image/jpeg',0.86);}catch(e){return null;}}
 function drawingData(){var c1=document.createElement('canvas'),c2=document.createElement('canvas');document.body.appendChild(c1);document.body.appendChild(c2);c1.style.cssText=c2.style.cssText='position:absolute;left:-9999px;width:700px';
@@ -1067,6 +1131,7 @@ function costRows(){var ad=P.addons,I=P.internal,mk=num(I.markup,0)/100,rows=[],
   var hr=num(I.haulRate,NaN);if(isFinite(hr)){labor+=hr*M.loads;rows.push(['Hauling: '+M.loads+' loads × '+money(hr),hr*M.loads,'L']);}else rows.push(['Hauling: '+M.loads+' loads (rate not entered)','','L']);
   var lr=num(I.linerRate,NaN);if(isFinite(lr)){mat+=lr*M.panelArea;rows.push(['Liner: '+fmt(M.panelArea)+' sq ft panel × '+money(lr)+'/sq ft',lr*M.panelArea,'M']);}else{rows.push(['Liner: '+fmt(M.panelArea)+' sq ft panel ($/sq ft not entered)','','M']);tbd.push('liner rate');}
   [['aer','Aeration'],['light','Lighting'],['wf','Waterfall'],['ftn','Fountain']].forEach(function(k){var a=ad[k[0]];if(!a.on)return;var p=num(a.price,NaN);if(isFinite(p)){mat+=p;rows.push([k[1],p,'M']);}else{rows.push([k[1]+' (price TBD)','','M']);tbd.push(k[1].toLowerCase());}});
+  var pl=ensurePlants();if(pl.on&&pl.selected.length){var pp=plantPrice(pl.selected.length);mat+=pp;rows.push(['Aquatic plants ('+fmt(pl.selected.length)+': '+selectedPlants().map(function(x){return x.name;}).join(', ')+')',pp,'M']);}
   var fp=num(ad.flt.price,NaN);if(ad.flt.type!=='none'||ad.flt.uv||isFinite(fp)){if(isFinite(fp)){mat+=fp;rows.push(['Filtration: '+FLT_NAME[ad.flt.type]+(ad.flt.uv?' + UV':''),fp,'M']);}else{rows.push(['Filtration (price TBD)','','M']);tbd.push('filtration');}}
   ad.other.forEach(function(it){if(!it.desc&&it.price==='')return;var p=num(it.price,NaN);if(isFinite(p)){mat+=p;rows.push([esc(it.desc||'Other item'),p,'M']);}else{rows.push([esc(it.desc||'Other item')+' (TBD)','','M']);tbd.push(it.desc||'item');}});
   var oc=num(I.otherCost,NaN);if(isFinite(oc)&&oc){mat+=oc;rows.push(['Other cost',oc,'M']);}
@@ -1462,7 +1527,9 @@ function stepsList(d){var G=d.G,ad=P.addons,g=P.guide,L=[],nD=clamp(Math.round(n
   if(ad.ftn.on)ao.push('<b>Fountain:</b> float it out over deep water'+(ad.ftn.size?' ('+esc(ad.ftn.size)+')':'')+' and moor it with 2–3 lines. Run the cord to a GFCI control panel with a timer. Electrical by a licensed electrician where required.');
   if(ad.flt.type==='skimbio')ao.push('<b>Filtration:</b> set the skimmer level at the water line on the downwind end, and the biofalls at the head of the waterfall. Plumb the skimmer pump to the biofalls.');
   else if(ad.flt.type==='pressure')ao.push('<b>Filtration:</b> set the pump and pressurized filter in a hidden spot you can still service. Plumb the intake and return, and leave room to backwash.');
-  if(ad.flt.uv)ao.push('<b>UV clarifier:</b> plumb it inline after the filter, sized to the pump flow.');
+  if(ad.flt.uv)ao.push('<b>UV clarifier:</b> plumb it inline after the filter (or on its own loop). <b>A pump / circulation system is required</b> — size the pump and UV to this pond (pond-size dependent). Do not run a UV without flow.');
+  if(ad.plants&&ad.plants.on&&ad.plants.selected&&ad.plants.selected.length){var names=(typeof selectedPlants==='function'?selectedPlants():[]).map(function(p){return p.name;});
+    ao.push('<b>Aquatic plants:</b> '+esc(names.join(', ')||ad.plants.selected.join(', '))+'. Shoreline species (pickerelweed, arrowhead, soft rush, blue flag) go in shallow water ~0–18 in — plant shelf or wet top of bank. Spatterdock goes in a deeper pocket ~1–4 ft on the mid-slope, <b>not</b> the deep flat bottom. If there is no shelf, use planting pots on the slope or add a shelf. Plant after the liner cover is in (or in pots set on the cover).');}
   if(ao.length)L.push(['Add-on installs',ao]);
   L.push(['Fill',['Fill slowly.'+(G.lined?' Smooth out liner wrinkles as the water comes up.'+(coverIn>0?' Don’t scour the protective cover — discharge the fill line onto rock or a splash pad.':'')+'':'')+' Check the water against the stakes; it should be level all the way around.','City water: dechlorinate before adding fish. Hold off on stocking until the water settles.']]);
   var seedA=Math.max(0,d.areaOS-M.surf);
@@ -1534,8 +1601,12 @@ function matList(d){var G=d.G,ad=P.addons,g=P.guide,R=[],shp=curShape();
   if(ad.flt.type!=='none'||ad.flt.uv){var gal=M.gal,gr=fmt(Math.round(gal/2/100)*100)+'–'+fmt(Math.round(gal/100)*100);sec('Filtration');
     if(ad.flt.type==='skimbio'){add('skim','Skimmer box',1,'ea','at the water line, downwind end');add('biof','Biofalls filter',1,'ea',ad.wf.on?'head of the waterfall':'sets the return point');add('fpump','Circulation pump',gr,'GPH','turn the pond over every 1–2 hrs',true);}
     if(ad.flt.type==='pressure'){add('pfilt','Pressurized filter',1,'ea','rated ≥ '+fmt(Math.round(gal/100)*100)+' gal');add('fpump','Pump to match the filter',gr,'GPH','turn the pond over every 1–2 hrs',true);}
-    if(ad.flt.uv)add('uv','UV clarifier',1,'ea','rated ≥ '+fmt(Math.round(gal/100)*100)+' gal at pump flow');
+    if(ad.flt.uv){add('uv','UV clarifier',1,'ea','rated ≥ '+fmt(Math.round(gal/100)*100)+' gal at pump flow');add('uvpump','Circulation pump for UV (required)',1,'ea','pond-size dependent — match UV flow rating and plumbing head',true);}
     if(ad.flt.type!=='none')add('fpipe','Filter plumbing (flex PVC + fittings)','per layout','','');}
+  if(ad.plants&&ad.plants.on&&ad.plants.selected&&ad.plants.selected.length){var pn=(typeof selectedPlants==='function'?selectedPlants():[]);
+    sec('Aquatic plants');
+    pn.forEach(function(p){add('plant-'+p.id,p.name+' ('+p.latin+')',1,'ea',p.zone,true);});
+    add('plantpots','Planting pots / aquatic soil (if no shelf)','as needed','','pots on mid-slope, or add a shallow shelf',true);}
   var seedA=Math.max(0,d.areaOS-M.surf);sec('Bank stabilization');
   add('seed','Grass seed',Math.ceil(seedA/1000*num(g.seedRate,8)),'lb',fmt(Math.round(seedA/100)*100)+' sq ft × '+f1(num(g.seedRate,8))+' lb / 1,000 (check label)',true);
   add('straw','Straw mulch',Math.ceil(seedA/1000*2),'bales','~2 bales / 1,000 sq ft',true);
