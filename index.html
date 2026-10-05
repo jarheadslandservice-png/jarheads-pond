@@ -501,6 +501,10 @@ ul.gchk{columns:2;margin:0;padding-left:0;list-style:none;font-size:14px}ul.gchk
    <label>Seed rate (lb / 1,000 sq ft)<input type="number" inputmode="decimal" min="0" step="0.5" data-bind="guide.seedRate"></label>
   </div>
   <label class="sw" id="gUnderWrap"><input type="checkbox" data-bind="guide.underlay"> Underlayment (geotextile) under the liner</label>
+  <div class="gset" id="gCoverWrap" style="margin-top:8px">
+   <label>Liner protective cover (in)<input type="number" inputmode="decimal" min="0" step="1" data-bind="guide.coverIn" title="Clean sand/dirt over liner on bottom and banks after install"></label>
+   <p class="hint" style="grid-column:1/-1;margin:0">After the liner is in and inspected: clean sand or fine dirt on the <b>bottom and banks</b> so fishing hooks don’t tear it. Typical 4–6 in; 0 = skip. Dig that much deeper if you still want full design water depth.</p>
+  </div>
   <div class="btns"><button class="btn primary" id="printGuide">Print Build Guide</button><span class="hint" style="align-self:center;margin:0">Field packet for you and the crew. Not the customer sheet.</span></div>
  </div>
  <div id="gWarn"></div>
@@ -634,7 +638,7 @@ function metrics(F,o){var s=+o.s,D=+o.D,sh=o.sh,g=F.grid,ca=F.h*F.h*F.k,vol=0,fl
   var panelL=profileLen(prX)+edge,panelW=profileLen(prY)+edge;
   var prism=useSh?null:(D/6)*(A+4*am*ca+ab*ca)*GAL_PER_CF; /* classic prismoidal cross-check */
   return {s:s,D:D,volCF:vol,gal:vol*GAL_PER_CF,surf:A,acres:A/43560,perim:P,exCF:exCF,exCY:exCY,looseCY:loose,loads:loads,
-    linerSurf:linerSurf,panelL:panelL,panelW:panelW,panelArea:panelL*panelW,ok:ok,actMax:actMax,maxRun:F.maxD,needRun:run,
+    linerSurf:linerSurf,linerWet:linerWet,panelL:panelL,panelW:panelW,panelArea:panelL*panelW,ok:ok,actMax:actMax,maxRun:F.maxD,needRun:run,
     flatA:flatA,flatL:flat?fx1-fx0+F.h:0,flatW:flat?fy1-fy0+F.h:0,shelfA:shelfArea,shallowPct:F.count?100*shallow/F.count:0,
     gradePct:100/s,prismGal:prism,avgDepth:vol/A};}
 /* Homography: 4 src -> 4 dst */
@@ -679,7 +683,7 @@ function defaultProject(){return {v:2,id:uid(),name:'Training demo pond',created
  addons:{light:{on:false,count:6,type:'underwater',notes:'',price:''},wf:{on:false,height:2,width:24,price:''},aer:{on:true,diffusers:2,model:'Airmax PS20 class',price:''},ftn:{on:false,size:'',pattern:'',price:''},flt:{type:'none',uv:false,price:''},other:[]},
  internal:{dayRate:1300,days:'',markup:15,linerRate:'',haulRate:'',otherCost:''},
  summary:{lump:'',timeline:'',drawings:'yes',notes:''},
- guide:{liner:'rpe',underlay:true,sta:10,os:10,trenchBack:2,trenchW:1,trenchD:2,rodBM:5,bmAbove:'',pumpDist:100,fillDist:100,wfPipe:25,lightW:10,topsoil:6,seedRate:8,setbacks:{well:'',septic:'',prop:'30 S / 25 W',house:'',power:''},mat:{}}};}
+ guide:{liner:'rpe',underlay:true,coverIn:6,sta:10,os:10,trenchBack:2,trenchW:1,trenchD:2,rodBM:5,bmAbove:'',pumpDist:100,fillDist:100,wfPipe:25,lightW:10,topsoil:6,seedRate:8,setbacks:{well:'',septic:'',prop:'30 S / 25 W',house:'',power:''},mat:{}}};}
 function isObj(o){return o&&typeof o==='object'&&!Array.isArray(o);}
 /* v1 -> v2: old default anchor allowance (2 ft + 1 ft overlap = 3 ft/side) didn't clear the default anchor trench (2 back + 2 down + 1 across = 5 ft). Bump only untouched old defaults. */
 function migrate(o){if(o&&(o.v||1)<2){if(o.slope&&num(o.slope.anchor,NaN)===2)o.slope.anchor=4;o.v=2;}return o;}
@@ -1444,6 +1448,13 @@ function stepsList(d){var G=d.G,ad=P.addons,g=P.guide,L=[],nD=clamp(Math.round(n
   if(ad.ftn.on)pl.push('<b>Fountain:</b> sleeve the power cord route from the shore to the control panel.');
   L.push(['Plumbing runs (before backfill)',pl]);
   if(G.lined)L.push(['Anchor trench backfill &amp; compact',['Lay the liner'+(g.underlay?' and underlayment':'')+' into the trench, then backfill in lifts and compact. Keep the compactor plate off exposed liner.','Leave some slack in the liner until the pond is partly full, then finish the backfill.']]);
+  var coverIn=Math.max(0,num(g.coverIn,6)),coverFt=coverIn/12,coverArea=M.linerWet!=null?M.linerWet:M.linerSurf,coverCY=coverArea*coverFt/27;
+  if(G.lined&&coverIn>0){var digDeep=(M.ok?G.D:M.actMax)+coverFt,waterLeft=Math.max(0,(M.ok?G.D:M.actMax)-coverFt);
+    L.push(['Protective dirt / sand cover over the liner',['<b>Inspect the liner first</b> before covering: walk it in soft shoes, check seams, boots and wrinkles. Patch holes or open seams now — you won’t see them once they’re buried.',
+      'Place about <b>'+fmt(coverIn)+' in</b> of clean sand or fine dirt over the <b>bottom and the banks</b> (the wet slopes). Soft, rock-free fill only — no sharp gravel or roots.',
+      'On '+slopeLbl(G.s)+' banks, place carefully and pack lightly so the cover doesn’t slide and bunch the liner. Work from the bottom up the banks.',
+      'This cushions fishing hooks and protects the liner, but it also eats water depth: with '+fmt(coverIn)+' in of cover, usable water is about <b>'+ft(waterLeft)+'</b> unless you dig that much deeper first (dig to about <b>'+ft(digDeep)+'</b> for a true '+ft(M.ok?G.D:M.actMax)+' of water).',
+      'Cover ≈ <b>'+fmt(coverCY,1)+' cu yd</b> (est.) over ≈ '+fmt(Math.round(coverArea))+' sq ft of wet liner surface (bottom + banks).']]);}
   var ao=[];
   if(ad.aer.on)ao.push('<b>Aeration:</b> set the compressor cabinet ('+esc(ad.aer.model||'compressor')+') on a level pad, in shade, with good airflow. Set '+nD+' diffuser'+(nD>1?'s':'')+' in the deepest area on bases so they stay out of the muck, and connect the weighted lines. Power: a GFCI-protected circuit, wired by a licensed electrician where required.');
   if(ad.light.on){var nL=clamp(Math.round(num(ad.light.count,6)),1,60);ao.push('<b>Lighting:</b> '+nL+' '+({underwater:'underwater',landscape:'landscape',both:'underwater + landscape'}[ad.light.type])+' LED lights. Use a '+transformerSize(nL*num(g.lightW,10))+' W low-voltage transformer (est.) plugged into an outdoor GFCI outlet, with a timer or photocell, and direct-burial low-voltage wire. Any 120 V work by a licensed electrician where required.');}
@@ -1453,7 +1464,7 @@ function stepsList(d){var G=d.G,ad=P.addons,g=P.guide,L=[],nD=clamp(Math.round(n
   else if(ad.flt.type==='pressure')ao.push('<b>Filtration:</b> set the pump and pressurized filter in a hidden spot you can still service. Plumb the intake and return, and leave room to backwash.');
   if(ad.flt.uv)ao.push('<b>UV clarifier:</b> plumb it inline after the filter, sized to the pump flow.');
   if(ao.length)L.push(['Add-on installs',ao]);
-  L.push(['Fill',['Fill slowly.'+(G.lined?' Smooth out liner wrinkles as the water comes up.':'')+' Check the water against the stakes; it should be level all the way around.','City water: dechlorinate before adding fish. Hold off on stocking until the water settles.']]);
+  L.push(['Fill',['Fill slowly.'+(G.lined?' Smooth out liner wrinkles as the water comes up.'+(coverIn>0?' Don’t scour the protective cover — discharge the fill line onto rock or a splash pad.':'')+'':'')+' Check the water against the stakes; it should be level all the way around.','City water: dechlorinate before adding fish. Hold off on stocking until the water settles.']]);
   var seedA=Math.max(0,d.areaOS-M.surf);
   L.push(['Stabilize &amp; seed banks',['Re-spread the topsoil, then seed and mulch the banks and the disturbed area: ≈ <b>'+fmt(Math.round(seedA/100)*100)+' sq ft</b> out to the offset-stake line, plus any spread spoil.','Seed at '+f1(num(g.seedRate,8))+' lb / 1,000 sq ft (check the seed label). Straw at about 2 bales / 1,000 sq ft.'+(G.s<=3?' Use erosion-control blanket on the banks above water.':''),'Water until the grass is established. Fix washouts right away.']]);
   L.push(['Final cleanup &amp; walk-through',['Pull the layout stakes, grade the spoil smooth, and clean up the haul route and road.','Take finished photos. Walk the customer through the aeration'+(ad.light.on?', lights':'')+(ad.wf.on?', waterfall pump':'')+' and basic upkeep.']]);
@@ -1484,6 +1495,8 @@ function matList(d){var G=d.G,ad=P.addons,g=P.guide,R=[],shp=curShape();
     add('liner',ln.n+' liner, '+ln.th,fmt(M.panelL)+' × '+fmt(M.panelW),'ft panel','≈ '+fmt(M.panelArea)+' sq ft to order; installed surface '+fmt(M.linerSurf)+' sq ft');
     if(g.underlay)add('under','Geotextile underlayment',Math.round(M.panelArea*1.1/10)*10,'sq ft','liner panel + ~10% for laps',true);
     add('sand','Sand for voids / cushion','as needed','','fill holes under the liner');
+    var cIn=Math.max(0,num(g.coverIn,6)),cArea=M.linerWet!=null?M.linerWet:M.linerSurf,cCY=cArea*(cIn/12)/27;
+    if(cIn>0)add('cover','Clean sand / dirt cover over liner (bottom + banks)',Math.round(cCY*10)/10,'cu yd',fmt(Math.round(cArea))+' sq ft wet surface × '+fmt(cIn)+' in (fishing-hook protection)',true);
     add('seam','Seam tape / pipe boots / adhesive','per liner sub','','depends on the panel layout');}
   if(ad.aer.on){var nD=clamp(Math.round(num(ad.aer.diffusers,2)),1,12),pd=Math.max(0,num(g.pumpDist,100)),pvc=nD*pd,diffs=(P.photo.diff&&P.photo.diff.length===nD)?P.photo.diff:null,wt=0;
     for(var i=0;i<nD;i++){var p=diffs?diffs[i]:[F.deepX,F.deepY];wt+=distEdges(p[0],p[1],F.E)*Math.sqrt(1+1/(G.s*G.s))*1.2+15;}
@@ -1541,8 +1554,11 @@ function ulist(a){return '<ul>'+a.map(function(x){return '<li>'+x+'</li>';}).joi
 function renderGuide(){var d=guideData(),G=d.G,shp=curShape();
   var probe=$('#gB'),cw=(probe&&probe.clientWidth)||700,wide=!guidePrintW&&cw>=820,W=Math.max(300,Math.round(guidePrintW?guidePrintW:wide?cw*0.6-28:cw-26));
   $('#gUnderWrap').style.display=G.lined?'':'none';
+  var gCover=$('#gCoverWrap');if(gCover)gCover.style.display=G.lined?'':'none';
+  var coverIn=Math.max(0,num(P.guide.coverIn,6));
   var date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
   var specs=[['Shape',shapeName()],['Water line',dimText()],['Depth',ft(M.ok?G.D:M.actMax)+(M.ok?'':' max')],['Bank slope',slopeLbl(G.s)],['Shelf',G.useSh?ft(G.sh.w)+' @ '+ft(G.sh.d):'None'],['Liner',G.lined?LINER[G.liner].n.split(' (')[0]:'None (clay)'],['Dig',fmt(M.exCY)+' cu yd · '+M.loads+' loads'],['Freeboard',ft(G.fb)]];
+  if(G.lined&&coverIn>0)specs.push(['Liner cover',fmt(coverIn)+' in on bottom + banks']);
   $('#gHead').innerHTML='<div class="sheet ghsheet"><div class="int-banner">BUILD GUIDE · INTERNAL · CREW FIELD PACKET</div>'+sheetHead()
     +'<div class="sh-meta"><div><b>Project:</b> '+esc(P.name||'Pond project')+'</div><div><b>Printed:</b> '+date+'</div><div><b>Customer:</b> '+esc(P.customer.name||'—')+'</div><div><b>Site:</b> '+esc(P.customer.address||'—')+'</div></div>'
     +'<div class="sh-specs">'+specs.map(function(x){return '<div><div class="k">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>';}).join('')+'</div></div>';
@@ -1554,6 +1570,7 @@ function renderGuide(){var d=guideData(),G=d.G,shp=curShape();
   var allow=num(P.slope.anchor,0)+num(P.slope.overlap,0),need=G.tb+G.td+G.tw;
   if(G.lined&&allow<need)w.push('<b>Liner panel allowance:</b> Step 2 allows '+f1(allow)+' ft per side, but the anchor trench uses about '+f1(need)+' ft (back + down + across). <button class="btn small gnoprint" id="gFixAllow">Match allowance to trench</button>');
   if(!G.lined)w.push('<b>No liner:</b> the pond only holds water if the soil does. Dig a test pit before you commit.');
+  if(G.lined&&coverIn>0){var digD=(M.ok?G.D:M.actMax)+coverIn/12;w.push('<b>Liner protective cover:</b> '+fmt(coverIn)+' in of clean sand/dirt on the bottom and banks (after liner install) cushions fishing hooks, but reduces water depth by about '+ft(coverIn/12)+'. Dig to about '+ft(digD)+' if you still want a true '+ft(M.ok?G.D:M.actMax)+' of water.');}
   $('#gWarn').innerHTML=w.map(function(x){return '<div class="note bad">'+x+'</div>';}).join('');
   var fx=$('#gFixAllow');if(fx)fx.onclick=function(){P.slope.anchor=Math.max(0,Math.round((need-num(P.slope.overlap,0))*10)/10);bindAll();save();refresh();toast('Liner allowance updated (Step 2 settings)');};
   /* A */
